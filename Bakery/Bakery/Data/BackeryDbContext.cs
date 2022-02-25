@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bakery.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class BackeryDbContext : IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public BackeryDbContext(DbContextOptions<BackeryDbContext> options)
             : base(options)
         {
         }
