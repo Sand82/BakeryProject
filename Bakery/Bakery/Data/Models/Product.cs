@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using static Bakery.Data.Constants;
+
 namespace Bakery.Data.Models
 {
     public class Product
@@ -11,23 +13,23 @@ namespace Bakery.Data.Models
             this.Orders = new HashSet<Order>();
         }
 
-        public int Id { get; set; }
+        [Key]
+        public int Id { get; init; }
 
         [Required]
+        [StringLength(ProductMaxLenght)]
         public string Name { get; set; }
 
+        [Range(0.0, Double.MaxValue)]
         public decimal Price { get; set; }
 
         [Required]
+        [StringLength(DescriptionMaxLenght)]
         public string Description { get; set; }
 
-        public int ProductId { get; set; }
-
-        public Ingredient Ingredient { get; set; }
-
-        public int OrderId { get; set; }
-
-        public Order Order { get; set; }
+        [Required]
+        [StringLength(ImageMaxLenght)]
+        public string ImageUrl { get; set; }
 
         public ICollection<Ingredient> Ingredients { get; set; }
 

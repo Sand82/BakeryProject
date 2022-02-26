@@ -2,13 +2,13 @@
 {
     public class ProductsIngredients
     {
-        public int BakedDishId { get; set; }
-
-        public Product BakedDish { get; set; }
-
-
         public int ProductId { get; set; }
 
-        public Ingredient Product { get; set; }
+        public Product Product { get; set; }
+
+
+        public int IngredientId { get; set; }
+
+        public Ingredient Ingredient { get; set; }
     }
 }

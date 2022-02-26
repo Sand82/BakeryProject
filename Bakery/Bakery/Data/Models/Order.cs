@@ -7,7 +7,7 @@
             this.Products = new HashSet<Product>();
         }
 
-        public int Id { get; set; }
+        public int Id { get; init; }
 
         public string CustomerName { get; set; }
 
@@ -17,12 +17,8 @@
 
         public int OrderProductsCount { get; set; }
 
-        public decimal TottalPrice { get; set; }
+        //public decimal TottalPrice { get; set; }
 
-        public int BakedDishId { get; set; }
-
-        public virtual Product Product { get; set; }
-
-        public virtual ICollection<Product> Products { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using Bakery.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bakery.Data.Migrations
 {
     [DbContext(typeof(BackeryDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220226093457_AddMainEntitiesInDatabase")]
+    partial class AddMainEntitiesInDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,6 +61,9 @@ namespace Bakery.Data.Migrations
 
                     b.Property<int>("OrderProductsCount")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("TottalPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 

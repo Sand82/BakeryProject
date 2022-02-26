@@ -9,14 +9,10 @@ namespace Bakery.Data.Models
             this.Products = new HashSet<Product>();
         }
 
-        public int Id { get; set; }
+        public int Id { get; init; }
 
         [Required]
         public string Name { get; set; }
-
-        public int BakedDishId { get; set; }
-
-        public Product BakedDish { get; set; }
 
         public ICollection<Product> Products { get; set; }
     }
