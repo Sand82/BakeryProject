@@ -13,7 +13,7 @@ namespace Bakery.Models.Bakery
             ErrorMessage = "The field {0} is not valid! Must be between of {2} and {1} symbols.")]
         public string Name { get; set; }
 
-        [Range(0.01, 1000.00)]
+        [Range(0.01, 1000, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
         public decimal Price { get; set; }
 
         [Required]
@@ -27,8 +27,8 @@ namespace Bakery.Models.Bakery
         [Display(Name = "Image URL")]        
         public string ImageUrl { get; set; }
 
-        public ICollection<Ingredient> Ingredients { get; set; }
+        //public ICollection<Ingredient> Ingredients { get; set; }
 
-        public ICollection<Order> Orders { get; set; }
+        //public ICollection<Order> Orders { get; set; }
     }
 }
