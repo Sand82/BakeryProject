@@ -1,0 +1,24 @@
+﻿@model BakeryAddFormModel
+
+@{
+    ViewData["Title"] = "Add Bake";
+}
+<form method="post">
+  <div class="mb-3">
+    <label asp-for="Name">Name</label>
+    <input asp-for="Name" class="form-control"  placeholder="Baking name">    
+  </div>
+  <div class="mb-3">
+    <label asp-for="Price">Price</label>
+    <input asp-for="Price" class="form-control"  placeholder="Price of product in BGN">    
+  </div>
+  <div class="mb-3">
+    <label asp-for="ImageUrl">ImageUrl</label>
+    <input asp-for="ImageUrl" class="form-control"  placeholder="Image of the product">    
+  </div>
+  <div class="mb-3">
+    <label asp-for="Description">Description</label>
+    <input asp-for="Description" class="form-control" placeholder="Deliciously baked ...">
+  </div>  
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>
