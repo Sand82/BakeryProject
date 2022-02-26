@@ -19,6 +19,7 @@ namespace Bakery.Models.Bakery
         public string Description { get; set; }
 
         [Required]
+        [Display(Name = "Image URL")]
         [StringLength(ImageMaxLenght)]
         public string ImageUrl { get; set; }
 
