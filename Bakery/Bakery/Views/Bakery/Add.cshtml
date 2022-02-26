@@ -3,26 +3,30 @@
 @{
     ViewData["Title"] = "Add Bake";
 }
-
-<div class="container">
-    <div class="row">
-        <div class="col-6">
+<div class="container px-4">
+    <div class="row top-buffer">
+        <div class="col-sm-12 col-lg-3 col-lg-8 offset-xl-3 col-xl-6 col">
+            <h2 class="heading text-center">Add bake product</h2>
             <form method="post">
-                <div class="mb-3">
+                <div class="form-type">
                     <label asp-for="Name"></label>
                     <input asp-for="Name" class="form-control" placeholder="Baking name">
+                    <span asp-validation-for="Name" class="small text-danger"></span>
                 </div>
-                <div class="mb-3">
+                <div class="form-type">
                     <label asp-for="Price"></label>
                     <input asp-for="Price" class="form-control" placeholder="Price of product in BGN">
+                    <span asp-validation-for="Price" class="small text-danger"></span>
                 </div>
-                <div class="mb-3">
+                <div class="form-type">
                     <label asp-for="ImageUrl"></label>
                     <input asp-for="ImageUrl" class="form-control" placeholder="Place image of the product here">
+                    <span asp-validation-for="ImageUrl" class="small text-danger"></span>
                 </div>
-                <div class="mb-3">
+                <div class="form-type">
                     <label asp-for="Description"></label>
                     <textarea asp-for="Description" rows="3" class="form-control" placeholder="Deliciously baked bread etc..."></textarea>
+                    <span asp-validation-for="Description" class="small text-danger"></span>
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>
             </form>
