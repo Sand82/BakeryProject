@@ -1,5 +1,6 @@
 ﻿using Bakery.Data;
 using Bakery.Data.Models;
+using Bakery.Models.Bakeries;
 using Bakery.Models.Bakery;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +15,23 @@ namespace Bakery.Controllers
             this.data = data;
         }
 
+        public IActionResult All()
+        {
+            var products = data
+                .Products
+                .Select(p => new AllProductViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Price = p.Price.ToString("f2"),
+                    ImageUrl = p.ImageUrl,
+                })
+                .ToList();
+                        
+            return View(products);
+        }
+
         public IActionResult Add()
         { 
             return View();
@@ -22,6 +40,7 @@ namespace Bakery.Controllers
         [HttpPost]
         public IActionResult Add(BakeryAddFormModel formProduct)
         {
+            
             if (!ModelState.IsValid) 
             {
                 return View();
