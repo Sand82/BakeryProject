@@ -19,11 +19,11 @@ namespace Bakery.Controllers
         {
             var products = data
                 .Products
+                .OrderBy(x => x.Id)
                 .Select(p => new AllProductViewModel
                 {
                     Id = p.Id,
-                    Name = p.Name,
-                    Description = p.Description,
+                    Name = p.Name,                    
                     Price = p.Price.ToString("f2"),
                     ImageUrl = p.ImageUrl,
                 })

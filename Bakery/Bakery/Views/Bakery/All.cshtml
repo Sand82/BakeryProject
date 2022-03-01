@@ -4,24 +4,20 @@
     ViewData["Title"] = "All Bake";
 }
 
-<div class="ps-tabs">
-    <div class="ps-tab active" id="tab-menu-1">
-        <div class="row">
-            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 ">
-                @foreach (var item in Model)
-                {
-                    <div class="ps-product--horizontal">
-                        <div class="ps-product__thumbnail"><a class="ps-product__overlay" href="product-default.html"></a><img src="@item.ImageUrl" alt=""></div>
-                        <div class="ps-product__container">
-                            <div class="ps-product__content">
-                                <a class="ps-product__title" href="product-default.html">@item.Name</a>
-                                <p>@item.Description</p>
-                            </div>
-                            <div class="ps-product__price"><span>@item.Price</span></div>
-                        </div>
-                    </div>
-                }
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="card" style="width: 18rem;">
+            <img src=@item.ImageUrl class="card-img-top embed-responsive-item" style="width: 100%; height: 15vw;object-fit: cover;" alt="">
+            <div class="card-body">
+                <h4 class="card-title">@item.Name - @item.Price $</h4>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a asp-controller="Bakery" asp-action="Details" id="@item.Id" class="btn btn-primary">View more</a>
             </div>
         </div>
-    </div>
+    }
 </div>
+
+
+
+
