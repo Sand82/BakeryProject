@@ -17,6 +17,7 @@ body {
   margin-bottom: 60px;
 }
 
+
 .heading-margin{
     margin-top: 30px;
     margin-bottom: 30px;
@@ -28,4 +29,22 @@ body {
 .btn-primary {
     margin-top: 20px;
 }
+
+.d-block.w-100 {
+     width: 20%;
+    height: 30vw;
+    object-fit: cover;
+    
+}
+.form-type{
+    padding: 8px;
+}
+
+.titles {
+    padding: 8px;
+    margin: 8px;
+    font-family: Sans-serif;
+    text-align: center;
+}
+
 
