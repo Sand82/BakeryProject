@@ -1,11 +1,23 @@
-﻿@model List<AllProductViewModel>
+﻿@model AllProductQueryModel
 
 @{
     ViewData["Title"] = "All Bake";
 }
 
+<div class=" get">
+    <form method="row">
+        <div class="col-md-3">
+            <div class="form-type">
+                <label asp-for="SearchTerm"></label>
+                <input asp-for="SearchTerm" class="form-control" placeholder="">                      
+                <input class="btn btn-primary" type="submit" value="Submit">
+            </div>
+        </div>
+    </form>
+</div>
+
 <div class="row">
-    @foreach (var item in Model)
+    @foreach (var item in Model.Products)
     {
         <div class="card" style="width: 18rem;">
             <img src=@item.ImageUrl class="card-img-top embed-responsive-item" style="width: 100%; height: 15vw;object-fit: cover;" alt="">

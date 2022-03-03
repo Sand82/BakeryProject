@@ -47,4 +47,9 @@ body {
     text-align: center;
 }
 
+.card {
+    padding: 8px;
+    margin: 20px;
+}
+
 

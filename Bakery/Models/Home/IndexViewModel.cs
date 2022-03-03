@@ -2,10 +2,12 @@
 {
     public class IndexViewModel
     {
-        public string FirstPicture { get; set; }
+        public int Id { get; set; }
 
-        public string SecondPicture { get; set; }
+        public string Name { get; set; }
 
-        public string ThirdPicture { get; set; }
+        public string Price { get; set; }
+
+        public string ImageUrl { get; set; }
     }
 }

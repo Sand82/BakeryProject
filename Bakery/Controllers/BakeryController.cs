@@ -15,11 +15,20 @@ namespace Bakery.Controllers
             this.data = data;
         }
 
-        public IActionResult All()
+        public IActionResult All(string searchTerm)
         {
-            var products = data
-                .Products
-                .OrderBy(x => x.Id)
+            var carsQuery = this.data.Products.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                carsQuery = carsQuery
+                    .Where(p =>
+                    p.Name.ToLower().Contains(searchTerm.ToLower()) ||
+                    p.Description.Contains(searchTerm.ToLower()));
+            }
+
+            var products = carsQuery                
+                .OrderByDescending(x => x.Price)
                 .Select(p => new AllProductViewModel
                 {
                     Id = p.Id,
@@ -29,7 +38,11 @@ namespace Bakery.Controllers
                 })
                 .ToList();
                         
-            return View(products);
+            return View(new AllProductQueryModel
+            {
+                Products = products,
+                SearchTerm = searchTerm,
+            });
         }
 
         public IActionResult Add()
