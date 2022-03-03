@@ -15,7 +15,7 @@ namespace Bakery.Controllers
             this.data = data;
         }
 
-        public IActionResult All(string searchTerm)
+        public IActionResult All(string searchTerm, BakiesSorting sorting )
         {
             var carsQuery = this.data.Products.AsQueryable();
 
