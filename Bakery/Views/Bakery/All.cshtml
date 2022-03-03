@@ -26,6 +26,25 @@
     </div>
 </form>
 
+@{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalProduct / AllProductQueryModel.ProductPerPage);
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <a class="btn btn-primary @(Model.CurrentPage  == 1 ? "disabled" : string.Empty)" asp-controller="Bakery" asp-action="All" asp-route-currentPage="@(previousPage)"><<</a>
+    </div>
+    <div class="col-md-6">
+         <a class="btn btn-primary float-end @(Model.CurrentPage  == maxPage ? "disabled" : string.Empty)" asp-controller="Bakery" asp-action="All" asp-route-currentPage="@(Model.CurrentPage + 1)">>></a>
+    </div>
+</div>
+
 <div class="row">
     @foreach (var item in Model.Products)
     {
@@ -39,6 +58,7 @@
         </div>
     }
 </div>
+
 
 
 

@@ -15,20 +15,36 @@ namespace Bakery.Controllers
             this.data = data;
         }
 
-        public IActionResult All(string searchTerm, BakiesSorting sorting )
+        public IActionResult All([FromQuery]AllProductQueryModel query )
         {
-            var carsQuery = this.data.Products.AsQueryable();
+            var productQuery = this.data.Products.AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(searchTerm))
+            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
             {
-                carsQuery = carsQuery
+                productQuery = productQuery
                     .Where(p =>
-                    p.Name.ToLower().Contains(searchTerm.ToLower()) ||
-                    p.Description.Contains(searchTerm.ToLower()));
+                    p.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
+                    p.Description.Contains(query.SearchTerm.ToLower()));
             }
 
-            var products = carsQuery                
-                .OrderByDescending(x => x.Price)
+            if (query.Sorting == BakiesSorting.Name)
+            {
+                productQuery = productQuery.OrderBy(p => p.Name);
+            }
+            else if(query.Sorting == BakiesSorting.Price)
+            {
+                productQuery = productQuery.OrderByDescending(p => p.Price);
+            }
+            else
+            {
+                productQuery = productQuery.OrderByDescending(p => p.Id);
+            }
+
+            var totalProducts = this.data.Products.Count();
+
+            var products = productQuery     
+                .Skip((query.CurrentPage -1) * AllProductQueryModel.ProductPerPage)
+                .Take(AllProductQueryModel.ProductPerPage)
                 .Select(p => new AllProductViewModel
                 {
                     Id = p.Id,
@@ -37,12 +53,11 @@ namespace Bakery.Controllers
                     ImageUrl = p.ImageUrl,
                 })
                 .ToList();
+
+            query.TotalProduct = totalProducts;
+            query.Products = products;
                         
-            return View(new AllProductQueryModel
-            {
-                Products = products,
-                SearchTerm = searchTerm,
-            });
+            return View(query);
         }
 
         public IActionResult Add()
