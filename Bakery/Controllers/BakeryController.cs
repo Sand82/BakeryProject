@@ -40,7 +40,7 @@ namespace Bakery.Controllers
                 productQuery = productQuery.OrderByDescending(p => p.Id);
             }
 
-            var totalProducts = this.data.Products.Count();
+            var totalProducts = productQuery.Count();
 
             var products = productQuery     
                 .Skip((query.CurrentPage -1) * AllProductQueryModel.ProductPerPage)
