@@ -27,7 +27,7 @@ namespace Bakery.Models.Bakery
         [Display(Name = "Image URL")]        
         public string ImageUrl { get; set; }
 
-        //public ICollection<Ingredient> Ingredients { get; set; }
+        public ICollection<Ingredient> Ingredients { get; set; }
 
         //public ICollection<Order> Orders { get; set; }
     }

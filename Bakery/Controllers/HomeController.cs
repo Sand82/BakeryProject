@@ -19,7 +19,6 @@ namespace Bakery.Controllers
         public IActionResult Index()
         {
 
-
             var products = data
                 .Products
                 .OrderByDescending(x => x.Id)
