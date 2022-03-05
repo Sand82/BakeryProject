@@ -82,6 +82,23 @@ namespace Bakery.Controllers
                 Price = formProduct.Price,
             };
 
+
+            foreach (var ingredient in formProduct.Ingredients)
+            {
+                var curredntIngredient = this.data
+                    .Ingredients
+                    .FirstOrDefault(i => i.Name == ingredient.Name);
+
+                if (curredntIngredient == null)
+                {
+                    curredntIngredient = new Ingredient
+                    {
+                        Name = ingredient.Name,
+                    };
+                }
+                product.Ingredients.Add(curredntIngredient);                
+            }
+
             this.data.Products.Add(product);
 
             this.data.SaveChanges();

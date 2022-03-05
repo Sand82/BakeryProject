@@ -1,4 +1,5 @@
 ﻿using Bakery.Data.Models;
+using Bakery.Models.Bakeries;
 using System.ComponentModel.DataAnnotations;
 
 using static Bakery.Data.Constants;
@@ -27,7 +28,7 @@ namespace Bakery.Models.Bakery
         [Display(Name = "Image URL")]        
         public string ImageUrl { get; set; }
 
-        public ICollection<Ingredient> Ingredients { get; set; }
+        public ICollection<IngredientAddFormModel> Ingredients { get; set; }
 
         //public ICollection<Order> Orders { get; set; }
     }

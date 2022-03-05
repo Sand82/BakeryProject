@@ -32,7 +32,7 @@
                      <label asp-for="Ingredients"></label>
                      <button type="button" class="btn btn-success" onclick="AddMoreIngrediants()">Add Ingredient</button>
                 </div>
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="submit" class="btn btn-primary">Save Product</button>
             </form>
         </div>
     </div>
@@ -40,9 +40,11 @@
 
 @section Scripts {
 <script>
-    function AddMoreIngrediants() {
-     
-      $("#IngredientType").append("<div class='form-type'> Name: <input type='text' name='' id='' /></div>");
+     var ingredientsIndex = 0;
+    function AddMoreIngrediants() {    
+      $("#IngredientType").append(
+          "<div class='form-type'> Name: <input type='text' name='Ingredients["+ ingredientsIndex +"].Name' id='' /></div>");
+      ingredientsIndex ++;
     }
 </script>
 }
