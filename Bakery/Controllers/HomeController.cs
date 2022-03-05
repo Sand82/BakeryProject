@@ -18,6 +18,8 @@ namespace Bakery.Controllers
 
         public IActionResult Index()
         {
+
+
             var products = data
                 .Products
                 .OrderByDescending(x => x.Id)
@@ -29,9 +31,16 @@ namespace Bakery.Controllers
                     ImageUrl = p.ImageUrl,
                 })
                 .Take(4)
-                .ToList();            
+                .ToList();
 
-            return View(products);
+            var countPlusProduct = new CountViewModel
+            {
+                IndexViewModel = products,
+                ProductCount = data.Products.Count(),
+                IngredientCount = data.Ingredients.Count()
+            };
+
+            return View(countPlusProduct);
         }        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

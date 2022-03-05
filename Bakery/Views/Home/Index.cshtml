@@ -1,10 +1,11 @@
-﻿@model List<IndexViewModel>
+﻿@model CountViewModel
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
 <h1 class="titles">Welcome to my Bakery</h1>
+
 <div class=container>
     <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -29,11 +30,21 @@
     </div>
 </div>
 
+<div class="text-center" style="margin-top: 15px;">
+    <div class="col-md-4 offset-md-4">
+        <p>We have:</p>
+        <ul class="list-group">
+            <li class="list-group-item bg-light">Products count: @Model.ProductCount</li>
+            <li class="list-group-item bg-light">Ingredient count: @Model.IngredientCount</li>
+        </ul>            
+    </div>
+</div>
+
 <div class="conteiner">
-    <h5 class="titles">New Recipes</h5>
+    <h5 class="titles">Our New Recipes</h5>
     <h3 class="titles">Fresh from the Kitchen</h3>
     <div class="row">
-        @foreach (var item in Model)
+        @foreach (var item in Model.IndexViewModel)
         {
 
             <div class="card" style="width: 18rem;">
