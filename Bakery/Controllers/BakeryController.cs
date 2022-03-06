@@ -108,7 +108,24 @@ namespace Bakery.Controllers
 
         public IActionResult About()
         {
-            return View();
+            var authorInfo = this.data.Authors.FirstOrDefault();
+
+            if (authorInfo == null) 
+            {
+                return NotFound();
+            }
+
+            var author = new AuthorViewModel
+            {
+                Id = authorInfo.Id,
+                FirstName = authorInfo.FirstName,
+                LastName = authorInfo.LastName,
+                Description = authorInfo.Description,
+                ImageUrl = authorInfo.ImageUrl,
+            };
+
+
+            return View(author);
         }
 
     }

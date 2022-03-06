@@ -4,6 +4,7 @@ using Bakery.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bakery.Data.Migrations
 {
     [DbContext(typeof(BackeryDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220306135428_AddAuthorTable")]
+    partial class AddAuthorTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,9 +121,6 @@ namespace Bakery.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("AuthorId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(1000)
@@ -141,8 +140,6 @@ namespace Bakery.Data.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
 
                     b.ToTable("Products");
                 });
@@ -413,13 +410,6 @@ namespace Bakery.Data.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Bakery.Data.Models.Product", b =>
-                {
-                    b.HasOne("Bakery.Data.Models.Author", null)
-                        .WithMany("Products")
-                        .HasForeignKey("AuthorId");
-                });
-
             modelBuilder.Entity("Bakery.Data.Models.ProductsIngredients", b =>
                 {
                     b.HasOne("Bakery.Data.Models.Ingredient", "Ingredient")
@@ -518,11 +508,6 @@ namespace Bakery.Data.Migrations
                         .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Bakery.Data.Models.Author", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

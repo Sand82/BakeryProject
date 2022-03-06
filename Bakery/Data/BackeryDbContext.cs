@@ -16,6 +16,8 @@ namespace Bakery.Data
             : base(options)
         {
         }
+        public DbSet<Author> Authors { get; set; }
+
         public DbSet<Ingredient> Ingredients { get; set; }
 
         public DbSet<ProductsIngredients> ProductsIngredients { get; set; }
@@ -38,7 +40,13 @@ namespace Bakery.Data
         {
             modelBuilder.Entity<ProductsIngredients>().HasKey(x => new { x.ProductId, x.IngredientId });
 
-            modelBuilder.Entity<OrdersProducts>().HasKey(x => new { x.OrderId, x.ProductId });                       
+            modelBuilder.Entity<OrdersProducts>().HasKey(x => new { x.OrderId, x.ProductId });
+
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Price)
+                .HasColumnType("decimal(18,2)");
+
             base.OnModelCreating(modelBuilder);
         }
     }    
