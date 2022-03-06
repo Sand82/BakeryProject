@@ -1,4 +1,6 @@
-﻿namespace Bakery.Models.Bakeries
+﻿using Bakery.Models.Bakeries;
+
+namespace Bakery.Models.Items
 {
     public class DetailsViewModel
     {
