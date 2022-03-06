@@ -106,6 +106,10 @@ namespace Bakery.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        
+        public IActionResult About()
+        {
+            return View();
+        }
+
     }
 }

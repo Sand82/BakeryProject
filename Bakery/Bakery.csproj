@@ -16,6 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="wwwroot\Images\BakingLady.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\Images\FirstPic.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
