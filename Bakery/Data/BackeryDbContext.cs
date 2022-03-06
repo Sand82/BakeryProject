@@ -38,12 +38,8 @@ namespace Bakery.Data
         {
             modelBuilder.Entity<ProductsIngredients>().HasKey(x => new { x.ProductId, x.IngredientId });
 
-            modelBuilder.Entity<OrdersProducts>().HasKey(x => new { x.OrderId, x.ProductId });
-
-            modelBuilder.Entity<IdentityUserLogin<string>>(u => {u.HasNoKey(); });
-            modelBuilder.Entity<IdentityUserRole<string>>(ur => {ur.HasNoKey(); });
-            modelBuilder.Entity<IdentityUserToken<string>>(ut => {ut.HasNoKey(); });
-            
+            modelBuilder.Entity<OrdersProducts>().HasKey(x => new { x.OrderId, x.ProductId });                       
+            base.OnModelCreating(modelBuilder);
         }
     }    
 }

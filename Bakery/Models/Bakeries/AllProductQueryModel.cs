@@ -13,6 +13,7 @@ namespace Bakery.Models.Bakeries
         [Display(Name = "Search by product")]
         public string SearchTerm { get; set; }
 
+        [Display(Name = "Sorting by: ")]
         public BakiesSorting Sorting { get; set; }
 
         public IEnumerable<AllProductViewModel> Products { get; set; }
