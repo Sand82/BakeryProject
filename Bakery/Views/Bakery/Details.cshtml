@@ -1,0 +1,23 @@
+﻿@model DetailsViewModel
+
+@{
+    ViewData["Title"] = "Details Bake";
+}
+
+<div class="container">
+    <div class="row">
+        <img src="@Model.ImageUrl" class="img-fluid" alt="...">
+        <div class="">
+            <h4 class="">@Model.Name - @Model.Price $</h4>
+            <p class="">@Model.Description</p>
+            @*<a asp-controller="Bakery" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">View more</a>*@
+            <ul class="list-group list-group-flush">
+                @foreach (var item in @Model.Ingridients)
+                {
+                    <li class="list-group-item">@item.Name</li>
+                }            
+               
+            </ul>
+        </div>
+    </div>
+</div>
