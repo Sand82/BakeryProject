@@ -1,45 +1,28 @@
 ﻿using Bakery.Data;
 using Bakery.Models.Bakeries;
 using Bakery.Models.Items;
+using Bakery.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bakery.Controllers
 {
     public class ItemController : Controller
     {
-        private readonly BackeryDbContext data;
+        private readonly IItemsService itemsService;
 
-        public ItemController(BackeryDbContext data)
+        public ItemController(IItemsService itemsService)
         {
-            this.data = data;
+            this.itemsService = itemsService;
         }
         public IActionResult Details(int id)
         {
-            var productData = this.data.Products.FirstOrDefault(p => p.Id == id);
+            var product = itemsService.GetDetails(id);
 
-            if (productData == null)
+            if (product == null)
             {
                 return NotFound();
             }
-
-            var ingridientData = this.data
-                .ProductsIngredients
-                .Where(ip => ip.ProductId == id)
-                .Select(i => new IngredientAddFormModel
-                {
-                    Name = i.Ingredient.Name,
-                })
-                .ToList();
-
-            var product = new DetailsViewModel
-            {
-                Name = productData.Name,
-                ImageUrl = productData.ImageUrl,
-                Price = productData.Price.ToString("f2"),
-                Description = productData.Description,
-                Ingridients = ingridientData,
-            };
-
+            
             return View(product);
         }
     }
