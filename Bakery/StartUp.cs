@@ -22,6 +22,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IBakerySevice, BakerySevice>();
+builder.Services.AddTransient<IHomeService, HomeService>();
 
 var app = builder.Build();
 

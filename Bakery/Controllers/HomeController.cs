@@ -1,7 +1,7 @@
 ﻿using Bakery.Data;
 using Bakery.Models;
 using Bakery.Models.Home;
-
+using Bakery.Service;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -9,37 +9,18 @@ namespace Bakery.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly BackeryDbContext data;
+        private readonly IHomeService homeService;
 
-        public HomeController(BackeryDbContext data)
+        public HomeController(IHomeService homeService)
         {
-            this.data = data;
+            this.homeService = homeService;
         }
 
         public IActionResult Index()
         {
+            var countPlusProductModel = homeService.GetIndex();
 
-            var products = data
-                .Products
-                .OrderByDescending(x => x.Id)
-                .Select(p => new IndexViewModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Price = p.Price.ToString("f2"),
-                    ImageUrl = p.ImageUrl,
-                })
-                .Take(4)
-                .ToList();
-
-            var countPlusProduct = new CountViewModel
-            {
-                IndexViewModel = products,
-                ProductCount = data.Products.Count(),
-                IngredientCount = data.Ingredients.Count()
-            };
-
-            return View(countPlusProduct);
+            return View(countPlusProductModel);
         }        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
