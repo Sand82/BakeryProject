@@ -1,5 +1,6 @@
 using Bakery.Data;
 using Bakery.Infrastructure;
+using Bakery.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +21,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 .AddEntityFrameworkStores<BackeryDbContext>();
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<IBakerySevice, BakerySevice>();
 
 var app = builder.Build();
 

@@ -2,61 +2,26 @@
 using Bakery.Data.Models;
 using Bakery.Models.Bakeries;
 using Bakery.Models.Bakery;
+using Bakery.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bakery.Controllers
 {
     public class BakeryController : Controller
     {
+        private readonly IBakerySevice bakerySevice;
         private readonly BackeryDbContext data;
 
-        public BakeryController(BackeryDbContext data)
+        public BakeryController(IBakerySevice bakerySevice, BackeryDbContext data)
         {
+            this.bakerySevice = bakerySevice;
             this.data = data;
         }
 
         public IActionResult All([FromQuery]AllProductQueryModel query )
         {
-            var productQuery = this.data.Products.AsQueryable();
+            query = bakerySevice.GetAllProducts(query);
 
-            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
-            {
-                productQuery = productQuery
-                    .Where(p =>
-                    p.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
-                    p.Description.Contains(query.SearchTerm.ToLower()));
-            }
-
-            if (query.Sorting == BakiesSorting.Name)
-            {
-                productQuery = productQuery.OrderBy(p => p.Name);
-            }
-            else if(query.Sorting == BakiesSorting.Price)
-            {
-                productQuery = productQuery.OrderByDescending(p => p.Price);
-            }
-            else
-            {
-                productQuery = productQuery.OrderByDescending(p => p.Id);
-            }
-
-            var totalProducts = productQuery.Count();
-
-            var products = productQuery     
-                .Skip((query.CurrentPage -1) * AllProductQueryModel.ProductPerPage)
-                .Take(AllProductQueryModel.ProductPerPage)
-                .Select(p => new AllProductViewModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,                    
-                    Price = p.Price.ToString("f2"),
-                    ImageUrl = p.ImageUrl,
-                })
-                .ToList();
-
-            query.TotalProduct = totalProducts;
-            query.Products = products;
-                        
             return View(query);
         }
 
@@ -74,30 +39,7 @@ namespace Bakery.Controllers
                 return View();
             }
 
-            var product = new Product
-            {
-                Name = formProduct.Name,
-                Description = formProduct.Description,
-                ImageUrl = formProduct.ImageUrl,
-                Price = formProduct.Price,
-            };
-
-
-            foreach (var ingredient in formProduct.Ingredients)
-            {
-                var curredntIngredient = this.data
-                    .Ingredients
-                    .FirstOrDefault(i => i.Name == ingredient.Name);
-
-                if (curredntIngredient == null)
-                {
-                    curredntIngredient = new Ingredient
-                    {
-                        Name = ingredient.Name,
-                    };
-                }
-                product.Ingredients.Add(curredntIngredient);                
-            }
+            var product = bakerySevice.CreateProduct(formProduct);
 
             this.data.Products.Add(product);
 
@@ -108,22 +50,12 @@ namespace Bakery.Controllers
 
         public IActionResult About()
         {
-            var authorInfo = this.data.Authors.FirstOrDefault();
+            var author = bakerySevice.GetAuthorInfo();
 
-            if (authorInfo == null) 
+            if (author == null)
             {
                 return NotFound();
             }
-
-            var author = new AuthorViewModel
-            {
-                Id = authorInfo.Id,
-                FirstName = authorInfo.FirstName,
-                LastName = authorInfo.LastName,
-                Description = authorInfo.Description,
-                ImageUrl = authorInfo.ImageUrl,
-            };
-
 
             return View(author);
         }        
