@@ -1,7 +1,7 @@
 ﻿@model CountViewModel
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home Page";    
 }
 
 <h1 class="titles">Welcome to my Bakery</h1>
@@ -36,7 +36,7 @@
         <ul class="list-group">
             <li class="list-group-item bg-light">Products count: @Model.ProductCount</li>
             <li class="list-group-item bg-light">Ingredient count: @Model.IngredientCount</li>
-        </ul>            
+        </ul>
     </div>
 </div>
 
@@ -46,13 +46,12 @@
     <div class="row">
         @foreach (var item in Model.IndexViewModel)
         {
-
             <div class="card" style="width: 18rem;">
                 <img src=@item.ImageUrl class="card-img-top embed-responsive-item" style="width: 100%; height: 15vw;object-fit: cover;" alt="">
                 <div class="card-body">
                     <h4 class="card-title">@item.Name - @item.Price $</h4>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a asp-controller="Item" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">View more</a>
+                    <a asp-controller="Item" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">View more</a>                    
                 </div>
             </div>
         }

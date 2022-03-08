@@ -8,8 +8,6 @@ namespace Bakery.Service
     {
         AllProductQueryModel GetAllProducts(AllProductQueryModel query);
 
-        Product CreateProduct(BakeryAddFormModel formProduct);
-
-        AuthorViewModel GetAuthorInfo();
+        Product CreateProduct(BakeryAddFormModel formProduct);        
     }
 }

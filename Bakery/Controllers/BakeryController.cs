@@ -3,6 +3,7 @@ using Bakery.Data.Models;
 using Bakery.Models.Bakeries;
 using Bakery.Models.Bakery;
 using Bakery.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bakery.Controllers
@@ -24,12 +25,13 @@ namespace Bakery.Controllers
 
             return View(query);
         }
-
+        [Authorize]
         public IActionResult Add()
         { 
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Add(BakeryAddFormModel formProduct)
         {
@@ -46,18 +48,6 @@ namespace Bakery.Controllers
             this.data.SaveChanges();
 
             return RedirectToAction("Index", "Home");
-        }
-
-        public IActionResult About()
-        {
-            var author = bakerySevice.GetAuthorInfo();
-
-            if (author == null)
-            {
-                return NotFound();
-            }
-
-            return View(author);
-        }        
+        }       
     }
 }

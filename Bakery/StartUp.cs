@@ -24,6 +24,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IBakerySevice, BakerySevice>();
 builder.Services.AddTransient<IHomeService, HomeService>();
 builder.Services.AddTransient<IItemsService, ItemsService>();
+builder.Services.AddTransient<IAboutService, AboutService>();
 
 var app = builder.Build();
 
