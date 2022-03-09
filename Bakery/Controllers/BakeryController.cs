@@ -48,6 +48,12 @@ namespace Bakery.Controllers
             this.data.SaveChanges();
 
             return RedirectToAction("Index", "Home");
-        }       
+        }
+
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            return View();
+        }
     }
 }

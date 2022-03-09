@@ -10,7 +10,7 @@ namespace Bakery.Models.Bakery
     {
         [Required]
         [StringLength(ProductMaxLenght,
-            MinimumLength =ProductMinLenght,
+            MinimumLength = ProductMinLenght,
             ErrorMessage = "The field {0} is not valid! Must be between of {2} and {1} symbols.")]
         public string Name { get; set; }
 
@@ -19,13 +19,13 @@ namespace Bakery.Models.Bakery
 
         [Required]
         [StringLength(DescriptionMaxLenght,
-            MinimumLength =DescriptionMinLenght,
+            MinimumLength = DescriptionMinLenght,
             ErrorMessage = "The field {0} is not valid! Must be between of {2} and {1} symbols.")]
         public string Description { get; set; }
-        
+
         [Url]
-        [Required]        
-        [Display(Name = "Image URL")]        
+        [Required]
+        [Display(Name = "Image URL")]
         public string ImageUrl { get; set; }
 
         public ICollection<IngredientAddFormModel> Ingredients { get; set; }

@@ -104,5 +104,10 @@ namespace Bakery.Service
 
             return author;
         }
+
+        public BakeryEditFormModel FindById(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
