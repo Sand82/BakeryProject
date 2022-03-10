@@ -69,8 +69,42 @@ namespace Bakery.Service
                 Price = formProduct.Price,
             };
 
+            var ingredients = AddIngredients(formProduct.Ingredients);
 
-            foreach (var ingredient in formProduct.Ingredients)
+            product.Ingredients = ingredients;
+
+            return product;
+        }       
+
+        public BakeryEditFormModel FindById(int id)
+        {
+            var product = this.data
+                .Products
+                .Where(p => p.Id == id)
+                .Select(p => new BakeryEditFormModel
+                {
+                    Name = p.Name,
+                    Price = p.Price,
+                    Description = p.Description,
+                    ImageUrl = p.ImageUrl,
+                })
+                .FirstOrDefault();
+
+            return product;
+        }
+
+        public void Create(Product product)
+        {
+            this.data.Products.Add(product);
+
+            this.data.SaveChanges();
+        }
+
+        private IEnumerable<Ingredient> AddIngredients(ICollection<IngredientAddFormModel> stringIngridients)
+        {
+            var ingredients = new List<Ingredient>();
+
+            foreach (var ingredient in stringIngridients)
             {
                 var curredntIngredient = this.data
                     .Ingredients
@@ -83,31 +117,10 @@ namespace Bakery.Service
                         Name = ingredient.Name,
                     };
                 }
-                product.Ingredients.Add(curredntIngredient);
+                ingredients.Add(curredntIngredient);
             }
 
-            return product;
-        }
-
-        public AuthorViewModel GetAuthorInfo()
-        {
-            var authorInfo = this.data.Authors.FirstOrDefault();           
-
-            var author = new AuthorViewModel
-            {
-                Id = authorInfo.Id,
-                FirstName = authorInfo.FirstName,
-                LastName = authorInfo.LastName,
-                Description = authorInfo.Description,
-                ImageUrl = authorInfo.ImageUrl,
-            };
-
-            return author;
-        }
-
-        public BakeryEditFormModel FindById(int id)
-        {
-            throw new NotImplementedException();
+            return ingredients;
         }
     }
 }
