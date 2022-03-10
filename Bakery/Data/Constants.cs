@@ -14,8 +14,5 @@
 
         public const int maxAuthorName = 30;
         public const int minAuthorName = 3;
-
-        public const int IngredientMaxName = 50;
-        public const int IngredientMinName = 3;
     }
 }

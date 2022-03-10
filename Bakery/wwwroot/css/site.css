@@ -26,13 +26,8 @@ body {
 .top-buffer {
     margin-top: 30px;
 }
-
-.card-body {
-    
-}
-
-.btn {
-    margin-top: auto;
+.btn-primary {
+    margin-top: 20px;
 }
 
 .d-block.w-100 {

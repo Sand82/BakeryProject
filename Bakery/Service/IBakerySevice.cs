@@ -10,8 +10,6 @@ namespace Bakery.Service
 
         Product CreateProduct(BakeryAddFormModel formProduct);
 
-        BakeryEditFormModel FindById (int id);
-
-        void Create(Product product);
+        AuthorViewModel GetAuthorInfo();
     }
 }

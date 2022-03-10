@@ -48,10 +48,6 @@ namespace Bakery.Data.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Authors");
@@ -123,7 +119,7 @@ namespace Bakery.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("AuthorId")
+                    b.Property<int?>("AuthorId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -419,13 +415,9 @@ namespace Bakery.Data.Migrations
 
             modelBuilder.Entity("Bakery.Data.Models.Product", b =>
                 {
-                    b.HasOne("Bakery.Data.Models.Author", "Author")
+                    b.HasOne("Bakery.Data.Models.Author", null)
                         .WithMany("Products")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
+                        .HasForeignKey("AuthorId");
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.ProductsIngredients", b =>
