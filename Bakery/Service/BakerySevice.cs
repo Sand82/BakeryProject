@@ -87,22 +87,6 @@ namespace Bakery.Service
             }
 
             return product;
-        }
-
-        public AuthorViewModel GetAuthorInfo()
-        {
-            var authorInfo = this.data.Authors.FirstOrDefault();           
-
-            var author = new AuthorViewModel
-            {
-                Id = authorInfo.Id,
-                FirstName = authorInfo.FirstName,
-                LastName = authorInfo.LastName,
-                Description = authorInfo.Description,
-                ImageUrl = authorInfo.ImageUrl,
-            };
-
-            return author;
-        }
+        }       
     }
 }

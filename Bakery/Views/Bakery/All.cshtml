@@ -56,27 +56,30 @@
            asp-route-sorting="@((int)Model.Sorting)">>></a>
     </div>
 </div>
-@if(!Model.Products.Any())
+@if (!Model.Products.Any())
 {
     <h2 class="text-center">No products fount!</h2>
 }
 
 
-@if(Model.Products.Count() != 0)
+@if (Model.Products.Count() != 0)
 {
     <div class="row">
-    @foreach (var item in Model.Products)
-    {
-        <div class="card" style="width: 18rem;">
-            <img src=@item.ImageUrl class="card-img-top embed-responsive-item" style="width: 100%; height: 15vw;object-fit: cover;" alt="">
-            <div class="card-body">
-                <h4 class="card-title">@item.Name - @item.Price $</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a asp-controller="Item" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">View more</a>
+        @foreach (var item in Model.Products)
+        {
+            <div class="card" style="width: 18rem;">
+                <img src=@item.ImageUrl class="card-img-top embed-responsive-item" style="width: 100%; height: 15vw;object-fit: cover;" alt="">
+                <div class="card-body">
+                    <h4 class="card-title">@item.Name - @item.Price $</h4>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a asp-controller="Item" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">View more</a>
+
+                    <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
+                    <a asp-controller="Product" asp-action="Delate" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
 }
 
 

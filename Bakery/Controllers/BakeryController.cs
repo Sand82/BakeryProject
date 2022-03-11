@@ -46,18 +46,6 @@ namespace Bakery.Controllers
             this.data.SaveChanges();
 
             return RedirectToAction("Index", "Home");
-        }
-
-        public IActionResult About()
-        {
-            var author = bakerySevice.GetAuthorInfo();
-
-            if (author == null)
-            {
-                return NotFound();
-            }
-
-            return View(author);
-        }        
+        }       
     }
 }
