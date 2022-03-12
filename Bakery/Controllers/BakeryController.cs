@@ -24,6 +24,10 @@ namespace Bakery.Controllers
 
         public IActionResult All([FromQuery]AllProductQueryModel query )
         {
+            var userId = User.GetId();
+
+            query.IsAuthor = authorService.IsAuthor(userId);
+
             query = bakerySevice.GetAllProducts(query);
 
             return View(query);

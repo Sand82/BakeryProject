@@ -1,7 +1,9 @@
-﻿@model AllProductQueryModel
+﻿@using Bakery.Infrastructure
+@inject IAuthorService authorService
+@model AllProductQueryModel
 
 @{
-    ViewData["Title"] = "All Bake";
+    ViewData["Title"] = "All Bake";    
 }
 
 <form method="get">
@@ -61,9 +63,9 @@
     <h2 class="text-center">No products fount!</h2>
 }
 
-
 @if (Model.Products.Count() != 0)
-{
+{  
+    
     <div class="row">
         @foreach (var item in Model.Products)
         {
@@ -73,9 +75,11 @@
                     <h4 class="card-title">@item.Name - @item.Price $</h4>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     <a asp-controller="Item" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">View more</a>
-
-                    <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
-                    <a asp-controller="Product" asp-action="Delate" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                    @if (Model.IsAuthor == true)
+                    {
+                        <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
+                        <a asp-controller="Product" asp-action="Delate" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                    }
                 </div>
             </div>
         }

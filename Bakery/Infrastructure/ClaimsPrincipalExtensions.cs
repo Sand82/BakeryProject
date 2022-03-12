@@ -6,7 +6,7 @@ namespace Bakery.Infrastructure
     {
         public static string GetId(this ClaimsPrincipal user)
         { 
-            return user.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return user.FindFirstValue(ClaimTypes.NameIdentifier);
         }
     }
 }

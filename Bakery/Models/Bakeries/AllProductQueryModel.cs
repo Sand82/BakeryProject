@@ -16,6 +16,8 @@ namespace Bakery.Models.Bakeries
         [Display(Name = "Sorting by: ")]
         public BakiesSorting Sorting { get; set; }
 
+        public bool IsAuthor { get; set; } = false;
+
         public IEnumerable<AllProductViewModel> Products { get; set; }
     }
 }

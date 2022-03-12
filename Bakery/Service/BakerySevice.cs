@@ -3,20 +3,24 @@ using Bakery.Data.Models;
 using Bakery.Models.Bakeries;
 using Bakery.Models.Bakery;
 
+using static Bakery.Infrastructure.ClaimsPrincipalExtensions;
+
 namespace Bakery.Service
 {
     public class BakerySevice : IBakerySevice
     {
         private readonly BackeryDbContext data;
+        private readonly IAuthorService authorService;
 
-        public BakerySevice(BackeryDbContext data)
+        public BakerySevice(BackeryDbContext data, IAuthorService authorService)
         {
             this.data = data;
+            this.authorService = authorService;
         }           
         
         public AllProductQueryModel GetAllProducts(AllProductQueryModel query)
         {
-            var productQuery = this.data.Products.AsQueryable();
+            var productQuery = this.data.Products.AsQueryable();           
 
             if (!string.IsNullOrWhiteSpace(query.SearchTerm))
             {
@@ -51,8 +55,8 @@ namespace Bakery.Service
                     Price = p.Price.ToString("f2"),
                     ImageUrl = p.ImageUrl,
                 })
-                .ToList();
-
+                .ToList();          
+                        
             query.TotalProduct = totalProducts;
             query.Products = products;
 
