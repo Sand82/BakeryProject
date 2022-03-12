@@ -1,9 +1,11 @@
 ﻿using Bakery.Data;
-using Bakery.Data.Models;
 using Bakery.Models.Bakeries;
 using Bakery.Models.Bakery;
 using Bakery.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using static Bakery.Infrastructure.ClaimsPrincipalExtensions;
 
 namespace Bakery.Controllers
 {
@@ -11,11 +13,13 @@ namespace Bakery.Controllers
     {
         private readonly IBakerySevice bakerySevice;
         private readonly BackeryDbContext data;
+        private readonly IAuthorService authorService;
 
-        public BakeryController(IBakerySevice bakerySevice, BackeryDbContext data)
+        public BakeryController(IBakerySevice bakerySevice, BackeryDbContext data, IAuthorService authorService)
         {
             this.bakerySevice = bakerySevice;
             this.data = data;
+            this.authorService = authorService;
         }
 
         public IActionResult All([FromQuery]AllProductQueryModel query )
@@ -25,16 +29,26 @@ namespace Bakery.Controllers
             return View(query);
         }
 
+        [Authorize]
         public IActionResult Add()
-        { 
+        {
+            var userId = User.GetId();
+
+            var author = authorService.IsAuthor(userId);
+
+            if (!author)
+            {
+                return BadRequest();
+            }
+
             return View();
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Add(BakeryAddFormModel formProduct)
         {
-            
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
                 return View();
             }

@@ -1,11 +1,12 @@
 ﻿using Bakery.Data;
 using Bakery.Models.Bakeries;
+using Microsoft.AspNetCore.Identity;
 
 namespace Bakery.Service
 {
     public class AuthorService : IAuthorService
     {
-        private readonly BackeryDbContext data;
+        private readonly BackeryDbContext data;        
 
         public AuthorService(BackeryDbContext data)
         {
@@ -19,7 +20,7 @@ namespace Bakery.Service
             if (authorInfo == null)
             {
                 return null;
-            }
+            }           
 
             var author = new AuthorViewModel
             {
@@ -31,6 +32,13 @@ namespace Bakery.Service
             };
 
             return author;
+        }
+
+        public bool IsAuthor(string userId)
+        {          
+            return this.data
+                .Authors
+                .Any(a => a.AuthorId == userId);
         }
     }
 }
