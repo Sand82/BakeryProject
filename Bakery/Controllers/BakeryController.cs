@@ -53,11 +53,7 @@ namespace Bakery.Controllers
                 return View();
             }
 
-            var product = bakerySevice.CreateProduct(formProduct);
-
-            this.data.Products.Add(product);
-
-            this.data.SaveChanges();
+            bakerySevice.CreateProduct(formProduct);            
 
             return RedirectToAction("Index", "Home");
         }       

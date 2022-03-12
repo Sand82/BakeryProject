@@ -59,7 +59,7 @@ namespace Bakery.Service
             return query;
         }
 
-        public Product CreateProduct(BakeryAddFormModel formProduct)
+        public void CreateProduct(BakeryAddFormModel formProduct)
         {
             var product = new Product
             {
@@ -86,7 +86,14 @@ namespace Bakery.Service
                 product.Ingredients.Add(curredntIngredient);
             }
 
-            return product;
-        }       
+            AddProduct(product);
+        }   
+        
+        private void AddProduct(Product product)
+        {
+            this.data.Products.Add(product);
+
+            this.data.SaveChanges();
+        }
     }
 }
