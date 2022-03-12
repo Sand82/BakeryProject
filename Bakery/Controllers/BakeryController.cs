@@ -53,9 +53,18 @@ namespace Bakery.Controllers
                 return View();
             }
 
+            var userId = User.GetId();
+
+            var author = authorService.IsAuthor(userId);
+
+            if (!author)
+            {
+                return BadRequest();
+            }
+
             bakerySevice.CreateProduct(formProduct);            
 
             return RedirectToAction("Index", "Home");
-        }       
+        }           
     }
 }
