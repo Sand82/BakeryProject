@@ -6,7 +6,7 @@ using static Bakery.Data.Constants;
 
 namespace Bakery.Models.Bakery
 {
-    public class BakeryAddFormModel
+    public class BakeryFormModel
     {
         [Required]
         [StringLength(ProductMaxLenght,

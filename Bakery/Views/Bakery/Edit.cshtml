@@ -1,12 +1,12 @@
-﻿@model BakeryFormModel
+﻿@model ProductDetailsServiceModel
 
 @{
-    ViewData["Title"] = "Add Bake";
+    ViewData["Title"] = "Edit Bake";
 }
 <div class="container px-10">
     <div class="row top-buffer">
         <div class="col-sm-12 col-lg-3 col-lg-8 offset-xl-3 col-xl-6 col">
-            <h2 class="heading text-center">Add bake product</h2>
+            <h2 class="heading text-center">Edit bake product</h2>
             <form method="post">
                 <div class="form-type">
                     <label asp-for="Name"></label>
@@ -28,27 +28,16 @@
                     <textarea asp-for="Description" rows="3" class="form-control" placeholder="Deliciously baked bread etc..."></textarea>
                     <span asp-validation-for="Description" class="small text-danger"></span>
                 </div>
-                <div id ="IngredientType">   
+                @*<div id ="IngredientType">   
                      <label asp-for="Ingredients"></label>
-                     <button type="button" class="btn btn-success mt-4" onclick="AddMoreIngrediants()">Add Ingredient</button>
-                </div>
+                     @foreach (var ingredient in Model.Ingredients)
+                     {
+                         <label asp-for="Ingredient.Name"></label>
+                         <input asp-for="ingredient" class="form-control" placeholder="">
+                     }
+                </div>*@
                 <button type="submit" class="btn btn-primary mt-4">Save Product</button>
             </form>
         </div>
     </div>
 </div>
-
-@section Scripts {
-<script>
-     var ingredientsIndex = 0;
-    function AddMoreIngrediants() {    
-      $("#IngredientType").append(
-          "<div class='form-type'> Name: <input type='text' name='Ingredients["+ ingredientsIndex +"].Name' id='' /></div>");
-      ingredientsIndex ++;
-    }
-</script>
-}
-
-
-
-

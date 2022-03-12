@@ -8,6 +8,10 @@ namespace Bakery.Service
     {
         AllProductQueryModel GetAllProducts(AllProductQueryModel query);
 
-        void CreateProduct(BakeryAddFormModel formProduct);         
+        void CreateProduct(BakeryFormModel formProduct);
+
+        ProductDetailsServiceModel EditProduct(int id);
+
+        void Edit(int id, ProductDetailsServiceModel product);
     }
 }

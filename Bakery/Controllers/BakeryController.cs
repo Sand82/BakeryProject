@@ -22,7 +22,7 @@ namespace Bakery.Controllers
             this.authorService = authorService;
         }
 
-        public IActionResult All([FromQuery]AllProductQueryModel query )
+        public IActionResult All([FromQuery] AllProductQueryModel query)
         {
             var userId = User.GetId();
 
@@ -36,9 +36,7 @@ namespace Bakery.Controllers
         [Authorize]
         public IActionResult Add()
         {
-            var userId = User.GetId();
-
-            var author = authorService.IsAuthor(userId);
+            var author = AuthorValidation();
 
             if (!author)
             {
@@ -50,25 +48,75 @@ namespace Bakery.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult Add(BakeryAddFormModel formProduct)
+        public IActionResult Add(BakeryFormModel formProduct)
         {
             if (!ModelState.IsValid)
             {
                 return View();
             }
 
-            var userId = User.GetId();
-
-            var author = authorService.IsAuthor(userId);
+            var author = AuthorValidation();
 
             if (!author)
             {
                 return BadRequest();
             }
 
-            bakerySevice.CreateProduct(formProduct);            
+            bakerySevice.CreateProduct(formProduct);
 
             return RedirectToAction("Index", "Home");
-        }           
+        }
+
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            var author = AuthorValidation();
+
+            if (!author)
+            {
+                return BadRequest();
+            }
+
+            var product = bakerySevice.EditProduct(id);
+
+            return View(new ProductDetailsServiceModel
+            {
+                Name = product.Name,
+                Description = product.Description,
+                ImageUrl = product.ImageUrl,
+                Price = product.Price,
+            });
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Edit(int id, ProductDetailsServiceModel product)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            var author = AuthorValidation();
+
+            if (!author)
+            {
+                return BadRequest();
+            }
+
+            bakerySevice.Edit(id, product);
+
+            return RedirectToAction("All", "Bakery");
+        }
+
+        private bool AuthorValidation()
+        {
+            var userId = User.GetId();
+
+            var author = authorService.IsAuthor(userId);
+
+            return author;
+        }
     }
 }

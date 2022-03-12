@@ -16,11 +16,11 @@ namespace Bakery.Service
         {
             this.data = data;
             this.authorService = authorService;
-        }           
-        
+        }
+
         public AllProductQueryModel GetAllProducts(AllProductQueryModel query)
         {
-            var productQuery = this.data.Products.AsQueryable();           
+            var productQuery = this.data.Products.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(query.SearchTerm))
             {
@@ -54,16 +54,17 @@ namespace Bakery.Service
                     Name = p.Name,
                     Price = p.Price.ToString("f2"),
                     ImageUrl = p.ImageUrl,
+                    Description = p.Description,
                 })
-                .ToList();          
-                        
+                .ToList();
+
             query.TotalProduct = totalProducts;
             query.Products = products;
 
             return query;
         }
 
-        public void CreateProduct(BakeryAddFormModel formProduct)
+        public void CreateProduct(BakeryFormModel formProduct)
         {
             var product = new Product
             {
@@ -91,13 +92,70 @@ namespace Bakery.Service
             }
 
             AddProduct(product);
-        }   
+        }
         
+        public ProductDetailsServiceModel EditProduct(int id)
+        {
+            var product = this.data
+                .Products
+                .Where(p => p.Id == id)
+                .Select(p => new ProductDetailsServiceModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Price = p.Price,
+                    ImageUrl = p.ImageUrl,
+                    //Ingredients = p.Ingredients.Select(i => new IngredientAddFormModel
+                    //{
+                    //    Name = i.Name,
+                    //})                    
+                    //.ToList()
+                })
+                .FirstOrDefault();
+
+            return product;
+        }
+
+        public void Edit(int id, ProductDetailsServiceModel product)
+        {
+            var productDate = this.data.Products.Find(id);
+
+            productDate.Name = product.Name;
+            productDate.Description = product.Description;
+            productDate.Price = product.Price;
+            productDate.ImageUrl = product.ImageUrl;
+
+            //var ingredients = new List<Ingredient>();
+
+            //foreach (var ingredient in product.Ingredients)
+            //{
+            //    var curredntIngredient = this.data
+            //        .Ingredients
+            //        .FirstOrDefault(i => i.Name == ingredient.Name);
+
+            //    if (curredntIngredient == null)
+            //    {
+            //        curredntIngredient = new Ingredient
+            //        {
+            //            Name = ingredient.Name,
+            //        };
+            //    }
+
+            //    ingredients.Add(curredntIngredient);
+            //}
+
+            //productDate.Ingredients = ingredients;
+
+            this.data.SaveChanges();            
+        }
+
         private void AddProduct(Product product)
         {
             this.data.Products.Add(product);
 
             this.data.SaveChanges();
         }
+
     }
 }
