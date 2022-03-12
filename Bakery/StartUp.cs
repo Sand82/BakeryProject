@@ -1,4 +1,5 @@
 using Bakery.Data;
+using Bakery.Data.Models;
 using Bakery.Infrastructure;
 using Bakery.Service;
 using Microsoft.AspNetCore.Identity;
@@ -11,7 +12,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<BackeryDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => 
+builder.Services.AddDefaultIdentity<User>(options =>
 {
     options.Password.RequireDigit = false;
     options.Password.RequireLowercase = false;
@@ -19,8 +20,9 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     options.Password.RequireUppercase = false;
     options.Lockout.MaxFailedAccessAttempts = 5;
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-    options.User.RequireUniqueEmail = true;    
+    options.User.RequireUniqueEmail = true;
 })
+.AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<BackeryDbContext>();
 
 builder.Services.AddControllersWithViews();
@@ -40,7 +42,7 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
-   
+
     app.UseHsts();
 }
 

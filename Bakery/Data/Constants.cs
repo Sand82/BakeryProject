@@ -9,7 +9,7 @@
         public const int DescriptionMinLenght = 5;
         public const int ImageMaxLenght = 1000;
 
-        public const int maxAuthorName = 30;
-        public const int minAuthorName = 3;
+        public const int NameMaxLenght = 60;
+        public const int NameMinLenght = 3;
     }
 }

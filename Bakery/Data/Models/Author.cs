@@ -9,11 +9,11 @@ namespace Bakery.Data.Models
         public int Id { get; set; }
         
         [Required]
-        [StringLength(maxAuthorName)]
+        [StringLength(NameMaxLenght)]
         public string FirstName { get; set; }
 
         [Required]
-        [StringLength(maxAuthorName)]
+        [StringLength(NameMaxLenght)]
         public string LastName { get; set; }
 
         [Required]

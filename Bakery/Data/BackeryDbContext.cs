@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bakery.Data
 {
-    public class BackeryDbContext : IdentityDbContext
+    public class BackeryDbContext : IdentityDbContext<User>
     {
 
         public BackeryDbContext()
