@@ -1,6 +1,5 @@
-﻿@using Bakery.Data.Models
-@inject SignInManager<User> SignInManager
-@inject UserManager<User> UserManager
+﻿@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 @inject IAuthorService authorService
 @using static Bakery.Infrastructure.ClaimsPrincipalExtensions
 
@@ -9,7 +8,7 @@
     {
         var userId = User.GetId();
 
-        @if (authorService.IsAuthor(userId))
+        @if (authorService.IsAuthor(userId) || User.IsAdmin())
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Bakery" asp-action="Add">Add</a>

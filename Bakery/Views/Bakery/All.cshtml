@@ -75,7 +75,7 @@
                     <h4 class="card-title">@item.Name - @item.Price $</h4>
                     <p class="card-text">@item.Description.Substring(0, 40)...</p>
                     <a asp-controller="Item" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">View more</a>
-                    @if (Model.IsAuthor == true)
+                    @if (Model.IsAuthor == true || User.IsAdmin())
                     {
                         <a asp-controller="Bakery" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
                         <a asp-controller="Bakery" asp-action="Delate" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>

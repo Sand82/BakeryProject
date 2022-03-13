@@ -112,11 +112,20 @@ namespace Bakery.Controllers
 
         private bool AuthorValidation()
         {
+            bool isAuthor = false;
+
             var userId = User.GetId();
 
             var author = authorService.IsAuthor(userId);
 
-            return author;
+            var admin = User.IsAdmin();
+
+            if (author || admin)
+            {
+                isAuthor = true;
+            }
+            
+            return isAuthor;
         }
     }
 }

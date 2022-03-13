@@ -5,13 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bakery.Data
 {
-    public class BackeryDbContext : IdentityDbContext<User>
+    public class BackeryDbContext : IdentityDbContext
     {
-
-        public BackeryDbContext()
-        {
-        }
-
+               
         public BackeryDbContext(DbContextOptions<BackeryDbContext> options)
             : base(options)
         {
@@ -28,14 +24,7 @@ namespace Bakery.Data
 
         public DbSet<OrdersProducts> OrdersProducts { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(DataConnectionString.DataParameters);
-            }
-        }
-
+       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ProductsIngredients>().HasKey(x => new { x.ProductId, x.IngredientId });
