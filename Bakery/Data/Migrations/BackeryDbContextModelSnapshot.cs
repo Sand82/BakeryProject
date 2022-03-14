@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bakery.Data.Migrations
 {
     [DbContext(typeof(BackeryDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    partial class BackeryDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -100,21 +100,6 @@ namespace Bakery.Data.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("Bakery.Data.Models.OrdersProducts", b =>
-                {
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrderId", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrdersProducts");
-                });
-
             modelBuilder.Entity("Bakery.Data.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -151,19 +136,19 @@ namespace Bakery.Data.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Bakery.Data.Models.ProductsIngredients", b =>
+            modelBuilder.Entity("IngredientProduct", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int>("IngredientsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("IngredientId")
+                    b.Property<int>("ProductsId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductId", "IngredientId");
+                    b.HasKey("IngredientsId", "ProductsId");
 
-                    b.HasIndex("IngredientId");
+                    b.HasIndex("ProductsId");
 
-                    b.ToTable("ProductsIngredients");
+                    b.ToTable("IngredientProduct");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -368,23 +353,19 @@ namespace Bakery.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Bakery.Data.Models.OrdersProducts", b =>
+            modelBuilder.Entity("OrderProduct", b =>
                 {
-                    b.HasOne("Bakery.Data.Models.Order", "Order")
-                        .WithMany("Products")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("OrdersId")
+                        .HasColumnType("int");
 
-                    b.HasOne("Bakery.Data.Models.Product", "Product")
-                        .WithMany("Orders")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
 
-                    b.Navigation("Order");
+                    b.HasKey("OrdersId", "ProductsId");
 
-                    b.Navigation("Product");
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("OrderProduct");
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Product", b =>
@@ -394,23 +375,19 @@ namespace Bakery.Data.Migrations
                         .HasForeignKey("AuthorId");
                 });
 
-            modelBuilder.Entity("Bakery.Data.Models.ProductsIngredients", b =>
+            modelBuilder.Entity("IngredientProduct", b =>
                 {
-                    b.HasOne("Bakery.Data.Models.Ingredient", "Ingredient")
-                        .WithMany("Products")
-                        .HasForeignKey("IngredientId")
+                    b.HasOne("Bakery.Data.Models.Ingredient", null)
+                        .WithMany()
+                        .HasForeignKey("IngredientsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Bakery.Data.Models.Product", "Product")
-                        .WithMany("Ingredients")
-                        .HasForeignKey("ProductId")
+                    b.HasOne("Bakery.Data.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Ingredient");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -464,26 +441,24 @@ namespace Bakery.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("OrderProduct", b =>
+                {
+                    b.HasOne("Bakery.Data.Models.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Bakery.Data.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Bakery.Data.Models.Author", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("Bakery.Data.Models.Ingredient", b =>
-                {
-                    b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("Bakery.Data.Models.Order", b =>
-                {
-                    b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("Bakery.Data.Models.Product", b =>
-                {
-                    b.Navigation("Ingredients");
-
-                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

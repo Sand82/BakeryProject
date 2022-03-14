@@ -18,11 +18,11 @@ namespace Bakery.Service
             var productData = this.data.Products.FirstOrDefault(p => p.Id == id);
                        
             var ingridientData = this.data
-                .ProductsIngredients
-                .Where(ip => ip.ProductId == id)
+                .Products
+                .Where(x => x.Id == id)
                 .Select(i => new IngredientAddFormModel
                 {
-                    Name = i.Ingredient.Name,
+                    Name = i.Name,
                 })
                 .ToList();
 

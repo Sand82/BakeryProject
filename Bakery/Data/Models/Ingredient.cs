@@ -6,14 +6,14 @@ namespace Bakery.Data.Models
     {
         public Ingredient()
         {
-            this.Products = new HashSet<ProductsIngredients>();
+            this.Products = new HashSet<Product>();
         }
 
         public int Id { get; init; }
 
         [Required]
         public string Name { get; set; }
-
-        public ICollection<ProductsIngredients> Products { get; set; }
+        
+        public ICollection<Product> Products { get; set; }
     }
 }

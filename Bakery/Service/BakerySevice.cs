@@ -73,9 +73,7 @@ namespace Bakery.Service
                 ImageUrl = formProduct.ImageUrl,
                 Price = formProduct.Price,
             };
-
-            //var ingredients = new List<Ingredient>();
-            
+                                   
             foreach (var ingredient in formProduct.Ingredients)
             {
                 var curredntIngredient = this.data
@@ -90,12 +88,8 @@ namespace Bakery.Service
                     };
                 }
 
-                product.Ingredients.Add(new ProductsIngredients
-                {
-                    IngredientId = curredntIngredient.Id,
-                    ProductId = product.Id
-                });
-                //ingredients.Add(curredntIngredient);
+                product.Ingredients.Add(curredntIngredient);
+                
             }            
 
             AddProduct(product);
@@ -115,7 +109,7 @@ namespace Bakery.Service
                     ImageUrl = p.ImageUrl,
                     Ingredients = p.Ingredients.Select(i => new IngredientAddFormModel
                     {
-                        Name = i.Ingredient.Name
+                        Name = i.Name
                     })
                     .ToList()
                 })
