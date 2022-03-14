@@ -4,7 +4,7 @@
     {
         public Order()
         {
-            this.Products = new HashSet<Product>();
+            this.Products = new HashSet<OrdersProducts>();
         }
 
         public int Id { get; init; }
@@ -19,6 +19,6 @@
 
         //public decimal TottalPrice { get; set; }
 
-        public ICollection<Product> Products { get; set; }
+        public ICollection<OrdersProducts> Products { get; set; }
     }
 }

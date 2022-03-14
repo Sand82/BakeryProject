@@ -27,11 +27,10 @@ namespace Bakery.Data
        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ProductsIngredients>().HasKey(x => new { x.ProductId, x.IngredientId });
+            modelBuilder.Entity<ProductsIngredients>().HasKey(pi => new { pi.ProductId, pi.IngredientId });
 
             modelBuilder.Entity<OrdersProducts>().HasKey(x => new { x.OrderId, x.ProductId });
-
-            base.OnModelCreating(modelBuilder);
+                        
             modelBuilder.Entity<Product>()
                 .Property(p => p.Price)
                 .HasColumnType("decimal(18,2)");

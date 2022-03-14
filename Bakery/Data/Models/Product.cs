@@ -8,9 +8,9 @@ namespace Bakery.Data.Models
     {
         public Product()
         {
-            this.Ingredients = new HashSet<Ingredient>();
+            this.Ingredients = new HashSet<ProductsIngredients>();
 
-            this.Orders = new HashSet<Order>();
+            this.Orders = new HashSet<OrdersProducts>();
         }
 
         [Key]
@@ -31,8 +31,12 @@ namespace Bakery.Data.Models
         [StringLength(ImageMaxLenght)]
         public string ImageUrl { get; set; }
 
-        public ICollection<Ingredient> Ingredients { get; set; }
+        public int IngredientId { get; set; }
 
-        public ICollection<Order> Orders { get; set; }
+        public Ingredient Ingredient { get; set; }
+
+        public ICollection<ProductsIngredients> Ingredients { get; set; }
+
+        public ICollection<OrdersProducts> Orders { get; set; }
     }
 }

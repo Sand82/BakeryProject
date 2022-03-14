@@ -12,6 +12,6 @@
 
         public string ImageUrl { get; set; }
 
-        //public ICollection<IngredientAddFormModel> Ingredients { get; set; }
+        public ICollection<IngredientAddFormModel> Ingredients { get; set; }
     }
 }
