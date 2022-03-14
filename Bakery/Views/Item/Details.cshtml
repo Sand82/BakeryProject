@@ -1,7 +1,7 @@
 ﻿@model DetailsViewModel
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
- <link rel="stylesheet" href="~/css/style1.css" asp-append-version="true" />  
+ <link rel="stylesheet" href="~/css/details.css" asp-append-version="true" />  
 
 @{
     ViewData["Title"] = "Details Item";
@@ -54,6 +54,13 @@
 							<span class="color green"></span>
 							<span class="color blue"></span>
 						</h5>*@
+
+						@foreach (var item in Model.Ingridients)
+						{
+							<ul>	
+								<li>@item.Name</li>
+							</ul>
+						}
 						<div class="action">
 							<button class="add-to-cart btn btn-default" type="button">add to cart</button>
 							<button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>
