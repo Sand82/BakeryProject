@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bakery.Data.Migrations
 {
     [DbContext(typeof(BackeryDbContext))]
-    [Migration("20220314182402_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20220314202414_AddCategories")]
+    partial class AddCategories
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,6 +57,23 @@ namespace Bakery.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Authors");
+                });
+
+            modelBuilder.Entity("Bakery.Data.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Ingredient", b =>
@@ -113,6 +130,9 @@ namespace Bakery.Data.Migrations
                     b.Property<int?>("AuthorId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(1000)
@@ -134,6 +154,8 @@ namespace Bakery.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
                 });
@@ -375,6 +397,14 @@ namespace Bakery.Data.Migrations
                     b.HasOne("Bakery.Data.Models.Author", null)
                         .WithMany("Products")
                         .HasForeignKey("AuthorId");
+
+                    b.HasOne("Bakery.Data.Models.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("IngredientProduct", b =>
@@ -459,6 +489,11 @@ namespace Bakery.Data.Migrations
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Author", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Bakery.Data.Models.Category", b =>
                 {
                     b.Navigation("Products");
                 });

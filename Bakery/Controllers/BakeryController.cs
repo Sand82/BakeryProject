@@ -41,9 +41,12 @@ namespace Bakery.Controllers
             if (!author)
             {
                 return BadRequest();
-            }
+            }            
 
-            return View();
+            return View(new BakeryFormModel
+            {
+                Categories = bakerySevice.GetBakeryCategories()
+            });
         }
 
         [HttpPost]
@@ -53,7 +56,7 @@ namespace Bakery.Controllers
             if (!ModelState.IsValid)
             {
                 return View();
-            }
+            }           
 
             var author = AuthorValidation();
 
@@ -126,6 +129,6 @@ namespace Bakery.Controllers
             }
             
             return isAuthor;
-        }
+        }        
     }
 }

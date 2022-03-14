@@ -151,6 +151,20 @@ namespace Bakery.Service
             this.data.SaveChanges();            
         }
 
+        public IEnumerable<BakryCategoryViewModel> GetBakeryCategories()
+        {
+            var categories = this.data.
+                Categories.
+                Select(c => new BakryCategoryViewModel 
+                { 
+                    Id = c.Id,
+                    Name = c.Name,
+                })
+                .ToList();
+
+            return categories;
+        }
+
         private void AddProduct(Product product)
         {
             this.data.Products.Add(product);

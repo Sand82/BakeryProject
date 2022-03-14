@@ -8,7 +8,8 @@ using static Bakery.WebConstants;
 namespace Bakery.Infrastructure
 {
     public static class ApplicationBuilderExtensions
-    {
+    {       
+
         public static IApplicationBuilder PrepareDatabase(
            this IApplicationBuilder app)
         {
@@ -18,6 +19,8 @@ namespace Bakery.Infrastructure
             var data = serviceProvider.GetRequiredService<BackeryDbContext>();
 
             data.Database.Migrate();
+
+            SeedCategories(data);
 
             SeedAdministrator(serviceProvider);
             //SeedDayOfTheWeek(data)
@@ -44,7 +47,7 @@ namespace Bakery.Infrastructure
             var roleManager = service.GetRequiredService<RoleManager<IdentityRole>>();
 
             Task
-                .Run(async() =>
+                .Run(async () =>
                 {
                     if (await roleManager.RoleExistsAsync(AdministratorRoleName))
                     {
@@ -54,11 +57,11 @@ namespace Bakery.Infrastructure
                     var role = new IdentityRole { Name = AdministratorRoleName };
 
                     await roleManager.CreateAsync(role);
-                                        
+
                     var author = new IdentityUser
                     {
                         Email = "vqra@abv.bg",
-                        UserName = "vqra@abv.bg",                        
+                        UserName = "vqra@abv.bg",
                     };
 
                     await userMager.CreateAsync(author, "123456");
@@ -67,6 +70,25 @@ namespace Bakery.Infrastructure
                 })
                 .GetAwaiter()
                 .GetResult();
+        }
+
+        private static void SeedCategories(BackeryDbContext data)
+        {
+            if (data.Categories.Any())
+            {
+                return;
+            }
+
+            data.Categories.AddRange(new[]
+            {
+                new Category { Name = "Breds" },
+                new Category { Name = "Cookies" },
+                new Category { Name = "Sweets " },
+                new Category { Name = "Specialty" },                
+                new Category { Name = "Cakes" },                
+            });
+
+           data.SaveChanges();
         }
     }
 }

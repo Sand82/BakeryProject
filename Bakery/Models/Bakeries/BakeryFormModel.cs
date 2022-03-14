@@ -28,7 +28,12 @@ namespace Bakery.Models.Bakery
         [Display(Name = "Image URL")]        
         public string ImageUrl { get; set; }
 
+        [Display(Name = "Category")]
+        public int CategoryId { get; set; }
+
         public ICollection<IngredientAddFormModel> Ingredients { get; set; }
+
+        public IEnumerable<BakryCategoryViewModel> Categories { get; set; }
 
         //public ICollection<Order> Orders { get; set; }
     }

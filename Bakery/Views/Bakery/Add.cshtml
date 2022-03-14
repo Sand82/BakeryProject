@@ -24,13 +24,23 @@
                     <span asp-validation-for="ImageUrl" class="small text-danger"></span>
                 </div>
                 <div class="form-type">
+                    <label asp-for="CategoryId">Category</label>
+                    <select asp-for="CategoryId" class="form-control">
+                        @foreach (var category in Model.Categories)
+                        {
+                            <option value=@category.Id>@category.Name</option>
+                        }                        
+                    </select>
+                    <div class="invalid-feedback">Example invalid select feedback</div>
+                </div>
+                <div class="form-type">
                     <label asp-for="Description"></label>
                     <textarea asp-for="Description" rows="3" class="form-control" placeholder="Deliciously baked bread etc..."></textarea>
                     <span asp-validation-for="Description" class="small text-danger"></span>
-                </div>
-                <div id ="IngredientType">   
-                     <label asp-for="Ingredients"></label>
-                     <button type="button" class="btn btn-success mt-4" onclick="AddMoreIngrediants()">Add Ingredient</button>
+                </div>                
+                <div id="IngredientType">
+                    <label asp-for="Ingredients"></label>
+                    <button type="button" class="btn btn-success mt-4" onclick="AddMoreIngrediants()">Add Ingredient</button>
                 </div>
                 <button type="submit" class="btn btn-primary mt-4">Save Product</button>
             </form>
@@ -41,7 +51,7 @@
 @section Scripts {
 <script>
      var ingredientsIndex = 0;
-    function AddMoreIngrediants() {    
+    function AddMoreIngrediants() {
       $("#IngredientType").append(
           "<div class='form-type'> Name: <input type='text' name='Ingredients["+ ingredientsIndex +"].Name' id='' /></div>");
       ingredientsIndex ++;

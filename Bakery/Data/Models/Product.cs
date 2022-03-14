@@ -31,7 +31,11 @@ namespace Bakery.Data.Models
         [StringLength(ImageMaxLenght)]
 
         public string ImageUrl { get; set; }
-        
+
+        public int CategoryId { get; set; }
+
+        public Category Category { get; set; }
+
         public ICollection<Ingredient> Ingredients { get; set; }
 
         public ICollection<Order> Orders { get; set; }
