@@ -22,13 +22,19 @@ namespace Bakery.Service
         {
             var productQuery = this.data.Products.AsQueryable();
 
+            if (!string.IsNullOrWhiteSpace(query.Category))
+            {
+                productQuery = productQuery
+                    .Where(p => p.Category.Name == query.Category);
+            }
+
             if (!string.IsNullOrWhiteSpace(query.SearchTerm))
             {
                 productQuery = productQuery
                     .Where(p =>
                     p.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
                     p.Description.Contains(query.SearchTerm.ToLower()));
-            }
+            }            
 
             if (query.Sorting == BakiesSorting.Name)
             {
@@ -44,7 +50,7 @@ namespace Bakery.Service
             }
 
             var totalProducts = productQuery.Count();
-
+                     
             var products = productQuery
                 .Skip((query.CurrentPage - 1) * AllProductQueryModel.ProductPerPage)
                 .Take(AllProductQueryModel.ProductPerPage)
@@ -55,11 +61,13 @@ namespace Bakery.Service
                     Price = p.Price.ToString("f2"),
                     ImageUrl = p.ImageUrl,
                     Description = p.Description,
+                    
                 })
-                .ToList();
+                .ToList();           
 
             query.TotalProduct = totalProducts;
             query.Products = products;
+            query.Categories = AddCategories();
 
             return query;
         }
@@ -156,6 +164,16 @@ namespace Bakery.Service
             this.data.Products.Add(product);
 
             this.data.SaveChanges();
+        }
+
+        private List<string> AddCategories()
+        {
+            var category = this.data
+               .Categories
+               .Select(p => p.Name)
+               .ToList();
+
+            return category;
         }
     }
 }

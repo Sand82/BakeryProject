@@ -18,6 +18,12 @@ namespace Bakery.Models.Bakeries
 
         public bool IsAuthor { get; set; } = false;
 
+        public string Category { get; set; }
+
+        public IEnumerable<string> Categories { get; set; }
+
         public IEnumerable<AllProductViewModel> Products { get; set; }
+
+        
     }
 }
