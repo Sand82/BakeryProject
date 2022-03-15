@@ -22,7 +22,7 @@ namespace Bakery.Data.Models
         [Required]
         public string ImageUrl { get; set; }  
         
-        public string AuthorId { get; set; }
+        public string? AuthorId { get; set; }
 
         public ICollection<Product> Products { get; set; }
     }

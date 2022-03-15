@@ -11,15 +11,15 @@ namespace Bakery.Controllers
 {
     public class BakeryController : Controller
     {
-        private readonly IBakerySevice bakerySevice;
-        private readonly BackeryDbContext data;
+        private readonly IBakerySevice bakerySevice;    
         private readonly IAuthorService authorService;
+        private readonly BackeryDbContext data;
 
-        public BakeryController(IBakerySevice bakerySevice, BackeryDbContext data, IAuthorService authorService)
+        public BakeryController(IBakerySevice bakerySevice,IAuthorService authorService, BackeryDbContext data)
         {
-            this.bakerySevice = bakerySevice;
-            this.data = data;
+            this.bakerySevice = bakerySevice;          
             this.authorService = authorService;
+            this.data = data;
         }
 
         public IActionResult All([FromQuery] AllProductQueryModel query)
@@ -42,20 +42,26 @@ namespace Bakery.Controllers
             {
                 return BadRequest();
             }            
+            var formProduct = new BakeryFormModel{ Categories = GetBakeryCategories()};
 
-            return View(new BakeryFormModel
-            {
-                Categories = bakerySevice.GetBakeryCategories()
-            });
+            return View(formProduct);
         }
 
         [HttpPost]
         [Authorize]
         public IActionResult Add(BakeryFormModel formProduct)
         {
+            
+            if (!this.data.Categories.Any(c => c.Id == formProduct.CategoryId))
+            {
+                this.ModelState.AddModelError(nameof(formProduct.CategoryId), "Category does not exist.");
+            }
+
             if (!ModelState.IsValid)
             {
-                return View();
+                formProduct.Categories = GetBakeryCategories();
+
+                return View(formProduct);
             }           
 
             var author = AuthorValidation();
@@ -129,6 +135,19 @@ namespace Bakery.Controllers
             }
             
             return isAuthor;
-        }        
+        }
+        private IEnumerable<BakryCategoryViewModel> GetBakeryCategories()
+        {
+            var categories = this.data.
+                Categories.
+                Select(c => new BakryCategoryViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                })
+                .ToList();
+
+            return categories;
+        }
     }
 }

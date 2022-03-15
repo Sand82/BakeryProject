@@ -23,6 +23,9 @@ namespace Bakery.Infrastructure
             SeedCategories(data);
 
             SeedAdministrator(serviceProvider);
+
+            SeedAuthor(data);
+
             //SeedDayOfTheWeek(data)
 
             return app;
@@ -66,7 +69,7 @@ namespace Bakery.Infrastructure
 
                     await userMager.CreateAsync(author, "123456");
 
-                    await userMager.AddToRoleAsync(author, role.Name);
+                    await userMager.AddToRoleAsync(author, role.Name);                   
                 })
                 .GetAwaiter()
                 .GetResult();
@@ -89,6 +92,25 @@ namespace Bakery.Infrastructure
             });
 
            data.SaveChanges();
+        }
+
+        private static void SeedAuthor(BackeryDbContext data) 
+        {
+            if (data.Authors.Any())
+            {
+                return;
+            }
+
+            data.Authors.Add(new Author
+            {
+                FirstName = "Vqra",
+                LastName = "Hristova",
+                Description = "Great baker. Always baking with the hart.",
+                ImageUrl = "https://thatbreadlady.com/wp-content/uploads/2020/10/that-bread-lady-about-me-683x1024.jpg"
+
+            });
+
+            data.SaveChanges();
         }
     }
 }

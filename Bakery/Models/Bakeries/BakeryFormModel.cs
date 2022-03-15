@@ -33,7 +33,7 @@ namespace Bakery.Models.Bakery
 
         public ICollection<IngredientAddFormModel> Ingredients { get; set; }
 
-        public IEnumerable<BakryCategoryViewModel> Categories { get; set; }
+        public IEnumerable<BakryCategoryViewModel>? Categories { get; set; } 
 
         //public ICollection<Order> Orders { get; set; }
     }

@@ -72,6 +72,7 @@ namespace Bakery.Service
                 Description = formProduct.Description,
                 ImageUrl = formProduct.ImageUrl,
                 Price = formProduct.Price,
+                CategoryId = formProduct.CategoryId
             };
                                    
             foreach (var ingredient in formProduct.Ingredients)
@@ -88,8 +89,7 @@ namespace Bakery.Service
                     };
                 }
 
-                product.Ingredients.Add(curredntIngredient);
-                
+                product.Ingredients.Add(curredntIngredient);                
             }            
 
             AddProduct(product);
@@ -150,21 +150,7 @@ namespace Bakery.Service
 
             this.data.SaveChanges();            
         }
-
-        public IEnumerable<BakryCategoryViewModel> GetBakeryCategories()
-        {
-            var categories = this.data.
-                Categories.
-                Select(c => new BakryCategoryViewModel 
-                { 
-                    Id = c.Id,
-                    Name = c.Name,
-                })
-                .ToList();
-
-            return categories;
-        }
-
+               
         private void AddProduct(Product product)
         {
             this.data.Products.Add(product);
