@@ -116,6 +116,7 @@ namespace Bakery.Service
                     Description = p.Description,
                     Price = p.Price,
                     ImageUrl = p.ImageUrl,
+                    CategoryId = p.CategoryId,
                     Ingredients = p.Ingredients.Select(i => new IngredientAddFormModel
                     {
                         Name = i.Name

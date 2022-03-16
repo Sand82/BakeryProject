@@ -12,8 +12,10 @@
 
         public string ImageUrl { get; set; }
 
-        public string Category { get; set; }
+        public int CategoryId { get; set; }
 
-        public ICollection<IngredientAddFormModel> Ingredients { get; set; }
+        public IEnumerable<BakryCategoryViewModel>? Categories { get; set; }
+
+        public ICollection<IngredientAddFormModel>? Ingredients { get; set; }
     }
 }

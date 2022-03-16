@@ -1,8 +1,9 @@
 ﻿using Bakery.Data;
 using Bakery.Data.Models;
-using Bakery.Infrastructure.Models;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
 using static Bakery.WebConstants;
 
 namespace Bakery.Infrastructure
@@ -26,7 +27,7 @@ namespace Bakery.Infrastructure
 
             SeedAuthor(data);
 
-            SeedProducts(data);
+            //SeedProducts(data);
 
             //SeedDayOfTheWeek(data)
 
@@ -269,7 +270,7 @@ namespace Bakery.Infrastructure
         }
 
         private static void CreateProduct(List<SeedingProductModel> productsDTO, BackeryDbContext data)
-        {            
+        {
 
             foreach (var product in productsDTO)
             {
@@ -279,8 +280,11 @@ namespace Bakery.Infrastructure
                     Price = product.Price,
                     Description = product.Description,
                     ImageUrl = product.ImageUrl,
-                    Category = new Category { Name = product.Category },
                 };
+
+                var category = data.Categories.Where(c => c.Name == product.Category).FirstOrDefault();
+
+                currProduct.CategoryId = category.Id;
 
                 foreach (var ingredient in product.Ingredients)
                 {
@@ -298,7 +302,7 @@ namespace Bakery.Infrastructure
                 }
 
                 AddInDatabase(currProduct, data);
-            }            
+            }
         }
 
         private static void AddInDatabase(Product currProduct, BackeryDbContext data)

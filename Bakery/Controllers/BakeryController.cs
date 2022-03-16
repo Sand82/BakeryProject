@@ -88,13 +88,9 @@ namespace Bakery.Controllers
 
             var product = bakerySevice.EditProduct(id);
 
-            return View(new ProductDetailsServiceModel
-            {
-                Name = product.Name,
-                Description = product.Description,
-                ImageUrl = product.ImageUrl,
-                Price = product.Price,
-            });
+            product.Categories = GetBakeryCategories();
+
+            return View(product);
         }
 
         [Authorize]
