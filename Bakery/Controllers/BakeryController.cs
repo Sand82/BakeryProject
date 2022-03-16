@@ -100,6 +100,8 @@ namespace Bakery.Controllers
 
             if (!ModelState.IsValid)
             {
+                product.Categories = GetBakeryCategories();
+
                 return View();
             }
 

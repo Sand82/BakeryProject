@@ -23,6 +23,15 @@
                     <input asp-for="ImageUrl" class="form-control" placeholder="Place image of the product here">
                     <span asp-validation-for="ImageUrl" class="small text-danger"></span>
                 </div>
+                 <div class="form-type">
+                    <label asp-for="CategoryId">Category</label>
+                    <select asp-for="CategoryId" class="form-control">
+                        @foreach (var category in Model.Categories)
+                        {
+                            <option value="@category.Id">@category.Name</option>
+                        }
+                    </select>
+                </div>          
                 <div class="form-type">
                     <label asp-for="Description"></label>
                     <textarea asp-for="Description" rows="3" class="form-control" placeholder="Deliciously baked bread etc..."></textarea>

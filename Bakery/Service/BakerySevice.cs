@@ -136,7 +136,7 @@ namespace Bakery.Service
             productDate.Description = product.Description;
             productDate.Price = product.Price;
             productDate.ImageUrl = product.ImageUrl;
-            //productDate.Category 
+            productDate.CategoryId = product.CategoryId; 
 
             //var ingredients = new List<Ingredient>();
 
