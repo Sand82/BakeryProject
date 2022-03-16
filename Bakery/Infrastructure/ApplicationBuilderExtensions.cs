@@ -1,5 +1,6 @@
 ﻿using Bakery.Data;
 using Bakery.Data.Models;
+using Bakery.Infrastructure.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using static Bakery.WebConstants;
@@ -7,7 +8,7 @@ using static Bakery.WebConstants;
 namespace Bakery.Infrastructure
 {
     public static class ApplicationBuilderExtensions
-    {       
+    {
 
         public static IApplicationBuilder PrepareDatabase(
            this IApplicationBuilder app)
@@ -32,7 +33,7 @@ namespace Bakery.Infrastructure
             return app;
         }
 
-        
+
 
         private static void SeedDayOfTheWeek(BackeryDbContext data)
         {
@@ -72,7 +73,7 @@ namespace Bakery.Infrastructure
 
                     await userMager.CreateAsync(author, "123456");
 
-                    await userMager.AddToRoleAsync(author, role.Name);                   
+                    await userMager.AddToRoleAsync(author, role.Name);
                 })
                 .GetAwaiter()
                 .GetResult();
@@ -90,14 +91,14 @@ namespace Bakery.Infrastructure
                 new Category { Name = "Breds" },
                 new Category { Name = "Cookies" },
                 new Category { Name = "Sweets " },
-                new Category { Name = "Specialty" },                
-                new Category { Name = "Cakes" },                
+                new Category { Name = "Specialty" },
+                new Category { Name = "Cakes" },
             });
 
-           data.SaveChanges();
+            data.SaveChanges();
         }
 
-        private static void SeedAuthor(BackeryDbContext data) 
+        private static void SeedAuthor(BackeryDbContext data)
         {
             if (data.Authors.Any())
             {
@@ -123,151 +124,187 @@ namespace Bakery.Infrastructure
                 return;
             }
 
-            var products = new List<Product>();
+            var productsDTO = new List<SeedingProductModel>();
 
-            products.AddRange(new[]
+            productsDTO.AddRange(new[]
             {
-                new Product
+                new SeedingProductModel
                 {
                     ImageUrl = "https://img.taste.com.au/aourKSds/w720-h480-cfill-q80/taste/2017/12/muffin-pan-fried-rice-cups-133596-1.jpg",
                     Name = "Muffin-pan fried rice cups",
                     Description="Turn a family-favourite into delicious freezer-friendly muffins - perfect for school and work lunch boxes.",
                     Price = 4.30M,
-                    Category = new Category { Name = "Cakes"},
-                    Ingredients = new List<Ingredient>()
+                    Category = "Cakes",
+                    Ingredients = new List<SeedingIngredientModel>()
                     {
-                        new Ingredient {Name = "brown rice"},
-                        new Ingredient {Name = "bacon"},
-                        new Ingredient {Name = "onion"},
-                        new Ingredient {Name = "frozen peas"},
-                        new Ingredient {Name = "corn"},
-                        new Ingredient {Name = "sauce"},
-                        new Ingredient {Name = "eggs"},
+                         new SeedingIngredientModel {Name = "brown rice" },
+                         new SeedingIngredientModel { Name = "bacon"},
+                         new SeedingIngredientModel { Name = "onion"},
+                         new SeedingIngredientModel { Name = "frozen peas"},
+                         new SeedingIngredientModel { Name = "corn"},
+                         new SeedingIngredientModel { Name = "sauce"},
+                         new SeedingIngredientModel { Name = "eggs"},
                     }
 
                 },
-                new Product
+                new SeedingProductModel
                 {
                     Name = "Quick and easy pizza muffins",
                     ImageUrl = "https://img.taste.com.au/VRktMUgZ/w720-h480-cfill-q80/taste/2016/11/quick-and-easy-pizza-muffins-107044-1.jpeg",
                     Description="These quick and easy pizza muffins can be made with a variety of toppings - so there's something everyone will love!",
                     Price = 2.55M,
-                    Category = new Category { Name = "Specialty"},
-                    Ingredients = new List<Ingredient>()
+                    Category = "Specialty",
+                    Ingredients = new List<SeedingIngredientModel>()
                     {
-                        new Ingredient {Name = "fluor"},
-                        new Ingredient {Name = "sugar"},
-                        new Ingredient {Name = "salt"},
-                        new Ingredient {Name = "extra virgin olive oil"},
-                        new Ingredient {Name = "pizza sauce"},
-                        new Ingredient {Name = "mozzarella cheese"},
-                        new Ingredient {Name = "fresh basil"},
-                        new Ingredient {Name = "tomatoes"},
-                        new Ingredient {Name = "mixed herbs"},
+                       new SeedingIngredientModel {Name = "fluor"},
+                       new SeedingIngredientModel {Name = "sugar"},
+                       new SeedingIngredientModel {Name = "salt"},
+                       new SeedingIngredientModel {Name = "extra virgin olive oil"},
+                       new SeedingIngredientModel {Name = "pizza sauce"},
+                       new SeedingIngredientModel {Name = "mozzarella cheese"},
+                       new SeedingIngredientModel {Name = "fresh basil"},
+                       new SeedingIngredientModel {Name = "tomatoes"},
+                       new SeedingIngredientModel {Name = "mixed herbs"},
                     }
 
                 },
-                new Product
+                new SeedingProductModel
                 {
                     Name = "Strawberry scone cakes",
                     ImageUrl = "https://img.taste.com.au/sc07Cz8f/w720-h480-cfill-q80/taste/2016/11/strawberry-scone-cakes-104539-1.jpeg",
                     Description="For the perfect afternoon treat, try one of these delicious strawberry scone cakes.",
                     Price = 3.30M,
-                    Category = new Category { Name = "Cakes"},
-                    Ingredients = new List<Ingredient>()
+                    Category = "Cakes",
+                    Ingredients = new List<SeedingIngredientModel>()
                     {
-                        new Ingredient {Name = "butter"},
-                        new Ingredient {Name = "flour"},
-                        new Ingredient {Name = "baking powder "},
-                        new Ingredient {Name = "sugar"},
-                        new Ingredient {Name = "vanilla"},
-                        new Ingredient {Name = "buttermilk"},
-                        new Ingredient {Name = "strawberries"},
-                        new Ingredient {Name = "eggs"},
-                        new Ingredient {Name = "cream"},
-                        new Ingredient {Name = "sugar"},
+                        new SeedingIngredientModel {Name = "butter"},
+                        new SeedingIngredientModel {Name = "flour"},
+                        new SeedingIngredientModel {Name = "baking powder "},
+                        new SeedingIngredientModel {Name = "sugar"},
+                        new SeedingIngredientModel {Name = "vanilla"},
+                        new SeedingIngredientModel {Name = "buttermilk"},
+                        new SeedingIngredientModel {Name = "strawberries"},
+                        new SeedingIngredientModel {Name = "eggs"},
+                        new SeedingIngredientModel {Name = "cream"},
+                        new SeedingIngredientModel {Name = "sugar"},
                     }
 
                 },
-                 new Product
+                 new SeedingProductModel
                 {
                     Name = "Chunky chocolate, coconut and banana muffins",
                     ImageUrl = "https://img.taste.com.au/9XWAiVDI/w720-h480-cfill-q80/taste/2016/11/chunky-chocolate-coconut-and-banana-muffins-101038-1.jpeg",
                     Description="Indulge in these healthier banana muffins. The whole family will love them!",
                     Price = 1.70M,
-                    Category = new Category { Name = "Specialty"},
-                    Ingredients = new List<Ingredient>()
+                    Category = "Specialty",
+                    Ingredients = new List<SeedingIngredientModel>()
                     {
-                        new Ingredient {Name = "bananas"},
-                        new Ingredient {Name = "eggs"},
-                        new Ingredient {Name = "coconut oil"},
-                        new Ingredient {Name = "baking soda"},
-                        new Ingredient {Name = "salt"},
-                        new Ingredient {Name = "chocolate"},
+                        new SeedingIngredientModel {Name = "bananas"},
+                        new SeedingIngredientModel {Name = "eggs"},
+                        new SeedingIngredientModel {Name = "coconut oil"},
+                        new SeedingIngredientModel {Name = "baking soda"},
+                        new SeedingIngredientModel {Name = "salt"},
+                        new SeedingIngredientModel {Name = "chocolate"},
                     }
                 },
-                new Product
+                new SeedingProductModel
                 {
                     Name = "Crispy mac and cheese muffins",
                     ImageUrl = "https://img.taste.com.au/pOxxyEq6/w720-h480-cfill-q80/taste/2016/11/crispy-mac-and-cheese-muffins-103157-1.jpeg",
                     Description="Create extra-crunchy edges with these crispy mac and cheese muffins!",
                     Price = 2.30M,
-                    Category = new Category { Name = "Specialty"},
-                    Ingredients = new List<Ingredient>()
+                    Category = "Specialty",
+                    Ingredients = new List<SeedingIngredientModel>()
                     {
-                        new Ingredient {Name = "pasta"},
-                        new Ingredient {Name = "milk"},
-                        new Ingredient {Name = "bay leaf"},
-                        new Ingredient {Name = "black peppercorns"},
-                        new Ingredient {Name = "bacon"},
-                        new Ingredient {Name = "oil"},
-                        new Ingredient {Name = "butter"},
-                        new Ingredient {Name = "fluor"},
-                        new Ingredient {Name = "Dijon mustard"},
-                        new Ingredient {Name = "eggs"},
-                        new Ingredient {Name = "bocconcini"},
+                        new SeedingIngredientModel {Name = "pasta"},
+                        new SeedingIngredientModel {Name = "milk"},
+                        new SeedingIngredientModel {Name = "bay leaf"},
+                        new SeedingIngredientModel {Name = "black peppercorns"},
+                        new SeedingIngredientModel {Name = "bacon"},
+                        new SeedingIngredientModel {Name = "oil"},
+                        new SeedingIngredientModel {Name = "butter"},
+                        new SeedingIngredientModel {Name = "fluor"},
+                        new SeedingIngredientModel {Name = "Dijon mustard"},
+                        new SeedingIngredientModel {Name = "eggs"},
+                        new SeedingIngredientModel {Name = "bocconcini"},
                     }
                 },
-                new Product
+                new SeedingProductModel
                 {
                     Name = "Spaghetti bolognese cups",
                     ImageUrl = "https://img.taste.com.au/Ef2B2kGg/w720-h480-cfill-q80/taste/2020/01/apple-and-custard-muffins-158075-2.jpg",
                     Description="Freeze a batch of our delicious apple-custard muffins and they'll keep for up to three months. Is it afternoon tea time yet?",
                     Price = 2.30M,
-                    Category = new Category { Name = "Specialty"},
-                    Ingredients = new List<Ingredient>()
+                    Category = "Specialty",
+                    Ingredients = new List<SeedingIngredientModel>()
                     {
-                        new Ingredient {Name = "milk"},
-                        new Ingredient {Name = "oil"},
-                        new Ingredient {Name = "apple puree"},
-                        new Ingredient {Name = "flour"},
-                        new Ingredient {Name = "sugar"},
-                        new Ingredient {Name = "cinnamon"},
-                        new Ingredient {Name = "maple syrup"},
+                        new SeedingIngredientModel {Name = "milk"},
+                        new SeedingIngredientModel {Name = "oil"},
+                        new SeedingIngredientModel {Name = "apple puree"},
+                        new SeedingIngredientModel {Name = "flour"},
+                        new SeedingIngredientModel {Name = "sugar"},
+                        new SeedingIngredientModel {Name = "cinnamon"},
+                        new SeedingIngredientModel {Name = "maple syrup"},
                     }
                 },
-                new Product
+                new SeedingProductModel
                 {
                     Name = "Breakfast hash brown and egg cups",
                     ImageUrl = "https://img.taste.com.au/S9LtJYEu/w720-h480-cfill-q80/taste/2016/11/breakfast-hash-brown-and-egg-cups-107032-1.jpeg",
                     Description="These fun egg, bacon and hash brown breakfast cups are a great treat for the weekend.",
                     Price = 3.20M,
-                    Category = new Category { Name = "Specialty"},
-                    Ingredients = new List<Ingredient>()
+                    Category = "Specialty",
+                    Ingredients = new List<SeedingIngredientModel>()
                     {
-                        new Ingredient {Name = "potatoes"},
-                        new Ingredient {Name = "parmesan"},
-                        new Ingredient {Name = "bacon"},
-                        new Ingredient {Name = "chives"},
-                        new Ingredient {Name = "eggs"},
+                        new SeedingIngredientModel {Name = "potatoes"},
+                        new SeedingIngredientModel {Name = "parmesan"},
+                        new SeedingIngredientModel {Name = "bacon"},
+                        new SeedingIngredientModel {Name = "chives"},
+                        new SeedingIngredientModel {Name = "eggs"},
                     }
                 },
             });
 
-            products.SelectMany(p => p.Ingredients).Distinct();
+            CreateProduct(productsDTO, data);
+        }
 
-            data.Products.AddRange(products);
-                      
+        private static void CreateProduct(List<SeedingProductModel> productsDTO, BackeryDbContext data)
+        {            
+
+            foreach (var product in productsDTO)
+            {
+                var currProduct = new Product
+                {
+                    Name = product.Name,
+                    Price = product.Price,
+                    Description = product.Description,
+                    ImageUrl = product.ImageUrl,
+                    Category = new Category { Name = product.Category },
+                };
+
+                foreach (var ingredient in product.Ingredients)
+                {
+                    var currIngredient = data.Ingredients.FirstOrDefault(i => i.Name == ingredient.Name);
+
+                    if (currIngredient == null)
+                    {
+                        currIngredient = new Ingredient
+                        {
+                            Name = ingredient.Name,
+                        };
+                    }
+
+                    currProduct.Ingredients.Add(currIngredient);
+                }
+
+                AddInDatabase(currProduct, data);
+            }            
+        }
+
+        private static void AddInDatabase(Product currProduct, BackeryDbContext data)
+        {
+            data.Products.Add(currProduct);
+
             data.SaveChanges();
         }
     }
