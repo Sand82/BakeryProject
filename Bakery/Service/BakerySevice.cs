@@ -34,7 +34,7 @@ namespace Bakery.Service
                     .Where(p =>
                     p.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
                     p.Description.Contains(query.SearchTerm.ToLower()));
-            }            
+            }
 
             if (query.Sorting == BakiesSorting.Name)
             {
@@ -50,7 +50,7 @@ namespace Bakery.Service
             }
 
             var totalProducts = productQuery.Count();
-                     
+
             var products = productQuery
                 .Skip((query.CurrentPage - 1) * AllProductQueryModel.ProductPerPage)
                 .Take(AllProductQueryModel.ProductPerPage)
@@ -61,13 +61,14 @@ namespace Bakery.Service
                     Price = p.Price.ToString("f2"),
                     ImageUrl = p.ImageUrl,
                     Description = p.Description,
-                    
+                    Category = p.Category.Name
                 })
-                .ToList();           
+                .ToList();
+            
+            query.Categories = AddCategories();            
 
             query.TotalProduct = totalProducts;
-            query.Products = products;
-            query.Categories = AddCategories();
+            query.Products = products;            
 
             return query;
         }
@@ -82,7 +83,7 @@ namespace Bakery.Service
                 Price = formProduct.Price,
                 CategoryId = formProduct.CategoryId
             };
-                                   
+
             foreach (var ingredient in formProduct.Ingredients)
             {
                 var curredntIngredient = this.data
@@ -97,12 +98,12 @@ namespace Bakery.Service
                     };
                 }
 
-                product.Ingredients.Add(curredntIngredient);                
-            }            
+                product.Ingredients.Add(curredntIngredient);
+            }
 
             AddProduct(product);
         }
-        
+
         public ProductDetailsServiceModel EditProduct(int id)
         {
             var product = this.data
@@ -134,6 +135,7 @@ namespace Bakery.Service
             productDate.Description = product.Description;
             productDate.Price = product.Price;
             productDate.ImageUrl = product.ImageUrl;
+            //productDate.Category 
 
             //var ingredients = new List<Ingredient>();
 
@@ -156,9 +158,9 @@ namespace Bakery.Service
 
             //productDate.Ingredients = ingredients;
 
-            this.data.SaveChanges();            
+            this.data.SaveChanges();
         }
-               
+
         private void AddProduct(Product product)
         {
             this.data.Products.Add(product);
@@ -171,6 +173,8 @@ namespace Bakery.Service
             var category = this.data
                .Categories
                .Select(p => p.Name)
+               .Distinct()
+               .OrderBy(c => c)
                .ToList();
 
             return category;

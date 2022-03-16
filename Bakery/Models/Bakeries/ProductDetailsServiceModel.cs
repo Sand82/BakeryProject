@@ -12,6 +12,8 @@
 
         public string ImageUrl { get; set; }
 
+        public string Category { get; set; }
+
         public ICollection<IngredientAddFormModel> Ingredients { get; set; }
     }
 }
