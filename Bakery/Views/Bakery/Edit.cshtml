@@ -23,7 +23,7 @@
                     <input asp-for="ImageUrl" class="form-control" placeholder="Place image of the product here">
                     <span asp-validation-for="ImageUrl" class="small text-danger"></span>
                 </div>
-                 <div class="form-type">
+                <div class="form-type">
                     <label asp-for="CategoryId">Category</label>
                     <select asp-for="CategoryId" class="form-control">
                         @foreach (var category in Model.Categories)
@@ -31,20 +31,22 @@
                             <option value="@category.Id">@category.Name</option>
                         }
                     </select>
-                </div>          
+                </div>
                 <div class="form-type">
                     <label asp-for="Description"></label>
                     <textarea asp-for="Description" rows="3" class="form-control" placeholder="Deliciously baked bread etc..."></textarea>
                     <span asp-validation-for="Description" class="small text-danger"></span>
                 </div>
-                @*<div id ="IngredientType">   
-                     <label asp-for="Ingredients"></label>
-                     @foreach (var ingredient in Model.Ingredients)
-                     {
-                         <label asp-for="Ingredient.Name"></label>
-                         <input asp-for="ingredient" class="form-control" placeholder="">
-                     }
-                </div>*@
+                <div class="form-type">
+                    <div id="IngredientType">
+                        <label asp-for="Ingredients"></label>
+                        @foreach (var ingredient in Model.Ingredients)
+                        {
+                            <label asp-for="@ingredient.Name"></label>
+                            <input asp-for="@ingredient.Name" class="form-control" placeholder="">
+                        }
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-primary mt-4">Save Product</button>
             </form>
         </div>

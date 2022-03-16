@@ -14,6 +14,6 @@ namespace Bakery.Service
 
         void Edit(int id, ProductDetailsServiceModel product);
 
-        //IEnumerable<BakryCategoryViewModel> GetBakeryCategories();
+        IEnumerable<BakryCategoryViewModel> GetBakeryCategories();       
     }
 }

@@ -42,7 +42,7 @@ namespace Bakery.Controllers
             {
                 return BadRequest();
             }            
-            var formProduct = new BakeryFormModel{ Categories = GetBakeryCategories()};
+            var formProduct = new BakeryFormModel{ Categories = bakerySevice.GetBakeryCategories()};
 
             return View(formProduct);
         }
@@ -59,7 +59,7 @@ namespace Bakery.Controllers
 
             if (!ModelState.IsValid)
             {
-                formProduct.Categories = GetBakeryCategories();
+                formProduct.Categories = bakerySevice.GetBakeryCategories();
 
                 return View(formProduct);
             }           
@@ -88,7 +88,7 @@ namespace Bakery.Controllers
 
             var product = bakerySevice.EditProduct(id);
 
-            product.Categories = GetBakeryCategories();
+            product.Categories = bakerySevice.GetBakeryCategories();            
 
             return View(product);
         }
@@ -100,7 +100,7 @@ namespace Bakery.Controllers
 
             if (!ModelState.IsValid)
             {
-                product.Categories = GetBakeryCategories();
+                product.Categories = bakerySevice.GetBakeryCategories();
 
                 return View();
             }
@@ -133,19 +133,6 @@ namespace Bakery.Controllers
             }
             
             return isAuthor;
-        }
-        private IEnumerable<BakryCategoryViewModel> GetBakeryCategories()
-        {
-            var categories = this.data.
-                Categories.
-                Select(c => new BakryCategoryViewModel
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                })
-                .ToList();
-
-            return categories;
-        }
+        }       
     }
 }
