@@ -25,7 +25,7 @@ namespace Bakery.Infrastructure
 
             SeedAdministrator(serviceProvider);
 
-            SeedAuthor(data);
+            //SeedAuthor(data);
 
             //SeedProducts(data);
 
@@ -51,7 +51,7 @@ namespace Bakery.Infrastructure
 
         private static void SeedAdministrator(IServiceProvider service)
         {
-            var userMager = service.GetRequiredService<UserManager<IdentityUser>>();
+            var userMager = service.GetRequiredService<UserManager<User>>();
             var roleManager = service.GetRequiredService<RoleManager<IdentityRole>>();
 
             Task
@@ -66,7 +66,7 @@ namespace Bakery.Infrastructure
 
                     await roleManager.CreateAsync(role);
 
-                    var author = new IdentityUser
+                    var author = new User
                     {
                         Email = "vqra@abv.bg",
                         UserName = "vqra@abv.bg",
