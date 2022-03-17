@@ -24,6 +24,7 @@ namespace Bakery.Service
                 .Where(p => p.Id == id)
                 .Select(p => new DetailsViewModel 
                 { 
+                   Id = p.Id,
                    Name = p.Name,
                    Price = p.Price.ToString("f2"),
                    Description = p.Description,
