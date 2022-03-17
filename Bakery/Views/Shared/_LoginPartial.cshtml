@@ -1,9 +1,7 @@
-﻿@using Bakery.Data.Models
-@using static Bakery.Infrastructure.ClaimsPrincipalExtensions
-
-@inject SignInManager<User> SignInManager
-@inject UserManager<User> UserManager
+﻿@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 @inject IAuthorService authorService
+@using static Bakery.Infrastructure.ClaimsPrincipalExtensions
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))

@@ -1,6 +1,7 @@
 ﻿using Bakery.Data;
 using Bakery.Models.Bakeries;
 using Bakery.Models.Items;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bakery.Service
 {
@@ -15,25 +16,28 @@ namespace Bakery.Service
 
         public DetailsViewModel GetDetails(int id)
         {
-            var productData = this.data.Products.FirstOrDefault(p => p.Id == id);
-                       
-            var ingridientData = this.data
-                .Products
-                .Where(x => x.Id == id)
-                .Select(i => new IngredientAddFormModel
-                {
-                    Name = i.Name,
-                })
-                .ToList();
+            //var productData = this.data.Products.FirstOrDefault(p => p.Id == id);
 
-            var product = new DetailsViewModel
-            {
-                Name = productData.Name,
-                ImageUrl = productData.ImageUrl,
-                Price = productData.Price.ToString("f2"),
-                Description = productData.Description,
-                Ingridients = ingridientData,
-            };
+            var product = this.data.
+                 Products
+                .Include(i => i.Ingredients)
+                .Where(p => p.Id == id)
+                .Select(p => new DetailsViewModel 
+                { 
+                   Name = p.Name,
+                   Price = p.Price.ToString("f2"),
+                   Description = p.Description,
+                   ImageUrl = p.ImageUrl,
+                   Category = p.Category.Name,
+                   Ingridients = p.Ingredients.Select(i => new IngredientAddFormModel
+                   {
+                        Name = i.Name,
+                   })
+                   .OrderBy(i => i.Name)
+                   .ToList()
+
+                })
+                .FirstOrDefault();           
 
             return product;
         }

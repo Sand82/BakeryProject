@@ -17,6 +17,10 @@
 
         public int OrderProductsCount { get; set; }
 
+        public int Count { get; set; }
+
+        public bool IsPayed { get; set; } = false;
+
         //public decimal TottalPrice { get; set; }
 
         public ICollection<Product> Products { get; set; }

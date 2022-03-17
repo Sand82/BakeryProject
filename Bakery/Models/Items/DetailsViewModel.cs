@@ -12,6 +12,8 @@ namespace Bakery.Models.Items
 
         public string Description { get; set; }
 
+        public string Category { get; set; }
+
         public ICollection<IngredientAddFormModel> Ingridients { get; set; }
     }
 }
