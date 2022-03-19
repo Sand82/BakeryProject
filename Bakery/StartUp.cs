@@ -29,6 +29,7 @@ builder.Services.AddTransient<IBakerySevice, BakerySevice>();
 builder.Services.AddTransient<IHomeService, HomeService>();
 builder.Services.AddTransient<IItemsService, ItemsService>();
 builder.Services.AddTransient<IAuthorService, AuthorService>();
+builder.Services.AddTransient<IVoteService, VoteService>();
 
 var app = builder.Build();
 

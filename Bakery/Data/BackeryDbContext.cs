@@ -20,8 +20,10 @@ namespace Bakery.Data
 
         public DbSet<Product> Products { get; set; }
 
-        public DbSet<Order> Orders { get; set; }       
-               
+        public DbSet<Order> Orders { get; set; }     
+        
+        public DbSet<Vote> Votes { get; set; }   
+                       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {           
                         

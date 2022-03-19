@@ -22,6 +22,7 @@ namespace Bakery.Controllers
             this.data = data;
         }
 
+        [Authorize]
         public IActionResult All([FromQuery] AllProductQueryModel query)
         {
             var userId = User.GetId();

@@ -8,15 +8,20 @@ namespace Bakery.Service
     public class ItemsService : IItemsService
     {
         private readonly BackeryDbContext data;
+        private readonly IVoteService voteService;
 
-        public ItemsService(BackeryDbContext data)
+        public ItemsService(BackeryDbContext data, IVoteService voteService)
         {
             this.data = data;
+            this.voteService = voteService;
+            this.voteService = voteService;
         }
 
         public DetailsViewModel GetDetails(int id)
         {
             //var productData = this.data.Products.FirstOrDefault(p => p.Id == id);
+                        
+            var averageVoteCount = (int)Math.Floor(voteService.GetAverage(id));
 
             var product = this.data.
                  Products
@@ -30,6 +35,8 @@ namespace Bakery.Service
                    Description = p.Description,
                    ImageUrl = p.ImageUrl,
                    Category = p.Category.Name,
+                   VoteCount = averageVoteCount,
+                   Vote = 0,
                    Ingridients = p.Ingredients.Select(i => new IngredientAddFormModel
                    {
                         Name = i.Name,
