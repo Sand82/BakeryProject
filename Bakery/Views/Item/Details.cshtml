@@ -43,23 +43,26 @@
                                 {
                                     <span class="fa fa-star"></span>
                                 }
-                            }                          
-
-                            <form class="row g-2">
+                            } 
+                            
+                            @if (Model.Vote == 0)
+                            {
+                                <form class="row g-2">
                                 <div class="col-auto">
-                                    <button asp-controller="Item" asp-action="Vote" asp-route-id="@Model.Id" class="btn btn-warning mb-3">Vote</button>
+                                    <button asp-controller="Item" asp-action="Vote" asp-route-id="@Model.Id" class="add-to-cart btn btn-default mb-3" style="padding: 0.4em 1.5em;">Vote</button>
                                 </div>
                                
                                 <div class="col-auto">                                    
                                     <select asp-for="Vote" class="form-control">                                        
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
+                                            <option value="5">5</option>
                                             <option value="4">4</option>
-                                            <option value="5">5</option>                                        
+                                            <option value="3">3</option>
+                                            <option value="2">2</option>
+                                            <option value="1">1</option>                                        
                                     </select>
                                 </div>
-                            </form>                            
+                            </form> 
+                            }                                                       
                         </div>
                         @*<span class="review-no">41 reviews</span>*@
                     </div>

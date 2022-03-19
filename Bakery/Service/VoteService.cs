@@ -13,6 +13,17 @@ namespace Bakery.Service
             this.data = data;
         }
 
+        public int GetValue(string userId, int productId)
+        {
+            var value = this.data.Votes
+                .Where(p => p.ProductId == productId && p.UsreId == userId )
+                .Select(p => p.Value)
+                .FirstOrDefault();          
+
+            return value;
+        }
+
+
         public double GetAverage(int productId)
         {
             var averageData = this.data.Votes
@@ -27,9 +38,10 @@ namespace Bakery.Service
 
             averageVote = averageData.Average(v => v.Value);
                         
-            return averageVote;
+            return (int)averageVote;
         }
 
+        
         public void SetVote(string userId, int productId, byte value)
         {
             var vote = this.data.Votes

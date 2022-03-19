@@ -6,5 +6,7 @@
 
         double GetAverage(int productId);
 
+        int GetValue(string userId, int productId);
+
     }
 }

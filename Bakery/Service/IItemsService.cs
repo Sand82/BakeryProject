@@ -4,6 +4,6 @@ namespace Bakery.Service
 {
     public interface IItemsService
     {
-        DetailsViewModel GetDetails(int id);
+        DetailsViewModel GetDetails(int id, string userId);
     }
 }

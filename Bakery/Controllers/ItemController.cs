@@ -20,7 +20,9 @@ namespace Bakery.Controllers
         [Authorize]
         public IActionResult Details(int id)
         {
-            var product = itemsService.GetDetails(id);
+            var userId = User.GetId();
+
+            var product = itemsService.GetDetails(id, userId);
 
             if (product == null)
             {
