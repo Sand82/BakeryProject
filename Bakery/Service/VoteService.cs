@@ -45,11 +45,18 @@ namespace Bakery.Service
                 };
 
                 this.data.Votes.Add(vote);
-            }
 
-            vote.Value = value;
+                vote.Value = value;
+
+                Save(vote);
+            }            
+        } 
+        
+        private void Save(Vote vote)
+        {
+            this.data.Votes.Add(vote);
 
             this.data.SaveChanges();
-        }        
+        }
     }
 }
