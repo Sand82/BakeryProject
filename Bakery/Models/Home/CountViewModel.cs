@@ -1,4 +1,6 @@
-﻿namespace Bakery.Models.Home
+﻿using Bakery.Models.Bakeries;
+
+namespace Bakery.Models.Home
 {
     public class CountViewModel
     {
@@ -7,6 +9,6 @@
 
         public int IngredientCount { get; set; }
 
-        public IEnumerable<IndexViewModel> IndexViewModel { get; set; }
+        public IEnumerable<AllProductViewModel> AllProductViewModel { get; set; }
     }
 }

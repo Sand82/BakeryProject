@@ -1,4 +1,5 @@
 ﻿using Bakery.Data;
+using Bakery.Models.Bakeries;
 using Bakery.Models.Home;
 
 namespace Bakery.Service
@@ -18,19 +19,21 @@ namespace Bakery.Service
             var products = data
                 .Products
                 .OrderByDescending(x => x.Id)
-                .Select(p => new IndexViewModel
+                .Select(p => new AllProductViewModel
                 {
                     Id = p.Id,
                     Name = p.Name,
                     Price = p.Price.ToString("f2"),
                     ImageUrl = p.ImageUrl,
+                    Description = p.Description,
+                    Category = p.Category.Name
                 })
                 .Take(4)
                 .ToList();
 
             var countPlusProductModel = new CountViewModel
             {
-                IndexViewModel = products,
+                AllProductViewModel = products,
                 ProductCount = data.Products.Count(),
                 IngredientCount = data.Ingredients.Count()
             };

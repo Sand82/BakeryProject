@@ -53,7 +53,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Category", b =>
@@ -70,7 +70,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Ingredient", b =>
@@ -87,7 +87,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Ingredients");
+                    b.ToTable("Ingredients", (string)null);
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Order", b =>
@@ -119,7 +119,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Product", b =>
@@ -160,7 +160,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Vote", b =>
@@ -188,7 +188,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Votes");
+                    b.ToTable("Votes", (string)null);
                 });
 
             modelBuilder.Entity("IngredientProduct", b =>
@@ -203,7 +203,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("IngredientProduct");
+                    b.ToTable("IngredientProduct", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -420,7 +420,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("OrderProduct");
+                    b.ToTable("OrderProduct", (string)null);
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Product", b =>
