@@ -36,6 +36,7 @@ namespace Bakery.Service
                    Category = p.Category.Name,
                    VoteCount = averageVoteCount,
                    Vote = voteService.GetValue(userId, id),
+                   Quantity = 1,
                    Ingridients = p.Ingredients.Select(i => new IngredientAddFormModel
                    {
                         Name = i.Name,

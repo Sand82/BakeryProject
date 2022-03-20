@@ -19,6 +19,9 @@ namespace Bakery.Models.Items
 
         public int VoteCount { get; set; }
 
+        [Range(0, 1000)]
+        public int Quantity { get; set; }
+
         [Range(1,5)]
         public int Vote { get; set; }
 

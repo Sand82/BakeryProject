@@ -43,28 +43,28 @@
                                 {
                                     <span class="fa fa-star"></span>
                                 }
-                            } 
-                            
+                            }
+
                             @if (Model.Vote == 0)
                             {
                                 <form class="row g-2">
-                                <div class="col-auto">
-                                    <button asp-controller="Item" asp-action="Vote" asp-route-id="@Model.Id" class="add-to-cart btn btn-default mb-3" style="padding: 0.4em 1.5em;">Vote</button>
-                                </div>
-                               
-                                <div class="col-auto">                                    
-                                    <select asp-for="Vote" class="form-control">                                        
+                                    <div class="col-auto">
+                                        <button asp-controller="Item" asp-action="Vote" asp-route-id="@Model.Id" class="add-to-cart btn btn-default mb-3" style="padding: 0.4em 1.5em;">Vote</button>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <select asp-for="Vote" class="form-control">
                                             <option value="5">5</option>
                                             <option value="4">4</option>
                                             <option value="3">3</option>
                                             <option value="2">2</option>
-                                            <option value="1">1</option>                                        
-                                    </select>
-                                </div>
-                            </form> 
-                            }                                                       
+                                            <option value="1">1</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            }
                         </div>
-                        @*<span class="review-no">41 reviews</span>*@
+                        <span class="review-no">Average result: @Model.VoteCount</span>
                     </div>
                     <p class="product-description">@Model.Description</p>
                     <div style="margin-bottom: 30px;">Тhe product is made from the following ingredients: @String.Join(", ", Model.Ingridients.Select(i => i.Name))</div>
@@ -81,8 +81,20 @@
                         <span class="color green"></span>
                         <span class="color blue"></span>
                         </h5>*@
+
+                    <form>
+                        <div class="form-group">                            
+                            <input asp-for="Quantity" id="quantity input" placeholder="Quantity">
+                            <span asp-validation-for="Quantity"></span>
+                        </div>
+                    </form>
+
                     <div class="action">
-                        <a class="add-to-cart btn btn-default" asp-controller="Order" asp-action="Add" asp-route-id="@Model.Id" type="button">add to cart</a>
+                        <a class="add-to-cart btn btn-default" 
+                        onclick="ChangeQuantityValue()" 
+                        asp-controller="Order" asp-action="Add"
+                        asp-route-id="@Model.Id"                        
+                        >add to cart</a>
                         @*<button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>*@
                     </div>
                 </div>
@@ -90,3 +102,14 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+<script>     
+    function ChangeQuantityValue() {
+        
+    var currValie = document.getElementById('quantity input').value;  
+   
+        
+    }
+</script>
+}

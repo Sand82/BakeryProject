@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Bakery.Models.Items;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bakery.Controllers
 {
     public class OrderController : Controller
     {
-        [Authorize]
-        public IActionResult Add(int id)
+        
+        [Authorize]  
+        public IActionResult Add(int quantity, int id)
         {
 
 
