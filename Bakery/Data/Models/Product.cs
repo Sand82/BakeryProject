@@ -38,6 +38,8 @@ namespace Bakery.Data.Models
 
         public Category Category { get; set; }
 
+        public bool IsDelete { get; set; } = false;
+
         public ICollection<Ingredient> Ingredients { get; set; }
 
         public ICollection<Order> Orders { get; set; }

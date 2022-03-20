@@ -9,13 +9,11 @@ namespace Bakery.Service
 {
     public class BakerySevice : IBakerySevice
     {
-        private readonly BackeryDbContext data;
-        private readonly IAuthorService authorService;
+        private readonly BackeryDbContext data;        
 
-        public BakerySevice(BackeryDbContext data, IAuthorService authorService)
+        public BakerySevice(BackeryDbContext data)
         {
-            this.data = data;
-            this.authorService = authorService;
+            this.data = data;            
         }
 
         public AllProductQueryModel GetAllProducts(AllProductQueryModel query)
@@ -52,6 +50,7 @@ namespace Bakery.Service
             var totalProducts = productQuery.Count();
 
             var products = productQuery
+                .Where(p => p.IsDelete == false)
                 .Skip((query.CurrentPage - 1) * AllProductQueryModel.ProductPerPage)
                 .Take(AllProductQueryModel.ProductPerPage)
                 .Select(p => new AllProductViewModel
@@ -130,7 +129,7 @@ namespace Bakery.Service
 
         public void Edit(int id, ProductDetailsServiceModel product)
         {
-            var productDate = this.data.Products.Find(id);
+            var productDate = FindById(id);
 
             productDate.Name = product.Name;
             productDate.Description = product.Description;
@@ -162,6 +161,13 @@ namespace Bakery.Service
             this.data.SaveChanges();
         }
 
+        public void Delete(Product product)
+        {
+            product.IsDelete = true;
+
+            data.SaveChanges();
+        }
+
         public IEnumerable<BakryCategoryViewModel> GetBakeryCategories()
         {
             var categories = this.data.
@@ -174,6 +180,11 @@ namespace Bakery.Service
                 .ToList();
 
             return categories;
+        }
+
+        public Product FindById(int id)
+        {
+            return this.data.Products.Find(id);
         }
 
         private void AddProduct(Product product)
@@ -193,6 +204,6 @@ namespace Bakery.Service
                .ToList();
 
             return category;
-        }
+        }        
     }
 }

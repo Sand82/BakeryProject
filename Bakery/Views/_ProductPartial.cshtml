@@ -13,7 +13,7 @@
                 @if (this.User.IsAdmin())
                 {
                     <a asp-controller="Bakery" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
-                    <a asp-controller="Bakery" asp-action="Delate" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                    <a asp-controller="Bakery" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
                 }
             </div>
         </div>

@@ -18,6 +18,7 @@ namespace Bakery.Service
         {
             var products = data
                 .Products
+                .Where(p => p.IsDelete == false)
                 .OrderByDescending(x => x.Id)
                 .Select(p => new AllProductViewModel
                 {

@@ -118,6 +118,28 @@ namespace Bakery.Controllers
             return RedirectToAction("All", "Bakery");
         }
 
+        [Authorize]
+        public IActionResult Delete(int id)
+        {
+            var author = AuthorValidation();
+
+            if (!author)
+            {
+                return BadRequest();
+            }
+
+            var product = bakerySevice.FindById(id);
+
+            if (product == null )
+            {
+                return BadRequest();
+            }
+
+            bakerySevice.Delete(product);
+
+            return RedirectToAction("All", "Bakery");
+        }
+
         private bool AuthorValidation()
         {
             bool isAuthor = false;
