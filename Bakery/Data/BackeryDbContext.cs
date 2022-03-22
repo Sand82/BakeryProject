@@ -20,6 +20,8 @@ namespace Bakery.Data
 
         public DbSet<Product> Products { get; set; }
 
+        public DbSet<Item> Items { get; set; }
+
         public DbSet<Order> Orders { get; set; }     
         
         public DbSet<Vote> Votes { get; set; }   

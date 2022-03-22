@@ -8,9 +8,7 @@ namespace Bakery.Data.Models
     {
         public Product()
         {
-            this.Ingredients = new HashSet<Ingredient>();
-
-            this.Orders = new HashSet<Order>();
+            this.Ingredients = new HashSet<Ingredient>();            
 
             this.Votes = new HashSet<Vote>();
         }
@@ -22,7 +20,7 @@ namespace Bakery.Data.Models
         [StringLength(ProductMaxLenght)]
         public string Name { get; set; }
 
-        [Range(typeof(decimal), "0", "79228162514264337593543950335")]
+        [Range(typeof(decimal), DecimalMinValue, DecimalMaxValue)]
         public decimal Price { get; set; }
 
         [Required]
@@ -40,9 +38,7 @@ namespace Bakery.Data.Models
 
         public bool IsDelete { get; set; } = false;
 
-        public ICollection<Ingredient> Ingredients { get; set; }
-
-        public ICollection<Order> Orders { get; set; }
+        public ICollection<Ingredient> Ingredients { get; set; }        
 
         public ICollection<Vote>? Votes { get; set; }
     }

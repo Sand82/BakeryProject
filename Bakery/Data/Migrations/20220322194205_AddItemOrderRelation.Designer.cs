@@ -4,6 +4,7 @@ using Bakery.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bakery.Data.Migrations
 {
     [DbContext(typeof(BackeryDbContext))]
-    partial class BackeryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220322194205_AddItemOrderRelation")]
+    partial class AddItemOrderRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,7 +55,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors", (string)null);
+                    b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Category", b =>
@@ -70,7 +72,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Ingredient", b =>
@@ -87,7 +89,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Ingredients", (string)null);
+                    b.ToTable("Ingredients");
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Item", b =>
@@ -120,7 +122,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Items", (string)null);
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Order", b =>
@@ -142,7 +144,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Product", b =>
@@ -186,7 +188,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Vote", b =>
@@ -211,7 +213,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Votes", (string)null);
+                    b.ToTable("Votes");
                 });
 
             modelBuilder.Entity("IngredientProduct", b =>
@@ -226,7 +228,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("IngredientProduct", (string)null);
+                    b.ToTable("IngredientProduct");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

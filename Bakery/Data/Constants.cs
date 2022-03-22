@@ -11,5 +11,13 @@
 
         public const int MaxName = 30;
         public const int MinName = 3;
+
+        public const int ItemMaxValue = 2000;
+        public const int ItemMinValue = 1;
+
+        public const string DecimalMinValue = "0";
+        public const string DecimalMaxValue = "79228162514264337593543950335";
+
+
     }
 }

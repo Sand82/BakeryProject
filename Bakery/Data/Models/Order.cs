@@ -1,28 +1,26 @@
-﻿namespace Bakery.Data.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Bakery.Data.Models
 {
     public class Order
     {
         public Order()
         {
-            this.Products = new HashSet<Product>();
+            this.Items = new HashSet<Item>();  
         }
 
+        [Key]
         public int Id { get; init; }
+        
 
-        public string CustomerName { get; set; }
+        public DateTime DateOfOrder { get; set; } // string or datetime ???
 
-        public DateTime DateOfOrder { get; set; }
-
-        public DateTime DateOfDelivery { get; set; }
-
-        public int OrderProductsCount { get; set; }
-
-        public int Count { get; set; }
+        public DateTime DateOfDelivery { get; set; }               
 
         public bool IsPayed { get; set; } = false;
 
         //public decimal TottalPrice { get; set; }
 
-        public ICollection<Product> Products { get; set; }
+        public ICollection<Item> Items { get; set; }
     }
 }
