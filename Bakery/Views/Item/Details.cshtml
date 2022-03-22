@@ -83,18 +83,19 @@
                         </h5>*@
 
                     <form>
-                        <div class="form-group">                            
-                            <input asp-for="Quantity" id="quantity input" placeholder="Quantity">
+                        <div class="form-group">
+                            <input asp-for="Quantity" type="text" id="quantity input" placeholder="Quantity">
                             <span asp-validation-for="Quantity"></span>
                         </div>
                     </form>
-
                     <div class="action">
-                        <a class="add-to-cart btn btn-default" 
-                        onclick="ChangeQuantityValue()" 
-                        asp-controller="Order" asp-action="Add"
-                        asp-route-id="@Model.Id"                        
-                        >add to cart</a>
+                        <a class="add-to-cart btn btn-default" id="details-add"
+                           onclick="ChangeQuantityValue(event);"
+                           asp-controller="Order" asp-action="Add"
+                           asp-route-id="@Model.Id"
+                           asp-route-name="@Model.Name"
+                           asp-route-price="@Model.Price"
+                           asp-route-quantity="@Model.Quantity">add to cart</a>
                         @*<button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>*@
                     </div>
                 </div>
@@ -104,12 +105,27 @@
 </div>
 
 @section Scripts {
-<script>     
-    function ChangeQuantityValue() {
+<script>
+    function ChangeQuantityValue(e) { 
         
-    var currValie = document.getElementById('quantity input').value;  
-   
-        
-    }
+       e.preventDefault();
+
+       let quantity = document.getElementById('quantity input').value;
+
+       let url = document.getElementById("details-add").getAttribute("href");
+
+       var newUrl = url.replace("quantity=1","quantity=" + quantity);
+       
+       //       /Order/Add/7?name=Breakfast%20hash%20brown%20and%20egg%20cups&price=3.80&quantity=5
+
+       //if(quantity < 1 || quantity > 2000)
+       //{
+       //    const id = url.substring(10,11);
+
+       //    location.href = "/Item/Details/" + id;
+       //}
+
+       location.href = newUrl; 
+ }
 </script>
 }
