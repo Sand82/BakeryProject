@@ -1,13 +1,25 @@
-﻿using Bakery.Data.Models;
-using Bakery.Models;
-using Bakery.Models.Items;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using Bakery.Models;
+
+using static Bakery.Infrastructure.ClaimsPrincipalExtensions;
+using Bakery.Service;
+using Bakery.Data;
 
 namespace Bakery.Controllers
 {
     public class OrderController : Controller
     {
+        private readonly IOrderService orderService;
+        private readonly BackeryDbContext data;
+
+        public OrderController(IOrderService orderService, BackeryDbContext data)
+        {
+            this.orderService = orderService;
+
+            this.data = data;
+        }
         
         [Authorize]
         public IActionResult Add(int id, string name, string price, int quantity)
@@ -16,6 +28,36 @@ namespace Bakery.Controllers
             {
                 return Redirect("/Item/Details/" + id);
             }
+
+            var ParsePrice = Decimal.TryParse(price, out var currPrice);
+
+            if (!ParsePrice)
+            {
+                throw new InvalidOperationException("Unknown format for 'Price'");
+            }
+
+            var userId = User.GetId();
+
+            if (userId == null)
+            {
+                return BadRequest();
+            }
+
+            var order = this.data.Orders.FirstOrDefault(o => o.UserId == userId);
+
+            if (order == null)
+            {
+               order = orderService.CreatOrder(userId);
+            }
+
+           var item = orderService.CreateItem(id, name, currPrice, quantity, userId);
+
+            if (item == null )
+            {
+                return BadRequest();
+            }
+
+            orderService.AddItemInOrder(item, order);
 
            return RedirectToAction("All", "Bakery");
         } 

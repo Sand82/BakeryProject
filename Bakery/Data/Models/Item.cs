@@ -14,10 +14,7 @@ namespace Bakery.Data.Models
         public string ProductName { get; set; }
 
         [Range(typeof(decimal), DecimalMinValue, DecimalMaxValue)]
-        public decimal ProductPrice { get; set; }
-
-        [Required]
-        public string UserId { get; set; }
+        public decimal ProductPrice { get; set; }             
 
         [Range(ItemMinValue, ItemMaxValue)]
         public int Quantity { get; set; }

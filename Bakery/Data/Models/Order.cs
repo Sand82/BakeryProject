@@ -11,9 +11,10 @@ namespace Bakery.Data.Models
 
         [Key]
         public int Id { get; init; }
-        
 
-        public DateTime DateOfOrder { get; set; } // string or datetime ???
+        public string UserId { get; set; }
+
+        public DateTime DateOfOrder { get; set; } = DateTime.UtcNow;
 
         public DateTime DateOfDelivery { get; set; }               
 
