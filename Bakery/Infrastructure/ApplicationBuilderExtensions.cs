@@ -264,6 +264,28 @@ namespace Bakery.Infrastructure
                         new SeedingIngredientModel {Name = "eggs"},
                     }
                 },
+                //BLANK FOR ADD PRODUCTS
+
+                //new SeedingProductModel
+                //{
+                //    ImageUrl = "",
+                //    Name = "",
+                //    Description = "",
+                //    Price = 4.30M,
+                //    Category = "",
+                //    Ingredients = new List<SeedingIngredientModel>()
+                //        {
+                //             new SeedingIngredientModel {Name = "" },
+                //             new SeedingIngredientModel { Name = ""},
+                //             new SeedingIngredientModel { Name = ""},
+                //             new SeedingIngredientModel { Name = ""},
+                //             new SeedingIngredientModel { Name = ""},
+                //             new SeedingIngredientModel { Name = ""},
+                //             new SeedingIngredientModel { Name = ""},
+                //        }
+
+                //},
+
             });
 
             CreateProduct(productsDTO, data);
