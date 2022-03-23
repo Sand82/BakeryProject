@@ -27,7 +27,7 @@ namespace Bakery.Infrastructure
 
             SeedAuthor(data);
 
-            //SeedProducts(data);
+            SeedProducts(data);
 
             //SeedDayOfTheWeek(data)
 

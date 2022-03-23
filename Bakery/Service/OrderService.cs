@@ -31,8 +31,7 @@ namespace Bakery.Service
         {           
                       
             var item = new Item
-            {
-                Id = id,
+            {                
                 ProductName = name,
                 ProductPrice = price,
                 Quantity = quantity,               

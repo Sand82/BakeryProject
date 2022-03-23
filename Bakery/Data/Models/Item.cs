@@ -6,6 +6,11 @@ namespace Bakery.Data.Models
 {
     public class Item
     {
+        public Item()
+        {
+            this.Orders = new HashSet<Order>();
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -19,8 +24,6 @@ namespace Bakery.Data.Models
         [Range(ItemMinValue, ItemMaxValue)]
         public int Quantity { get; set; }
 
-        public int OrderId { get; set; }
-
-        public Order Order { get; set; }
+        public ICollection<Order> Orders { get; set; }
     }
 }

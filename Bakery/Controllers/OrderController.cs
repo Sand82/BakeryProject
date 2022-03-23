@@ -50,16 +50,17 @@ namespace Bakery.Controllers
                order = orderService.CreatOrder(userId);
             }
 
-           var item = orderService.CreateItem(id, name, currPrice, quantity, userId);
+            var item = this.data.Items
+                .FirstOrDefault(i => i.ProductName == name && i.Quantity == quantity && i.ProductPrice == currPrice);
 
             if (item == null )
             {
-                return BadRequest();
+                item = orderService.CreateItem(id, name, currPrice, quantity, userId);
             }
 
             orderService.AddItemInOrder(item, order);
 
-           return RedirectToAction("All", "Bakery");
+            return RedirectToAction("All", "Bakery");
         } 
         
 
