@@ -1,5 +1,5 @@
 ﻿using Bakery.Data.Models;
-using Bakery.Models;
+using Bakery.Models.Order;
 
 namespace Bakery.Service
 {
@@ -10,5 +10,9 @@ namespace Bakery.Service
         Item CreateItem(int id, string name, decimal price, int quantity, string userId);
 
         void AddItemInOrder(Item item, Order order);
+
+        Order FindOrderByUserId(string userId);
+
+        CreateOrderModel CreateOrderModel(Order order);
     }
 }

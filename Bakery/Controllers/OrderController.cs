@@ -17,7 +17,6 @@ namespace Bakery.Controllers
         public OrderController(IOrderService orderService, BackeryDbContext data)
         {
             this.orderService = orderService;
-
             this.data = data;
         }
         
@@ -36,7 +35,7 @@ namespace Bakery.Controllers
                 throw new InvalidOperationException("Unknown format for 'Price'");
             }
 
-            var userId = User.GetId();
+            var userId = GetUserId();
 
             if (userId == null)
             {
@@ -67,7 +66,28 @@ namespace Bakery.Controllers
         [Authorize]
         public IActionResult Buy()
         {
-            return View();
+            var userId = GetUserId();
+
+            if (userId == null)
+            {
+                return BadRequest();
+            }
+
+            var order = orderService.FindOrderByUserId(userId);
+
+            if (order == null)
+            {
+                return BadRequest();
+            }
+
+            var orderModel = orderService.CreateOrderModel(order);
+
+            return View(orderModel);
+        }
+
+        private string GetUserId()
+        {
+            return User.GetId();
         }
     }
 }

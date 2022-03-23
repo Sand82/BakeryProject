@@ -38,7 +38,7 @@ namespace Bakery.Service
 
             averageVote = averageData.Average(v => v.Value);
                         
-            return (int)averageVote;
+            return Math.Ceiling(averageVote);
         }
 
         

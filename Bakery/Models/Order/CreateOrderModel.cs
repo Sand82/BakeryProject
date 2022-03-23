@@ -2,11 +2,20 @@
 {
     public class CreateOrderModel
     {
+        public CreateOrderModel()
+        {
+            items = new List<ItemFormViewModel>();
+        }
+
         public int Id { get; set; }
 
-        public bool IsPay { get; set; }
+        public bool IsPayed { get; set; }
 
-        public IEnumerable<ItemFormViewModel> items { get; set; }
+        public string TotallPrice { get; set; }
+
+        public int ItemsCount { get; set; }
+
+        public IList<ItemFormViewModel> items { get; set; }
 
     }
 }

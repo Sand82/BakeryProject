@@ -25,5 +25,6 @@ namespace Bakery.Data.Models
         public int Quantity { get; set; }
 
         public ICollection<Order> Orders { get; set; }
+        
     }
 }
