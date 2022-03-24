@@ -6,6 +6,7 @@ using Bakery.Models;
 using static Bakery.Infrastructure.ClaimsPrincipalExtensions;
 using Bakery.Service;
 using Bakery.Data;
+using Bakery.Models.Customer;
 
 namespace Bakery.Controllers
 {
@@ -82,8 +83,17 @@ namespace Bakery.Controllers
 
             var orderModel = orderService.CreateOrderModel(order);
 
-            return View(orderModel);
+            var formCustomerOrder = new CustomerFormModel { Order = orderModel, OrderId = orderModel.Id };
+
+            return View(formCustomerOrder);
         }
+
+        //[Authorize]
+        //[HttpPost]
+        //public IActionResult Buy()
+        //{
+        //    return View();
+        //}
 
         private string GetUserId()
         {

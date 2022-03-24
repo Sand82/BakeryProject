@@ -1,235 +1,178 @@
 ﻿<link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/checkout/">
 <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="form-validation.css" rel="stylesheet">
-@model CreateOrderModel
+<link href="~/css/calendar1.css" rel="stylesheet">
+<link href="~/css/calendar2.css" rel="stylesheet">
+
+@model CustomerFormModel
 
 @{
     ViewData["Title"] = "Order Buy";
 }
-<style>
-    .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-    }
-
-    /* media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-              font-size: 3.5rem;
-            }
-          }*/
-</style>
 
 
+<div class="container">
+    <main>
+        <div class="py-5 text-center">
+            <img class="d-block mx-auto mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+            <h2>Checkout form</h2>
+            <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
+        </div>
 
-<body class="bg-light">
-
-    <div class="container">
-        <main>
-            <div class="py-5 text-center">
-                <img class="d-block mx-auto mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-                <h2>Checkout form</h2>
-                <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
-            </div>
-
-            <div class="row g-5">
-                <div class="col-md-5 col-lg-4 order-md-last">
-                    <h4 class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="text-primary">Your cart</span>
-                        <span class="badge bg-primary rounded-pill">@Model.ItemsCount</span>
-                    </h4>
-                    <ul class="list-group mb-5">
-                        @foreach (var item in Model.items)
-                        {
-                            <li class="list-group-item d-flex justify-content-between lh-sm">
-                                <div>
-                                    <h6 class="my-0">@item.Name</h6>
-                                    <small class="text-muted">Item count: @item.Quantity</small>
-                                </div>
-                                <span class="text-muted">Price per one: $@item.Price</span>
-                            </li>
-                        }
-                        @*<li class="list-group-item d-flex justify-content-between bg-light">
-                            <div class="text-success">
-                            <h6 class="my-0">Promo code</h6>
-                            <small>EXAMPLECODE</small>
+        <div class="row g-5">
+            <div class="col-md-5 col-lg-4 order-md-last">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-primary">Your cart</span>
+                    <span class="badge bg-primary rounded-pill">@Model.Order.ItemsCount</span>
+                </h4>
+                <ul class="list-group mb-5">
+                    @foreach (var item in Model.Order.items)
+                    {
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">@item.Name</h6>
+                                <small class="text-muted">Item count: @item.Quantity</small>
                             </div>
-                            <span class="text-success">−$5</span>
-                            </li>*@
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Total (USD)</span>
-                            <strong>@Model.TotallPrice$</strong>
+                            <span class="text-muted">Price per one: $@item.Price</span>
                         </li>
-                    </ul>
-
-                    @* <form class="card p-2">
-                        <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Promo code">
-                        <button type="submit" class="btn btn-secondary">Redeem</button>
+                    }
+                    @*<li class="list-group-item d-flex justify-content-between bg-light">
+                        <div class="text-success">
+                        <h6 class="my-0">Promo code</h6>
+                        <small>EXAMPLECODE</small>
                         </div>
-                        </form>*@
-                </div>
-                <div class="col-md-7 col-lg-8">
-                    <h4 class="mb-3">Billing address</h4>
-                    <form class="needs-validation" novalidate>
-                        <div class="row g-3">
-                            <div class="col-sm-6">
-                                <label for="firstName" class="form-label">First name</label>
-                                <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-                                <div class="invalid-feedback">
-                                    Valid first name is required.
-                                </div>
-                            </div>
+                        <span class="text-success">−$5</span>
+                        </li>*@
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total (USD)</span>
+                        <strong>@Model.Order.TotallPrice$</strong>
+                    </li>
+                </ul>
 
-                            <div class="col-sm-6">
-                                <label for="lastName" class="form-label">Last name</label>
-                                <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
-                                <div class="invalid-feedback">
-                                    Valid last name is required.
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <label for="username" class="form-label">Username</label>
-                                <div class="input-group has-validation">
-                                    <span class="input-group-text"></span>
-                                    <input type="text" class="form-control" id="username" placeholder="Username" required>
-                                    <div class="invalid-feedback">
-                                        Your username is required.
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
-                                <input type="email" class="form-control" id="email" placeholder="you@example.com">
-                                <div class="invalid-feedback">
-                                    Please enter a valid email address for shipping updates.
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <label for="address" class="form-label">Address</label>
-                                <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
-                                <div class="invalid-feedback">
-                                    Please enter your shipping address.
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <label for="address2" class="form-label">Address 2 <span class="text-muted">(Optional)</span></label>
-                                <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
-                            </div>
-
-                            <div class="col-md-5">
-                                <label for="country" class="form-label">Country</label>
-                                <select class="form-select" id="country" required>
-                                    <option value="">Choose...</option>
-                                    <option>United States</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    Please select a valid country.
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <label for="state" class="form-label">State</label>
-                                <select class="form-select" id="state" required>
-                                    <option value="">Choose...</option>
-                                    <option>California</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    Please provide a valid state.
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <label for="zip" class="form-label">Zip</label>
-                                <input type="text" class="form-control" id="zip" placeholder="" required>
-                                <div class="invalid-feedback">
-                                    Zip code required.
-                                </div>
-                            </div>
+                @* <form class="card p-2">
+                    <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Promo code">
+                    <button type="submit" class="btn btn-secondary">Redeem</button>
+                    </div>
+                    </form>*@
+            </div>
+            <div class="col-md-7 col-lg-8">
+                <h4 class="mb-3">Billing address</h4>
+                <form class="needs-validation" novalidate>
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label asp-for="FirstName"></label>
+                            <input asp-for="FirstName" class="form-control" placeholder="First name">
+                            <span asp-validation-for="FirstName" class="small text-danger"></span>
                         </div>
+
+                        <div class="col-sm-6">
+                            <label asp-for="LastName"></label>
+                            <input asp-for="LastName" class="form-control" placeholder="Last name">
+                            <span asp-validation-for="LastName" class="small text-danger"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Email" class="form-label">Email </label>
+                            <input asp-for="Email" class="form-control" placeholder="you@example.com">
+                            <span asp-validation-for="Email" class="small text-danger"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Address" class="form-label">Address</label>
+                            <input asp-for="Address" class="form-control" placeholder="1234 Main St" required>
+                            <span asp-validation-for="Address" class="small text-danger"></span>
+                        </div>
+
 
                         <hr class="my-4">
 
-                        <div class="form-check">
+                        @*<div class="form-check">
                             <input type="checkbox" class="form-check-input" id="same-address">
                             <label class="form-check-label" for="same-address">Shipping address is the same as my billing address</label>
-                        </div>
+                            </div>
 
-                        <div class="form-check">
+                            <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="save-info">
                             <label class="form-check-label" for="save-info">Save this information for next time</label>
+                            </div>
+
+                            <hr class="my-4">*@
+
+                        <div class="form-floating mb-4 d-flex">
+                            <input type="text"
+                                   class="datepicker_input form-control border-2"
+                                   id="datepicker1"
+                                   required
+                                   placeholder="DD/MM/YYYY">
+                            <label for="datepicker1">Pick Date</label>
                         </div>
 
-                        <hr class="my-4">
 
-                        <h4 class="mb-3">Payment</h4>
+                        <h2>Input group only</h2>
 
-                        <div class="my-3">
-                            <div class="form-check">
-                                <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required>
-                                <label class="form-check-label" for="credit">Credit card</label>
-                            </div>
-                            <div class="form-check">
-                                <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required>
-                                <label class="form-check-label" for="debit">Debit card</label>
-                            </div>
-                            <div class="form-check">
-                                <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required>
-                                <label class="form-check-label" for="paypal">PayPal</label>
-                            </div>
+                        <div class="input-group mb-4">
+                            <i class="bi bi-calendar-date input-group-text"></i>
+                            <input type="text" class="datepicker_input form-control" placeholder="Date input 3 placeholder" required aria-label="Date input 3 (using aria-label)">
                         </div>
 
-                        <div class="row gy-3">
-                            <div class="col-md-6">
-                                <label for="cc-name" class="form-label">Name on card</label>
-                                <input type="text" class="form-control" id="cc-name" placeholder="" required>
-                                <small class="text-muted">Full name as displayed on card</small>
-                                <div class="invalid-feedback">
-                                    Name on card is required
-                                </div>
-                            </div>
 
-                            <div class="col-md-6">
-                                <label for="cc-number" class="form-label">Credit card number</label>
-                                <input type="text" class="form-control" id="cc-number" placeholder="" required>
-                                <div class="invalid-feedback">
-                                    Credit card number is required
-                                </div>
-                            </div>
+                        <h2>Floating label &amp; input group</h2>
 
-                            <div class="col-md-3">
-                                <label for="cc-expiration" class="form-label">Expiration</label>
-                                <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
-                                <div class="invalid-feedback">
-                                    Expiration date required
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <label for="cc-cvv" class="form-label">CVV</label>
-                                <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
-                                <div class="invalid-feedback">
-                                    Security code required
-                                </div>
-                            </div>
+                        <div class="form-floating input-group mb-4">
+                            <i class="bi bi-calendar-date input-group-text"></i>
+                            <input type="text" id="datepicker2" class="datepicker_input form-control" placeholder="DD/MM/YYYY" required>
+                            <label for="datepicker2">Date input label 2</label>
                         </div>
+                        <!-- END EDMO HTML (Happy Coding!)-->
+                        @*<p>Requires <a target=_blank title="[new window]" href="https://mymth.github.io/vanillajs-datepicker/#/">vanillajs-datepicker</a> plus the usual Bootstrap 5 CSS &amp; JS.</p>*@
+
+
 
                         <hr class="my-4">
 
                         <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
-                    </form>
-                </div>
+                </form>
             </div>
-        </main>
-    </div>
-    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+        </div>
+    </main>
+</div>
+<!-- Bootstrap 5 JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 
-    <script src="form-validation.js"></script>
-</body>
+<!-- Vanilla Datepicker JS -->
+<script src='https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.4/dist/js/datepicker-full.min.js'></script>
+<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+<script src="form-validation.js"></script>
+<script src="~/js/calendar.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
+
+@section Scripts
+{
+<script>
+    /* Bootstrap 5 JS included */
+    /* vanillajs-datepicker 1.1.4 JS included */
+
+    const getDatePickerTitle = elem => {
+      // From the label or the aria-label
+      const label = elem.nextElementSibling;
+      let titleText = '';
+      if (label && label.tagName === 'LABEL') {
+        titleText = label.textContent;
+      } else {
+        titleText = elem.getAttribute('aria-label') || '';
+      }
+      return titleText;
+    }
+
+    const elems = document.querySelectorAll('.datepicker_input');
+    for (const elem of elems) {
+      const datepicker = new Datepicker(elem, {
+        'format': 'dd/mm/yyyy', // UK format
+        title: getDatePickerTitle(elem)
+      });
+    }
+</script>
+
+}

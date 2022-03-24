@@ -5,11 +5,7 @@ using static Bakery.Data.Constants;
 namespace Bakery.Data.Models
 {
     public class Customer
-    {
-        public Customer()
-        {
-            this.Orders = new HashSet<Order>();
-        }
+    {       
 
         [Key]
         public int Id { get; set; }        
@@ -41,6 +37,6 @@ namespace Bakery.Data.Models
         [Required]
         public string UserId { get; set; }
 
-        public IEnumerable<Order> Orders { get; set; }
+        public Order Order { get; set; }
     }
 }
