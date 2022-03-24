@@ -15,8 +15,16 @@
         public const int ItemMaxValue = 2000;
         public const int ItemMinValue = 1;
 
-        public const string DecimalMinValue = "0";
         public const string DecimalMaxValue = "79228162514264337593543950335";
+        public const string DecimalMinValue = "0";        
+
+        public const int AdressMaxValue = 200;
+        public const int AdressMinValue = 10;
+
+        public const int EmailMaxLength = 60;
+        public const int EmailMinLength = 10;
+
+        public const int PhoneLength = 13; // +359 888 112 233
 
 
     }

@@ -81,9 +81,7 @@ namespace Bakery.Service
                 IsPayed = order.IsPayed,
             };
 
-            var totalPrice = 0.0m;
-
-            //var items = this.data.Products.Include
+            var totalPrice = 0.0m;            
 
             foreach (var item in order.Items)
             {

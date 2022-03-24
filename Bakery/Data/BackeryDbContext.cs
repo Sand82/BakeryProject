@@ -22,7 +22,9 @@ namespace Bakery.Data
 
         public DbSet<Item> Items { get; set; }
 
-        public DbSet<Order> Orders { get; set; }     
+        public DbSet<Order> Orders { get; set; }  
+        
+        public DbSet<Customer> Customers { get; set; }     
         
         public DbSet<Vote> Votes { get; set; }   
                        
