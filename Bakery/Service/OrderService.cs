@@ -55,8 +55,7 @@ namespace Bakery.Service
             var order = this.data
                 .Orders
                 .Include(i => i.Items)
-                .Where(o => o.UserId == userId && o.IsFinished == false && o.DateOfOrder.Day >= DateTime.UtcNow.Date.Day - 1)
-                .OrderByDescending(i => i.Id)                               
+                .Where(o => o.UserId == userId && o.IsFinished == false )                                               
                 .FirstOrDefault();
 
             return order;

@@ -15,11 +15,15 @@ namespace Bakery.Controllers
     {
         private readonly IOrderService orderService;
         private readonly IItemsService itemsService;
+        private readonly ICustomerService customerService;
 
-        public OrderController(IOrderService orderService, IItemsService itemsService)
+        public OrderController(IOrderService orderService,
+            IItemsService itemsService,
+            ICustomerService customerService)
         {
             this.orderService = orderService;
             this.itemsService = itemsService;
+            this.customerService = customerService;
         }
         
         [Authorize]
@@ -88,7 +92,7 @@ namespace Bakery.Controllers
             {
                 Order = orderModel,
                 OrderId = orderModel.Id,                        
-            };
+            };            
 
             return View(formCustomerOrder);
         }
@@ -99,12 +103,13 @@ namespace Bakery.Controllers
         {
             var userId = GetUserId();
 
-            formCustomerOrder.UserId = userId;            
+            formCustomerOrder.UserId = userId;
+
+            var order = orderService.FindOrderByUserId(userId);
 
             if (!ModelState.IsValid)
             {
-                var order = orderService.FindOrderByUserId(userId);
-
+                
                 var orderModel = orderService.CreateOrderModel(order);
 
                 formCustomerOrder.Order.DateOfOrder = orderModel.DateOfOrder;
@@ -126,7 +131,13 @@ namespace Bakery.Controllers
                 return BadRequest();
             }
 
-            orderService.FinishOrder(userId, dateOfOrder);
+            orderService.FinishOrder(userId, dateOfOrder);            
+            
+            var customer = customerService.CreateCustomer(userId, formCustomerOrder);           
+
+            customer.Order = order;
+
+            customerService.AddCustomer(customer);
 
             return RedirectToAction("All", "Bakery");
         }

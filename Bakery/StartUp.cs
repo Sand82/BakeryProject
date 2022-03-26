@@ -31,6 +31,7 @@ builder.Services.AddTransient<IItemsService, ItemsService>();
 builder.Services.AddTransient<IAuthorService, AuthorService>();
 builder.Services.AddTransient<IVoteService, VoteService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient<ICustomerService, CustomerService>();
 
 var app = builder.Build();
 

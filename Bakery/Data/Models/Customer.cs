@@ -30,13 +30,13 @@ namespace Bakery.Data.Models
 
         [Required]
         [StringLength(AdressMaxValue)]
-        public string Adress { get; set; }
-        
-        public int OrderId { get; set; }
-
+        public string Adress { get; set; }       
+       
         [Required]
         public string UserId { get; set; }
 
         public Order Order { get; set; }
+
+        public int OrderId { get; set; }
     }
 }
