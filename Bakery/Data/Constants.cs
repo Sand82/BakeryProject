@@ -24,8 +24,6 @@
         public const int EmailMaxLength = 60;
         public const int EmailMinLength = 10;
 
-        public const int PhoneLength = 13; // +359 888 112 233
-
-
+        public const int PhoneLength = 13;
     }
 }

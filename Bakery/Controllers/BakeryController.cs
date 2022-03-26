@@ -103,7 +103,7 @@ namespace Bakery.Controllers
             {
                 product.Categories = bakerySevice.GetBakeryCategories();
 
-                return View();
+                return View(product);
             }
 
             var author = AuthorValidation();

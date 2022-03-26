@@ -1,4 +1,5 @@
 ﻿using Bakery.Data;
+using Bakery.Data.Models;
 using Bakery.Models.Bakeries;
 using Bakery.Models.Items;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,15 @@ namespace Bakery.Service
         {
             this.data = data;
             this.voteService = voteService;            
+        }
+
+        public Item FindItem(string name, int quantity, decimal currPrice)
+        {
+            var item = this.data
+                .Items
+                .FirstOrDefault(i => i.ProductName == name && i.Quantity == quantity && i.ProductPrice == currPrice);
+
+            return item;
         }
 
         public DetailsViewModel GetDetails(int id, string userId)

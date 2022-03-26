@@ -7,18 +7,19 @@ using static Bakery.Infrastructure.ClaimsPrincipalExtensions;
 using Bakery.Service;
 using Bakery.Data;
 using Bakery.Models.Customer;
+using System.Globalization;
 
 namespace Bakery.Controllers
 {
     public class OrderController : Controller
     {
         private readonly IOrderService orderService;
-        private readonly BackeryDbContext data;
+        private readonly IItemsService itemsService;
 
-        public OrderController(IOrderService orderService, BackeryDbContext data)
+        public OrderController(IOrderService orderService, IItemsService itemsService)
         {
             this.orderService = orderService;
-            this.data = data;
+            this.itemsService = itemsService;
         }
         
         [Authorize]
@@ -43,15 +44,15 @@ namespace Bakery.Controllers
                 return BadRequest();
             }
 
-            var order = this.data.Orders.FirstOrDefault(o => o.UserId == userId);
+            var order = orderService.FindOrderByUserId(userId);
 
             if (order == null)
             {
                order = orderService.CreatOrder(userId);
             }
 
-            var item = this.data.Items
-                .FirstOrDefault(i => i.ProductName == name && i.Quantity == quantity && i.ProductPrice == currPrice);
+            var item = itemsService.FindItem(name, quantity, currPrice);            
+            
 
             if (item == null )
             {
@@ -78,26 +79,76 @@ namespace Bakery.Controllers
 
             if (order == null)
             {
-                return BadRequest();
+                order = orderService.CreatOrder(userId);
             }
 
             var orderModel = orderService.CreateOrderModel(order);
 
-            var formCustomerOrder = new CustomerFormModel { Order = orderModel, OrderId = orderModel.Id };
+            var formCustomerOrder = new CustomerFormModel 
+            {
+                Order = orderModel,
+                OrderId = orderModel.Id,                        
+            };
 
             return View(formCustomerOrder);
         }
 
-        //[Authorize]
-        //[HttpPost]
-        //public IActionResult Buy()
-        //{
-        //    return View();
-        //}
+        [Authorize]
+        [HttpPost]
+        public IActionResult Buy(CustomerFormModel formCustomerOrder)
+        {
+            var userId = GetUserId();
+
+            formCustomerOrder.UserId = userId;            
+
+            if (!ModelState.IsValid)
+            {
+                var order = orderService.FindOrderByUserId(userId);
+
+                var orderModel = orderService.CreateOrderModel(order);
+
+                formCustomerOrder.Order.DateOfOrder = orderModel.DateOfOrder;
+
+                formCustomerOrder = new CustomerFormModel
+                {
+                    Order = orderModel,
+                    OrderId = orderModel.Id,
+                };
+
+                return View(formCustomerOrder);
+            }
+
+            var (isValidDate, dateOfOrder) = TryParceDate(formCustomerOrder.Order.DateOfDelivery.ToString());
+
+            
+            if (!isValidDate)
+            {
+                return BadRequest();
+            }
+
+            orderService.FinishOrder(userId, dateOfOrder);
+
+            return RedirectToAction("All", "Bakery");
+        }
 
         private string GetUserId()
         {
             return User.GetId();
+        }  
+        
+        private (bool, DateTime) TryParceDate(string date)
+        {
+            var isValidDate = true;
+
+            DateTime dateOfOrder;
+
+            isValidDate = DateTime.TryParseExact(
+               date.ToString(),
+               "dd.mm.yyyy", CultureInfo.InvariantCulture,
+               DateTimeStyles.None,
+               out dateOfOrder);
+
+            return (isValidDate, dateOfOrder);
         }
     }
 }

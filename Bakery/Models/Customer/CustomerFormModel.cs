@@ -1,4 +1,4 @@
-﻿using Bakery.Models.Order;
+﻿using Bakery.Models.Orders;
 using System.ComponentModel.DataAnnotations;
 
 using static Bakery.Data.Constants;
@@ -7,32 +7,41 @@ namespace Bakery.Models.Customer
 {
     public class CustomerFormModel
     {
-        [Required]
-        [StringLength(MaxName, MinimumLength = MinName)]
+        [Required]        
+        [Display(Name = "First Name")]
+        [StringLength(MaxName, MinimumLength = MinName,
+            ErrorMessage = "The field {0} is not valid! Must be between of {2} and {1} symbols.")]
         public string FirstName { get; set; }
 
         [Required]
-        [StringLength(MaxName, MinimumLength = MinName)]
+        [Display(Name = "Last Name")]
+        [StringLength(MaxName, MinimumLength = MinName,
+            ErrorMessage = "The field {0} is not valid! Must be between of {2} and {1} symbols.")]
         public string LastName { get; set; }
 
         [Required]
         [EmailAddress]
-        [StringLength(EmailMaxLength, MinimumLength = EmailMinLength)]
+        [Display(Name = "Email address")]
+        [StringLength(EmailMaxLength, MinimumLength = EmailMinLength,
+            ErrorMessage = "The field {0} is not valid! Must be between of {2} and {1} symbols.")]
         public string Email { get; set; }
 
         [Required]
         [Phone]
-        [StringLength(PhoneLength, MinimumLength = PhoneLength)]
+        [Display(Name = "Phone number")]
+        [StringLength(PhoneLength, MinimumLength = PhoneLength,
+            ErrorMessage = "The field {0} is not valid! Must be exact 13 symbols.")]
         public string PhoneNumber { get; set; }
 
         [Required]
-        [StringLength(AdressMaxValue, MinimumLength = AdressMinValue)]
+        [StringLength(AdressMaxValue, MinimumLength = AdressMinValue,
+            ErrorMessage = "The field {0} is not valid! Must be between of {2} and {1} symbols.")]
         public string Address { get; set; }
 
-        [Required]
-        public string UserId { get; set; }
+        
+        public string? UserId { get; set; }
 
-        public int OrderId { get; set; }        
+        public int? OrderId { get; set; }        
 
         public CreateOrderModel Order { get; set; }
     }

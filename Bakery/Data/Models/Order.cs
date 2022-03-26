@@ -18,7 +18,7 @@ namespace Bakery.Data.Models
 
         public DateTime DateOfDelivery { get; set; }               
 
-        public bool IsPayed { get; set; } = false;       
+        public bool IsFinished { get; set; } = false;       
 
         public ICollection<Item> Items { get; set; }
     }

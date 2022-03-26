@@ -1,7 +1,8 @@
 ﻿using Bakery.Data;
 using Bakery.Data.Models;
 using Bakery.Models;
-using Bakery.Models.Order;
+using Bakery.Models.Customer;
+using Bakery.Models.Orders;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bakery.Service
@@ -47,28 +48,16 @@ namespace Bakery.Service
             order.Items.Add(item);
 
             this.data.SaveChanges();
-        }
-
-        private void AddItem(Item item)
-        {
-            this.data.Items.Add(item);
-
-            this.data.SaveChanges();
-        }
-
-        private void AddOrder(Order order)
-        {
-            this.data.Orders.Add(order);
-
-            this.data.SaveChanges();
-        }
+        }       
 
         public Order FindOrderByUserId(string userId)
         {
-            var order = this.data.Orders
+            var order = this.data
+                .Orders
                 .Include(i => i.Items)
-                .OrderBy(o => o.Id)
-                .LastOrDefault(o => o.UserId == userId);
+                .Where(o => o.UserId == userId && o.IsFinished == false && o.DateOfOrder.Day >= DateTime.UtcNow.Date.Day - 1)
+                .OrderByDescending(i => i.Id)                               
+                .FirstOrDefault();
 
             return order;
         }
@@ -78,7 +67,8 @@ namespace Bakery.Service
             var orderModel = new CreateOrderModel
             {
                 Id = order.Id,
-                IsPayed = order.IsPayed,
+                IsFinished = order.IsFinished,
+                DateOfOrder = order.DateOfOrder.ToString("dd.mm.yyyy")
             };
 
             var totalPrice = 0.0m;            
@@ -102,6 +92,31 @@ namespace Bakery.Service
             orderModel.ItemsCount = order.Items.Count();
 
             return orderModel;
+        }
+
+        public void FinishOrder(string userId, DateTime dateOfOrder)
+        {
+            var order = FindOrderByUserId(userId);
+
+            order.DateOfOrder = dateOfOrder;
+
+            order.IsFinished = true;
+
+            this.data.SaveChanges();
+        }
+
+        private void AddItem(Item item)
+        {
+            this.data.Items.Add(item);
+
+            this.data.SaveChanges();
+        }
+
+        private void AddOrder(Order order)
+        {
+            this.data.Orders.Add(order);
+
+            this.data.SaveChanges();
         }
     }
 }
