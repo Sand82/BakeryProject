@@ -10,11 +10,13 @@ namespace Bakery.Controllers
     {
         private readonly IItemsService itemsService;
         private readonly IVoteService voteService;
+        private readonly IOrderService orderService;
 
-        public ItemController(IItemsService itemsService, IVoteService voteService)
+        public ItemController(IItemsService itemsService, IVoteService voteService, IOrderService orderService)
         {
             this.itemsService = itemsService;
-            this.voteService = voteService;            
+            this.voteService = voteService;
+            this.orderService = orderService;
         }
 
         [Authorize]
@@ -51,5 +53,48 @@ namespace Bakery.Controllers
             
             return RedirectToAction("Details", "Item",  new { id });
         }
+
+        [Authorize]
+        public IActionResult EditAll(int id)
+        {
+            var items = itemsService.GetAllItems(id);
+                        
+            return View(items);
+        }
+
+        [Authorize]
+        public IActionResult DeleteAll (int id)
+        {
+             var order = itemsService.FindOrderById(id);
+
+             itemsService.DeleteAllItems(order);
+
+            return RedirectToAction("Buy", "Order");
+        }
+
+        [Authorize]
+        public IActionResult Delete(int id)
+        {
+            var userId = User.GetId();
+
+            var order = itemsService.FindOrderByUserId(userId);   
+            
+            var item = itemsService.FindItemById(id);
+
+            itemsService.DeleteItem(item, order);
+
+            return RedirectToAction("Buy", "Order");
+        }
+
+        //[Authorize]        
+        //public IActionResult Edit(int id, int quantity)
+        //{           
+
+        //    //return View(new OneItemFormModel
+        //    //{
+        //    //    Id = id,
+        //    //    Qantity = quantity
+        //    //});
+        //}        
     }
 }

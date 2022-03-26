@@ -26,10 +26,24 @@ namespace Bakery.Service
             return item;
         }
 
-        public DetailsViewModel GetDetails(int id, string userId)
+        public IEnumerable<EditItemsFormModel> GetAllItems(int id)
         {
-            //var productData = this.data.Products.FirstOrDefault(p => p.Id == id);
-                        
+            var order = FindOrderById(id);
+
+            var items = order.Items.Select(x => new EditItemsFormModel
+            {
+                Id = x.Id,
+                Name = x.ProductName,
+                Quantity = x.Quantity,
+            })
+            .ToList();
+
+            return items;
+        }
+
+        public DetailsViewModel GetDetails(int id, string userId)
+        {          
+                      
             var averageVoteCount = (int)Math.Ceiling(voteService.GetAverage(id));           
 
             var product = this.data.
@@ -59,5 +73,51 @@ namespace Bakery.Service
 
             return product;
         }        
+
+        public Order FindOrderById(int id) 
+        {
+            var order = this.data
+                .Orders
+                .Include(x => x.Items)
+                .Where(x => x.Id == id)
+                .FirstOrDefault();
+
+            return order;
+        }
+
+        public Order FindOrderByUserId(string userId)
+        {
+            var order = this.data
+                .Orders
+                .Include(x => x.Items)
+                .Where(x => x.UserId == userId && x.IsFinished == false)
+                .FirstOrDefault();
+
+            return order;
+        }
+
+        public Item FindItemById(int id)
+        {
+            var item = this.data
+                .Items
+                .Where(i => i.Id == id)
+                .FirstOrDefault();
+
+            return item;
+        }
+
+        public void DeleteItem(Item item, Order order)
+        {
+            order.Items.Remove(item);
+
+            data.SaveChanges();
+        }
+
+        public void DeleteAllItems(Order order)
+        {
+            order.Items = null;
+
+            data.SaveChanges();
+        }              
     }
 }
