@@ -13,20 +13,47 @@
                     @foreach (var item in @Model)
                     {
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div class="btn-group-vertical rounded-pill">
-                           
-                            <h4>@item.Name</h4>
-                            <label asp-for="@item.Quantity"></label>
-                            <input asp-for="@item.Quantity" class="form-control">
-                        </div>
-                        <div class="btn-group-vertical">
-                            <a asp-controller="Item" asp-action="Edit" asp-route-id="@item.Id" asp-route-quantity="@item.Quantity" class="btn btn-secondary" style="margin-bottom: 20px; margin-top: 30px;">Edit</a>
-                            <a asp-controller="Item" asp-action="Delete" asp-route-id="@item.Id"  class="btn btn-danger">Delete</a>
-                        </div>
-                    </li>
-                    }                    
+                            <div class="btn-group-vertical rounded-pill">
+
+                                <h4>@item.Name</h4>
+                                <label asp-for="@item.Quantity"></label>
+                                <input asp-for="@item.Quantity" id="value-tag" class="form-control">
+                            </div>
+                            <div class="btn-group-vertical">
+                                <a asp-route-id="@item.Id" id="id-tag" onclick="ChangeQuantity(event)" class="btn btn-secondary" style="margin-bottom: 20px; margin-top: 30px;">Edit</a>
+                                <a asp-controller="Item" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                            </div>
+                        </li>
+                    }
                 </ul>
             </form>
         </div>
     </dic>
 </div>
+
+@section Scripts {
+<script>
+            function ChangeQuantity(e) {
+            e.preventDefault();
+            var quantity = document.getElementById("value-tag").value;
+
+            let url = document.getElementById("id-tag").getAttribute("href");
+
+            let idArray = url.split("/");
+
+            let itemId = idArray[3];
+
+            let model = {itemId: itemId, quantity: quantity};
+
+            $.ajax({
+                type: "POST",
+                url: "/api/EditItem",
+                data: JSON.stringify(model),
+                success: function (data) {
+                    console.log(data);
+                },
+                contentType: 'application/json'
+                });            
+        }
+</script>
+}
