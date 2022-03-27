@@ -9,7 +9,7 @@ namespace Bakery.Service
 
         Item FindItem(string name, int quantity, decimal currPrice);
 
-        IEnumerable<EditItemsFormModel> GetAllItems(int id);
+        List<EditItemsFormModel> GetAllItems(int id);
 
         Order FindOrderById(int id);
 

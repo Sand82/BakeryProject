@@ -8,7 +8,7 @@ namespace Bakery.Models.EditItem
     {
         public int ItemId { get; set; }
 
-        [Range(ItemMaxValue, ItemMinValue)]
+        [Range(ItemMinValue, ItemMaxValue)]
         public int Quantity { get; set; }
     }
 }

@@ -26,7 +26,7 @@ namespace Bakery.Service
             return item;
         }
 
-        public IEnumerable<EditItemsFormModel> GetAllItems(int id)
+        public List<EditItemsFormModel> GetAllItems(int id)
         {
             var order = FindOrderById(id);
 
