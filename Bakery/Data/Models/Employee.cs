@@ -38,8 +38,8 @@ namespace Bakery.Data.Models
 
         public bool IsApproved { get; set; }        
 
-        public int AuthorId { get; set; }
+        public int? AuthorId { get; set; }
 
-        public Author Author { get; set; }
+        public Author? Author { get; set; }
     }
 }

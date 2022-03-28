@@ -13,11 +13,23 @@ namespace Bakery.Service
         public AuthorService(BackeryDbContext data)
         {
             this.data = data;
-        }
+        }        
 
         public Employee CreateEmployee(ApplyFormModel model, IFormFile cv)
         {
-            throw new NotImplementedException();
+            var cvByte = CreateByteFile(cv);
+
+            var employee = new Employee
+            {
+                FullName = model.FullName,
+                Phone = model.Phone,
+                Email = model.Email,
+                Description = model.Description,
+                Experience = model.Experience,
+                Autobiography = cvByte,
+            };
+
+            return employee;
         }
 
         public bool FileValidator(IFormFile cv)
@@ -64,6 +76,24 @@ namespace Bakery.Service
             return this.data
                 .Authors
                 .Any(a => a.AuthorId == userId);
+        }
+
+        public void AddEmployee(Employee employee)
+        {
+            this.data.Employees.Add(employee);
+
+            this.data.SaveChanges();
+        }
+
+        private byte[] CreateByteFile(IFormFile file)
+        {
+            var cvInMemory = new MemoryStream();
+
+            file.CopyTo(cvInMemory);
+
+            var cvBytes = cvInMemory.ToArray();
+
+            return cvBytes;
         }
     }
 }

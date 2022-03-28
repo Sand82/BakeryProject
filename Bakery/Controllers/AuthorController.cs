@@ -29,11 +29,9 @@ namespace Bakery.Controllers
 
         [Authorize]
         public IActionResult Apply()
-        {           
-
+        {      
             return View(new ApplyFormModel());
         }
-
 
         [Authorize]
         [HttpPost]
@@ -52,6 +50,8 @@ namespace Bakery.Controllers
             }
 
             var employee = authorService.CreateEmployee(apply, cv);
+
+            authorService.AddEmployee(employee);
 
             return RedirectToAction("About", "Author");
         }

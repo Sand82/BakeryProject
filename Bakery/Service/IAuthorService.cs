@@ -13,5 +13,7 @@ namespace Bakery.Service
         bool FileValidator(IFormFile cv);
 
         Employee CreateEmployee(ApplyFormModel model, IFormFile cv);
+
+        void AddEmployee(Employee employee);
     }
 }
