@@ -1,6 +1,7 @@
 ﻿using Bakery.Data;
 using Bakery.Data.Models;
 using Bakery.Models.Bakeries;
+using Bakery.Models.EditItem;
 using Bakery.Models.Items;
 using Microsoft.EntityFrameworkCore;
 
@@ -118,6 +119,16 @@ namespace Bakery.Service
             order.Items = null;
 
             data.SaveChanges();
-        }              
+        }
+
+        public void ChangeItemQuantity(EditItemDataModel model)
+        {
+
+            var item = FindItemById(model.ItemId);
+
+            item.Quantity = model.Quantity;
+
+            this.data.SaveChanges();
+        }
     }
 }

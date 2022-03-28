@@ -1,4 +1,5 @@
 ﻿using Bakery.Data.Models;
+using Bakery.Models.EditItem;
 using Bakery.Models.Items;
 
 namespace Bakery.Service
@@ -16,6 +17,8 @@ namespace Bakery.Service
         Order FindOrderByUserId(string userId);
 
         Item FindItemById(int id);
+
+        void ChangeItemQuantity(EditItemDataModel model);
 
         void DeleteItem(Item item, Order order);
 

@@ -41,19 +41,25 @@
 <script>
             function ChangeQuantity(e, itemId, num) {
             e.preventDefault();
-            var quantity = document.querySelectorAll("#value-tag")[num].value;            
-                        
-            let model = {itemId: itemId, quantity: quantity};            
+            var quantityData = document.querySelectorAll("#value-tag")[num].value;            
+                
+            const quantity = Number(quantityData);
 
-            $.ajax({
-                type: "Post",
+            let model = {itemId: itemId, quantity: quantity};    
+            
+            console.log(itemId);
+            console.log(quantity);
+            console.log(model);
+
+              $.ajax({
+                type: "POST",
                 url: "/api/EditItem",
                 data: JSON.stringify(model),
                 success: function (data) {
                     console.log(data);
                 },
                 contentType: 'application/json'
-                });            
+              });            
         }
 </script>
 }
