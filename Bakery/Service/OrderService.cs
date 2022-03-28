@@ -93,15 +93,15 @@ namespace Bakery.Service
             return orderModel;
         }
 
-        public void FinishOrder(string userId, DateTime dateOfOrder)
-        {
-            var order = FindOrderByUserId(userId);
-
-            order.DateOfOrder = dateOfOrder;
+        public Order FinishOrder(Order order, DateTime dateOfDelivery)
+        {           
+            order.DateOfDelivery = dateOfDelivery;
 
             order.IsFinished = true;
 
             this.data.SaveChanges();
+
+            return order;
         }
 
         private void AddItem(Item item)

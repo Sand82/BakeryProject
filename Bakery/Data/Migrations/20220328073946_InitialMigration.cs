@@ -115,7 +115,7 @@ namespace Bakery.Data.Migrations
                     UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateOfOrder = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateOfDelivery = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsPayed = table.Column<bool>(type: "bit", nullable: false)
+                    IsFinished = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -259,6 +259,31 @@ namespace Bakery.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Customers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
+                    Adress = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OrderId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Customers_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ItemOrder",
                 columns: table => new
                 {
@@ -367,6 +392,11 @@ namespace Bakery.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Customers_OrderId",
+                table: "Customers",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_IngredientProduct_ProductsId",
                 table: "IngredientProduct",
                 column: "ProductsId");
@@ -408,6 +438,9 @@ namespace Bakery.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Customers");
 
             migrationBuilder.DropTable(
                 name: "IngredientProduct");

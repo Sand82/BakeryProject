@@ -123,7 +123,7 @@ namespace Bakery.Controllers
                 return View(formCustomerOrder);
             }
 
-            var (isValidDate, dateOfOrder) = TryParceDate(formCustomerOrder.Order.DateOfDelivery.ToString());
+            var (isValidDate, dateOfDelivery) = TryParceDate(formCustomerOrder.Order.DateOfDelivery.ToString());
 
             
             if (!isValidDate)
@@ -131,11 +131,11 @@ namespace Bakery.Controllers
                 return BadRequest();
             }
 
-            orderService.FinishOrder(userId, dateOfOrder);            
+            var finishedOrder = orderService.FinishOrder(order, dateOfDelivery);            
             
             var customer = customerService.CreateCustomer(userId, formCustomerOrder);           
 
-            customer.Order = order;
+            customer.Order = finishedOrder;
 
             customerService.AddCustomer(customer);
 
@@ -155,7 +155,7 @@ namespace Bakery.Controllers
 
             isValidDate = DateTime.TryParseExact(
                date.ToString(),
-               "dd.mm.yyyy", CultureInfo.InvariantCulture,
+               "dd.MM.yyyy", CultureInfo.InvariantCulture,
                DateTimeStyles.None,
                out dateOfOrder);
 

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bakery.Data.Migrations
 {
     [DbContext(typeof(BackeryDbContext))]
-    [Migration("20220324174458_ChangeRelationCustomerOrder")]
-    partial class ChangeRelationCustomerOrder
+    [Migration("20220328073946_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -177,7 +177,7 @@ namespace Bakery.Data.Migrations
                     b.Property<DateTime>("DateOfOrder")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsPayed")
+                    b.Property<bool>("IsFinished")
                         .HasColumnType("bit");
 
                     b.Property<string>("UserId")

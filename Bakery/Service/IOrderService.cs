@@ -16,6 +16,6 @@ namespace Bakery.Service
 
         CreateOrderModel CreateOrderModel(Order order);
 
-        void FinishOrder(string userId, DateTime dateOfOrder);
+        Order FinishOrder(Order order, DateTime dateOfOrder);
     }
 }
