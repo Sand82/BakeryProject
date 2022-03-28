@@ -56,7 +56,7 @@
                 url: "/api/EditItem",
                 data: JSON.stringify(model),
                 success: function (data) {
-                    console.log(data);
+                   location.href = "/Order/Buy"; 
                 },
                 contentType: 'application/json'
               });            

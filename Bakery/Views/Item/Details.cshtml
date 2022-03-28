@@ -114,17 +114,8 @@
 
        let url = document.getElementById("details-add").getAttribute("href");
 
-       var newUrl = url.replace("quantity=1","quantity=" + quantity);
-       
-       //       /Order/Add/7?name=Breakfast%20hash%20brown%20and%20egg%20cups&price=3.80&quantity=5
-
-       //if(quantity < 1 || quantity > 2000)
-       //{
-       //    const id = url.substring(10,11);
-
-       //    location.href = "/Item/Details/" + id;
-       //}
-
+       var newUrl = url.replace("quantity=1","quantity=" + quantity);   
+   
        location.href = newUrl; 
  }
 </script>

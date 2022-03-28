@@ -27,12 +27,11 @@ namespace Bakery.Controllers
 
         [HttpPost]
         [Authorize]        
-        public ActionResult Post(EditItemDataModel model) 
+        public void Post(EditItemDataModel model) 
         {
 
-            itemsService.ChangeItemQuantity(model);
+            itemsService.ChangeItemQuantity(model);           
             
-            return RedirectToAction("Buy", "Order");
         }
     }
 }
