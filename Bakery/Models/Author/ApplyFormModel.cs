@@ -27,7 +27,10 @@ namespace Bakery.Models.Author
             ErrorMessage = "The field {0} is not valid! Must be between of {2} and {1} symbols.")]
         public string Description { get; set; }
 
-        public int? Experience { get; set; }
+        [Required]
+        [StringLength(ExperienceMaxLength, MinimumLength = ExperienceMinLength,
+            ErrorMessage = "The field {0} is not valid! Must be between of {2} and {1} symbols.")]
+        public string Experience { get; set; }       
 
         public bool IsApproved { get; set; }
     }

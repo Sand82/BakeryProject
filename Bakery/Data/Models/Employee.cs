@@ -30,9 +30,13 @@ namespace Bakery.Data.Models
         [StringLength(DescriptionMaxLenght)]
         public string Description { get; set; }
 
-        public int? Experience { get; set; }
+        [Required]
+        [StringLength(ExperienceMaxLength)]
+        public string Experience { get; set; }
 
-        public bool IsApproved { get; set; }
+        public byte[] Autobiography { get; set; }
+
+        public bool IsApproved { get; set; }        
 
         public int AuthorId { get; set; }
 

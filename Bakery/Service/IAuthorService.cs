@@ -1,4 +1,6 @@
-﻿using Bakery.Models.Bakeries;
+﻿using Bakery.Data.Models;
+using Bakery.Models.Author;
+using Bakery.Models.Bakeries;
 
 namespace Bakery.Service
 {
@@ -7,5 +9,9 @@ namespace Bakery.Service
         AuthorViewModel GetAuthorInfo();
 
         bool IsAuthor(string userId);
+
+        bool FileValidator(IFormFile cv);
+
+        Employee CreateEmployee(ApplyFormModel model, IFormFile cv);
     }
 }

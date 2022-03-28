@@ -28,9 +28,10 @@ namespace Bakery.Controllers
         }
 
         [Authorize]
-        public IActionResult Applay()
-        {
-            return View();
+        public IActionResult Apply()
+        {           
+
+            return View(new ApplyFormModel());
         }
 
 
@@ -38,6 +39,20 @@ namespace Bakery.Controllers
         [HttpPost]
         public IActionResult Apply(ApplyFormModel apply, IFormFile cv)
         {
+            var isValidFileFormat = authorService.FileValidator(cv);
+
+            if (!isValidFileFormat)
+            {
+                ModelState.AddModelError("Autobiography", "Invalid file format or length.");
+            }
+
+            if (!ModelState.IsValid)  
+            {               
+                return View(apply);
+            }
+
+            var employee = authorService.CreateEmployee(apply, cv);
+
             return RedirectToAction("About", "Author");
         }
     }
