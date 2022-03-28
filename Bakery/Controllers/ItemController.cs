@@ -84,17 +84,6 @@ namespace Bakery.Controllers
             itemsService.DeleteItem(item, order);
 
             return RedirectToAction("Buy", "Order");
-        }
-
-        //[Authorize]        
-        //public IActionResult Edit(int id, int quantity)
-        //{           
-
-        //    //return View(new OneItemFormModel
-        //    //{
-        //    //    Id = id,
-        //    //    Qantity = quantity
-        //    //});
-        //}        
+        }       
     }
 }

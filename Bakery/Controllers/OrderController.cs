@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Bakery.Service;
+using Bakery.Models.Customer;
 
-using Bakery.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 using static Bakery.Infrastructure.ClaimsPrincipalExtensions;
-using Bakery.Service;
-using Bakery.Data;
-using Bakery.Models.Customer;
-using System.Globalization;
 
 namespace Bakery.Controllers
 {
@@ -101,6 +99,15 @@ namespace Bakery.Controllers
         [HttpPost]
         public IActionResult Buy(CustomerFormModel formCustomerOrder)
         {
+            var actualDate = DateTime.UtcNow;
+
+            var (isValidDate, dateOfDelivery) = TryParceDate(formCustomerOrder.Order.DateOfDelivery.ToString());
+
+            if (dateOfDelivery < actualDate)
+            {
+                ModelState.AddModelError(WebConstants.DateOfDelivery, "The date cannot be older than the current one.");
+            }
+
             var userId = GetUserId();
 
             formCustomerOrder.UserId = userId;
@@ -108,8 +115,7 @@ namespace Bakery.Controllers
             var order = orderService.FindOrderByUserId(userId);
 
             if (!ModelState.IsValid)
-            {
-                
+            {                
                 var orderModel = orderService.CreateOrderModel(order);
 
                 formCustomerOrder.Order.DateOfOrder = orderModel.DateOfOrder;
@@ -118,14 +124,11 @@ namespace Bakery.Controllers
                 {
                     Order = orderModel,
                     OrderId = orderModel.Id,
-                };
+                };               
 
                 return View(formCustomerOrder);
-            }
-
-            var (isValidDate, dateOfDelivery) = TryParceDate(formCustomerOrder.Order.DateOfDelivery.ToString());
-
-            
+            }          
+                      
             if (!isValidDate)
             {
                 return BadRequest();
@@ -148,12 +151,10 @@ namespace Bakery.Controllers
         }  
         
         private (bool, DateTime) TryParceDate(string date)
-        {
-            var isValidDate = true;
-
+        {         
             DateTime dateOfOrder;
 
-            isValidDate = DateTime.TryParseExact(
+           var isValidDate = DateTime.TryParseExact(
                date.ToString(),
                "dd.MM.yyyy", CultureInfo.InvariantCulture,
                DateTimeStyles.None,

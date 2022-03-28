@@ -6,6 +6,13 @@ namespace Bakery.Data.Models
 {
     public class Author
     {
+        public Author()
+        {
+            this.Products = new HashSet<Product>();
+
+            this.Employees = new HashSet<Employee>();
+        }
+
         public int Id { get; set; }
         
         [Required]
@@ -25,5 +32,7 @@ namespace Bakery.Data.Models
         public string? AuthorId { get; set; }
 
         public ICollection<Product> Products { get; set; }
+
+        public ICollection<Employee> Employees { get; set; }
     }
 }

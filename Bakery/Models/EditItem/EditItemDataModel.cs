@@ -8,7 +8,8 @@ namespace Bakery.Models.EditItem
     {
         public int ItemId { get; set; }
 
-        [Range(ItemMinValue, ItemMaxValue)]
+        [Range(ItemMinValue, ItemMaxValue,
+            ErrorMessage = "Value for {0} must be between {1} and {2}.")]
         public int Quantity { get; set; }
     }
 }

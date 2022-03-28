@@ -9,8 +9,7 @@ namespace Bakery.Models.Bakery
     public class BakeryFormModel
     {
         [Required]
-        [StringLength(ProductMaxLenght,
-            MinimumLength =ProductMinLenght,
+        [StringLength(ProductMaxLenght, MinimumLength =ProductMinLenght,
             ErrorMessage = "The field {0} is not valid! Must be between of {2} and {1} symbols.")]
         public string Name { get; set; }
 
@@ -18,8 +17,7 @@ namespace Bakery.Models.Bakery
         public decimal Price { get; set; }
 
         [Required]
-        [StringLength(DescriptionMaxLenght,
-            MinimumLength =DescriptionMinLenght,
+        [StringLength(DescriptionMaxLenght, MinimumLength =DescriptionMinLenght,
             ErrorMessage = "The field {0} is not valid! Must be between of {2} and {1} symbols.")]
         public string Description { get; set; }
         

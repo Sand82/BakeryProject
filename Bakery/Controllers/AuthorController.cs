@@ -1,4 +1,6 @@
-﻿using Bakery.Service;
+﻿using Bakery.Models.Author;
+using Bakery.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bakery.Controllers
@@ -12,6 +14,7 @@ namespace Bakery.Controllers
             this.authorService = authorService;
         }
 
+        [Authorize]
         public IActionResult About()
         {
             var author = authorService.GetAuthorInfo();
@@ -22,6 +25,20 @@ namespace Bakery.Controllers
             }
 
             return View(author);
+        }
+
+        [Authorize]
+        public IActionResult Applay()
+        {
+            return View();
+        }
+
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Apply(ApplyFormModel apply, IFormFile cv)
+        {
+            return RedirectToAction("About", "Author");
         }
     }
 }
