@@ -42,7 +42,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Job\Models\" />
-    <Folder Include="Areas\Job\Views\Employee\" />
   </ItemGroup>
 
 </Project>

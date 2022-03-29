@@ -6,7 +6,7 @@ namespace Bakery.Areas.Job.Controllers
     public class EmployeeController : AdminController
     {
 
-        public IActionResult Applay()
+        public IActionResult Approve()
         {
 
             return View();
