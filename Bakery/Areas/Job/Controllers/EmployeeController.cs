@@ -1,9 +1,13 @@
-﻿using Bakery.Areas.Admin.Controllers;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using static Bakery.Areas.AdminConstants;
 
 namespace Bakery.Areas.Job.Controllers
 {
-    public class EmployeeController : AdminController
+    [Authorize(Roles = WebConstants.AdministratorRoleName)]
+    [Area(AreaName)]
+    public class EmployeeController : Controller
     {
 
         public IActionResult Approve()
