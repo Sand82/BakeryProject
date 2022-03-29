@@ -36,7 +36,7 @@ namespace Bakery.Data.Models
 
         public byte[] Autobiography { get; set; }
 
-        public bool IsApproved { get; set; }        
+        public bool? IsApproved { get; set; }        
 
         public int? AuthorId { get; set; }
 
