@@ -36,6 +36,10 @@ namespace Bakery.Data.Models
 
         public byte[] Autobiography { get; set; }
 
+        public byte[]? Image { get; set; }
+
+        public DateTime ApplayDate { get; set; } = DateTime.UtcNow;
+
         public bool? IsApproved { get; set; }        
 
         public int? AuthorId { get; set; }

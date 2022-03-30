@@ -18,6 +18,10 @@ namespace Bakery.Areas.Job.Models
 
         public byte[] Autobiography { get; set; }
 
+        public byte[] Image { get; set; }
+
+        public string ApplayDate { get; set; } 
+
         public bool IsApproved { get; set; }        
     }
 }

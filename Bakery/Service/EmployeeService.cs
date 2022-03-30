@@ -17,7 +17,8 @@ namespace Bakery.Service
         {
             var employees = this.data
                 .Employees
-                .Where(e => e.IsApproved == null )
+                .Where(e => e.IsApproved == null)
+                .OrderByDescending(e => e.ApplayDate)
                 .Select(x => new EmployeeViewModel
                 {
                     Id = x.Id,
@@ -27,6 +28,8 @@ namespace Bakery.Service
                     Description = x.Description,
                     Experience = x.Experience,
                     Autobiography = x.Autobiography,
+                    ApplayDate = x.ApplayDate.ToString("dd.MM.yyyy"),
+                    Image = x.Image,
                     IsApproved = true,
                 })
                 .ToList();
