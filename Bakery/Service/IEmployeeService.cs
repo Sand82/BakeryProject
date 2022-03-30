@@ -9,6 +9,6 @@ namespace Bakery.Service
 
         Employee GetById(int id);
 
-        void SetEmployee(Employee employee);
+        void SetEmployee(Employee employee, bool isApprove);
     }
 }

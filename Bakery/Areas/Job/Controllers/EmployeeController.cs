@@ -27,6 +27,7 @@ namespace Bakery.Areas.Job.Controllers
         }
        
         [Authorize]
+        
         public IActionResult Add(int id)
         {
             var employee = employeeService.GetById(id);
@@ -36,9 +37,26 @@ namespace Bakery.Areas.Job.Controllers
                 return BadRequest();
             }
 
-            employeeService.SetEmployee(employee);
+            employeeService.SetEmployee(employee, true);
 
-            return RedirectToAction("Home", "Index");
+            return RedirectToAction("Approve", "Employee");
+        }
+
+
+        [Authorize]
+
+        public IActionResult Reject(int id)
+        {
+            var employee = employeeService.GetById(id);
+
+            if (employee == null)
+            {
+                return BadRequest();
+            }
+
+            employeeService.SetEmployee(employee, false);
+
+            return RedirectToAction("Approve", "Employee");
         }
     }
 }

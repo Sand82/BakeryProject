@@ -38,26 +38,15 @@ namespace Bakery.Service
         {
             var employee = this.data
                 .Employees
-                .Where(e => e.Id == id)
-                .Select(x => new Employee
-                {
-                    Id = x.Id,
-                    FullName = x.FullName,
-                    Phone = x.Phone,
-                    Email = x.Email,
-                    Description = x.Description,
-                    Experience = x.Experience,
-                    Autobiography = x.Autobiography,
-                    IsApproved = true,
-                })
+                .Where(e => e.Id == id)                
                 .FirstOrDefault();
 
             return employee;
         }
 
-        public void SetEmployee(Employee employee)
+        public void SetEmployee(Employee employee, bool isApprove)
         {
-            employee.IsApproved = true;
+            employee.IsApproved = isApprove;
 
             this.data.SaveChanges();
         }
