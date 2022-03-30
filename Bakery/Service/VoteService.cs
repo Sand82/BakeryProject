@@ -15,19 +15,32 @@ namespace Bakery.Service
 
         public int GetValue(string userId, int productId)
         {
-            var value = this.data.Votes
-                .Where(p => p.ProductId == productId && p.UsreId == userId )
-                .Select(p => p.Value)
-                .FirstOrDefault();          
+            var value = new Byte();
 
+            Task.Run(() =>
+            {
+                 value = this.data.Votes
+                .Where(p => p.ProductId == productId && p.UsreId == userId)
+                .Select(p => p.Value)
+                .FirstOrDefault();
+
+            }).GetAwaiter().GetResult();
+                                 
             return value;
         }
 
 
         public double GetAverage(int productId)
         {
-            var averageData = this.data.Votes
-                .Where(p => p.ProductId == productId).ToList();
+            var averageData = new List<Vote>();
+
+            Task.Run(() =>
+            {
+                 averageData = this.data.Votes
+                .Where(p => p.ProductId == productId)
+                .ToList();
+
+            }).GetAwaiter().GetResult();           
 
             double averageVote;
 
@@ -44,9 +57,15 @@ namespace Bakery.Service
         
         public void SetVote(string userId, int productId, byte value)
         {
-            var vote = this.data.Votes
+            var vote = new Vote();
+
+            Task.Run(() =>
+            {
+                 vote = this.data.Votes
                 .Where(v => v.ProductId == productId && v.UsreId == userId)
                 .FirstOrDefault();
+
+            }).GetAwaiter().GetResult();            
 
             if (vote == null)
             {
@@ -66,9 +85,13 @@ namespace Bakery.Service
         
         private void Save(Vote vote)
         {
-            this.data.Votes.Add(vote);
+            Task.Run(() =>
+            {
+                this.data.Votes.Add(vote);
 
-            this.data.SaveChanges();
+                this.data.SaveChanges();
+
+            }).GetAwaiter().GetResult();            
         }
     }
 }

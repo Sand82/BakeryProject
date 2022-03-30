@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using static Bakery.Infrastructure.ClaimsPrincipalExtensions;
+using static Bakery.WebConstants;
 
 namespace Bakery.Controllers
 {
@@ -73,6 +74,8 @@ namespace Bakery.Controllers
             }
 
             bakerySevice.CreateProduct(formProduct);
+
+            this.TempData[ProductAdded] = "Product added seccessfully."; ;
 
             return RedirectToAction("Index", "Home");
         }

@@ -15,44 +15,62 @@ namespace Bakery.Service
         public ItemsService(BackeryDbContext data, IVoteService voteService)
         {
             this.data = data;
-            this.voteService = voteService;            
+            this.voteService = voteService;
         }
 
         public Item FindItem(string name, int quantity, decimal currPrice)
         {
-            var item = this.data
+            var item = new Item();
+
+            Task.Run(() =>
+            {
+                item = this.data
                 .Items
-                .FirstOrDefault(i => i.ProductName == name && i.Quantity == quantity && i.ProductPrice == currPrice);
+                .FirstOrDefault(
+                i => i.ProductName == name && i.Quantity == quantity && i.ProductPrice == currPrice);
+
+            }).GetAwaiter().GetResult();
 
             return item;
         }
 
         public List<EditItemsFormModel> GetAllItems(int id)
         {
-            var order = FindOrderById(id);
+            var items = new List<EditItemsFormModel>();
 
-            var items = order.Items.Select(x => new EditItemsFormModel
+            Task.Run(() =>
             {
-                Id = x.Id,
-                Name = x.ProductName,
-                Quantity = x.Quantity,
-            })
-            .ToList();
+                var order = FindOrderById(id);
+
+                items = order.Items.Select(x => new EditItemsFormModel
+                {
+                    Id = x.Id,
+                    Name = x.ProductName,
+                    Quantity = x.Quantity,
+                })
+               .ToList();
+
+            }).GetAwaiter().GetResult();
 
             return items;
         }
 
         public DetailsViewModel GetDetails(int id, string userId)
-        {          
-                      
-            var averageVoteCount = (int)Math.Ceiling(voteService.GetAverage(id));           
+        {
 
-            var product = this.data.
-                 Products
-                .Include(i => i.Ingredients)
-                .Where(p => p.Id == id)
-                .Select(p => new DetailsViewModel 
-                { 
+            var averageVoteCount = (int)Math.Ceiling(voteService.GetAverage(id));
+
+            DetailsViewModel? product = null;
+
+            Task.Run(() =>
+            {
+
+                product = this.data.
+                Products
+               .Include(i => i.Ingredients)
+               .Where(p => p.Id == id)
+               .Select(p => new DetailsViewModel
+               {
                    Id = p.Id,
                    Name = p.Name,
                    Price = p.Price.ToString("f2"),
@@ -64,71 +82,103 @@ namespace Bakery.Service
                    Quantity = 1,
                    Ingridients = p.Ingredients.Select(i => new IngredientAddFormModel
                    {
-                        Name = i.Name,
+                       Name = i.Name,
                    })
-                   .OrderBy(i => i.Name)
-                   .ToList()
+                  .OrderBy(i => i.Name)
+                  .ToList()
 
-                })
-                .FirstOrDefault();           
+               })
+               .FirstOrDefault();
+
+            }).GetAwaiter().GetResult();
 
             return product;
-        }        
+        }
 
-        public Order FindOrderById(int id) 
+        public Order FindOrderById(int id)
         {
-            var order = this.data
-                .Orders
-                .Include(x => x.Items)
-                .Where(x => x.Id == id)
-                .FirstOrDefault();
+            Order? order = new Order();
+
+            Task.Run(() =>
+            {
+                order = this.data
+               .Orders
+               .Include(x => x.Items)
+               .Where(x => x.Id == id)
+               .FirstOrDefault();
+
+            }).GetAwaiter().GetResult();
 
             return order;
         }
 
         public Order FindOrderByUserId(string userId)
         {
-            var order = this.data
-                .Orders
-                .Include(x => x.Items)
-                .Where(x => x.UserId == userId && x.IsFinished == false)
-                .FirstOrDefault();
+            Order? order = new Order();
+
+            Task.Run(() =>
+            {
+                order = this.data
+               .Orders
+               .Include(x => x.Items)
+               .Where(x => x.UserId == userId && x.IsFinished == false)
+               .FirstOrDefault();
+
+            }).GetAwaiter().GetResult();
 
             return order;
         }
 
         public Item FindItemById(int id)
         {
-            var item = this.data
-                .Items
-                .Where(i => i.Id == id)
-                .FirstOrDefault();
+
+            var item = new Item();
+
+            Task.Run(() =>
+            {
+                item = this.data
+               .Items
+               .Where(i => i.Id == id)
+               .FirstOrDefault();
+
+            }).GetAwaiter().GetResult();
 
             return item;
         }
 
         public void DeleteItem(Item item, Order order)
         {
-            order.Items.Remove(item);
+            Task.Run(() =>
+            {
+                order.Items.Remove(item);
 
-            data.SaveChanges();
+                data.SaveChanges();
+
+            }).GetAwaiter().GetResult();
         }
 
         public void DeleteAllItems(Order order)
         {
-            order.Items = null;
+            Task.Run(() =>
+            {
+                order.Items = null;
 
-            data.SaveChanges();
+                data.SaveChanges();
+
+            }).GetAwaiter().GetResult();
         }
 
         public void ChangeItemQuantity(EditItemDataModel model)
         {
+            Task.Run(() =>
+            {
+                var item = FindItemById(model.ItemId);
 
-            var item = FindItemById(model.ItemId);
+                item.Quantity = model.Quantity;
 
-            item.Quantity = model.Quantity;
+                this.data.SaveChanges();
 
-            this.data.SaveChanges();
+            }).GetAwaiter().GetResult();
         }
     }
 }

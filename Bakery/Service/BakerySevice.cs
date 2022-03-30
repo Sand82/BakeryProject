@@ -17,155 +17,180 @@ namespace Bakery.Service
         }
 
         public AllProductQueryModel GetAllProducts(AllProductQueryModel query)
-        {
-            var productQuery = this.data.Products.AsQueryable();
+        {           
 
-            if (!string.IsNullOrWhiteSpace(query.Category))
+            Task.Run(() => 
             {
-                productQuery = productQuery
-                    .Where(p => p.Category.Name == query.Category);
-            }
+               var productQuery = this.data.Products.AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
-            {
-                productQuery = productQuery
-                    .Where(p =>
-                    p.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
-                    p.Description.Contains(query.SearchTerm.ToLower()));
-            }
-
-            if (query.Sorting == BakiesSorting.Name)
-            {
-                productQuery = productQuery.OrderBy(p => p.Name);
-            }
-            else if (query.Sorting == BakiesSorting.Price)
-            {
-                productQuery = productQuery.OrderByDescending(p => p.Price);
-            }
-            else
-            {
-                productQuery = productQuery.OrderByDescending(p => p.Id);
-            }
-
-            var totalProducts = productQuery.Count();
-
-            var products = productQuery
-                .Where(p => p.IsDelete == false)
-                .Skip((query.CurrentPage - 1) * AllProductQueryModel.ProductPerPage)
-                .Take(AllProductQueryModel.ProductPerPage)
-                .Select(p => new AllProductViewModel
+                if (!string.IsNullOrWhiteSpace(query.Category))
                 {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Price = p.Price.ToString("f2"),
-                    ImageUrl = p.ImageUrl,
-                    Description = p.Description,
-                    Category = p.Category.Name
-                })
-                .ToList();
-            
-            query.Categories = AddCategories();            
+                    productQuery = productQuery
+                        .Where(p => p.Category.Name == query.Category);
+                }
 
-            query.TotalProduct = totalProducts;
-            query.Products = products;            
+                if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+                {
+                    productQuery = productQuery
+                        .Where(p =>
+                        p.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
+                        p.Description.Contains(query.SearchTerm.ToLower()));
+                }
+
+                if (query.Sorting == BakiesSorting.Name)
+                {
+                    productQuery = productQuery.OrderBy(p => p.Name);
+                }
+                else if (query.Sorting == BakiesSorting.Price)
+                {
+                    productQuery = productQuery.OrderByDescending(p => p.Price);
+                }
+                else
+                {
+                    productQuery = productQuery.OrderByDescending(p => p.Id);
+                }
+
+                var totalProducts = productQuery.Count();
+
+                var products = productQuery
+                    .Where(p => p.IsDelete == false)
+                    .Skip((query.CurrentPage - 1) * AllProductQueryModel.ProductPerPage)
+                    .Take(AllProductQueryModel.ProductPerPage)
+                    .Select(p => new AllProductViewModel
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Price = p.Price.ToString("f2"),
+                        ImageUrl = p.ImageUrl,
+                        Description = p.Description,
+                        Category = p.Category.Name
+                    })
+                    .ToList();
+
+                query.Categories = AddCategories();
+
+                query.TotalProduct = totalProducts;
+                query.Products = products;
+                               
+
+            }).GetAwaiter().GetResult();
 
             return query;
         }
 
         public void CreateProduct(BakeryFormModel formProduct)
-        {
-            var product = new Product
+        {        
+            Task.Run(() => 
             {
-                Name = formProduct.Name,
-                Description = formProduct.Description,
-                ImageUrl = formProduct.ImageUrl,
-                Price = formProduct.Price,
-                CategoryId = formProduct.CategoryId
-            };
-
-            foreach (var ingredient in formProduct.Ingredients)
-            {
-                var curredntIngredient = this.data
-                    .Ingredients
-                    .FirstOrDefault(i => i.Name == ingredient.Name);
-
-                if (curredntIngredient == null)
+                var product = new Product
                 {
-                    curredntIngredient = new Ingredient
+                    Name = formProduct.Name,
+                    Description = formProduct.Description,
+                    ImageUrl = formProduct.ImageUrl,
+                    Price = formProduct.Price,
+                    CategoryId = formProduct.CategoryId
+                };
+
+                foreach (var ingredient in formProduct.Ingredients)
+                {
+                    var curredntIngredient = this.data
+                        .Ingredients
+                        .FirstOrDefault(i => i.Name == ingredient.Name);
+
+                    if (curredntIngredient == null)
                     {
-                        Name = ingredient.Name,
-                    };
+                        curredntIngredient = new Ingredient
+                        {
+                            Name = ingredient.Name,
+                        };
+                    }
+
+                    product.Ingredients.Add(curredntIngredient);
                 }
 
-                product.Ingredients.Add(curredntIngredient);
-            }
+                AddProduct(product);
 
-            AddProduct(product);
+            }).GetAwaiter().GetResult();        
+          
         }
 
         public ProductDetailsServiceModel EditProduct(int id)
         {
-            var product = this.data
-                .Products
-                .Where(p => p.Id == id)
-                .Select(p => new ProductDetailsServiceModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Description = p.Description,
-                    Price = p.Price,
-                    ImageUrl = p.ImageUrl,
-                    CategoryId = p.CategoryId,
-                    Ingredients = p.Ingredients.Select(i => new IngredientAddFormModel
-                    {
-                        Name = i.Name
-                    })
-                    .ToList()
-                })
-                .FirstOrDefault();
+            ProductDetailsServiceModel? product = new ProductDetailsServiceModel();
 
+            Task.Run(() => 
+            {
+                product = this.data
+               .Products
+               .Where(p => p.Id == id)
+               .Select(p => new ProductDetailsServiceModel
+               {
+                   Id = p.Id,
+                   Name = p.Name,
+                   Description = p.Description,
+                   Price = p.Price,
+                   ImageUrl = p.ImageUrl,
+                   CategoryId = p.CategoryId,
+                   Ingredients = p.Ingredients.Select(i => new IngredientAddFormModel
+                   {
+                       Name = i.Name
+                   })
+                   .ToList()
+               })
+               .FirstOrDefault();
+
+            }).GetAwaiter().GetResult();
+          
             return product;
         }
 
         public void Edit(int id, ProductDetailsServiceModel product)
         {
-            var productDate = FindById(id);
 
-            productDate.Name = product.Name;
-            productDate.Description = product.Description;
-            productDate.Price = product.Price;
-            productDate.ImageUrl = product.ImageUrl;
-            productDate.CategoryId = product.CategoryId; 
+            Task.Run(() =>
+            {
+                var productDate = FindById(id);
 
-            //var ingredients = new List<Ingredient>();
+                productDate.Name = product.Name;
+                productDate.Description = product.Description;
+                productDate.Price = product.Price;
+                productDate.ImageUrl = product.ImageUrl;
+                productDate.CategoryId = product.CategoryId;
 
-            //foreach (var ingredient in product.Ingredients)
-            //{
-            //    var curredntIngredient = this.data
-            //        .Ingredients
-            //        .FirstOrDefault(i => i.Name == ingredient.Name);
+                //var ingredients = new List<Ingredient>();
 
-            //    if (curredntIngredient == null)
-            //    {
-            //        curredntIngredient = new Ingredient
-            //        {
-            //            Name = ingredient.Name,
-            //        };
-            //    }
+                //foreach (var ingredient in product.Ingredients)
+                //{
+                //    var curredntIngredient = this.data
+                //        .Ingredients
+                //        .FirstOrDefault(i => i.Name == ingredient.Name);
 
-            //    ingredients.Add(curredntIngredient);
-            //}
+                //    if (curredntIngredient == null)
+                //    {
+                //        curredntIngredient = new Ingredient
+                //        {
+                //            Name = ingredient.Name,
+                //        };
+                //    }
 
-            //productDate.Ingredients = ingredients;
+                //    ingredients.Add(curredntIngredient);
+                //}
 
-            this.data.SaveChanges();
+                //productDate.Ingredients = ingredients;
+
+                this.data.SaveChanges();
+            });            
         }
 
         public void Delete(Product product)
         {
-            product.IsDelete = true;
+            Task.Run (() => 
+            {
+                product.IsDelete = true;
 
-            data.SaveChanges();
+                data.SaveChanges();
+
+            }).GetAwaiter().GetResult();            
         }
 
         public IEnumerable<BakryCategoryViewModel> GetBakeryCategories()
@@ -184,24 +209,42 @@ namespace Bakery.Service
 
         public Product FindById(int id)
         {
-            return this.data.Products.Find(id);
+            var product = new Product();
+
+            Task.Run(() => 
+            {
+                this.data.Products.Find(id);
+
+            }).GetAwaiter().GetResult();
+
+            return product;
         }
 
         private void AddProduct(Product product)
         {
-            this.data.Products.Add(product);
+            Task.Run(() => 
+            {
+                this.data.Products.Add(product);
 
-            this.data.SaveChanges();
+                this.data.SaveChanges();
+
+            }).GetAwaiter().GetResult();            
         }
 
         private List<string> AddCategories()
         {
-            var category = this.data
+            var category = new List<string>();
+
+            Task.Run(() => 
+            {
+                category = this.data
                .Categories
                .Select(p => p.Name)
                .Distinct()
                .OrderBy(c => c)
                .ToList();
+
+            }).GetAwaiter().GetResult();             
 
             return category;
         }        

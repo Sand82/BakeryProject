@@ -30,24 +30,34 @@ namespace Bakery.Service
 
         public Customer FindCustomer(string userId, CustomerFormModel form)
         {
-            var customer = this.data
+            var customer = new Customer();
+
+            Task.Run(() => 
+            {
+                customer = this.data
                 .Customers
                 .Where(x => x.UserId == userId &&
-                    x.FirstName == form.FirstName && 
+                    x.FirstName == form.FirstName &&
                     x.LastName == form.LastName &&
                     x.PhoneNumber == form.PhoneNumber &&
                     x.Email == form.Email &&
-                    x.Adress == form.Address)                
+                    x.Adress == form.Address)
                 .FirstOrDefault();
 
+            }).GetAwaiter().GetResult();
+                        
             return customer;
         }
 
         public void AddCustomer(Customer customer)
         {
-            this.data.Customers.Add(customer);
+            Task.Run(() =>
+            {
+                this.data.Customers.Add(customer);
 
-            this.data.SaveChanges();
+                this.data.SaveChanges();
+
+            }).GetAwaiter().GetResult();            
         }
     }
 }

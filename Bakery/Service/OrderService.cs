@@ -18,19 +18,24 @@ namespace Bakery.Service
 
         public Order CreatOrder(string userId)
         {
-            var order = new Order
-            {
-                UserId = userId,
-            };
+            var order = new Order();
 
-            AddOrder(order);
+            Task.Run(() =>
+            {
+                order = new Order
+                {
+                    UserId = userId,
+                };
+
+                AddOrder(order);
+
+            }).GetAwaiter().GetResult();
 
             return order;
         }
 
         public Item CreateItem(int id, string name, decimal price, int quantity, string userId)
         {
-
             var item = new Item
             {
                 ProductName = name,
@@ -38,25 +43,39 @@ namespace Bakery.Service
                 Quantity = quantity,
             };
 
-            AddItem(item);
+            Task.Run(() =>
+            {               
+                AddItem(item);
+
+            }).GetAwaiter().GetResult();
 
             return item;
         }
 
         public void AddItemInOrder(Item item, Order order)
         {
-            order.Items.Add(item);
+            Task.Run(() =>
+            {
+                order.Items.Add(item);
 
-            this.data.SaveChanges();
-        }       
+                this.data.SaveChanges();
+
+            }).GetAwaiter().GetResult();            
+        }
 
         public Order FindOrderByUserId(string userId)
         {
-            var order = this.data
-                .Orders
-                .Include(i => i.Items)
-                .Where(o => o.UserId == userId && o.IsFinished == false )                                               
-                .FirstOrDefault();
+            var order = new Order();
+
+            Task.Run(() =>
+            {
+                  order = this.data
+                 .Orders
+                 .Include(i => i.Items)
+                 .Where(o => o.UserId == userId && o.IsFinished == false)
+                 .FirstOrDefault();
+
+            }).GetAwaiter().GetResult();            
 
             return order;
         }
@@ -70,14 +89,14 @@ namespace Bakery.Service
                 DateOfOrder = order.DateOfOrder.ToString("dd.mm.yyyy")
             };
 
-            var totalPrice = 0.0m;            
+            var totalPrice = 0.0m;
 
             foreach (var item in order.Items)
             {
                 totalPrice += item.ProductPrice * item.Quantity;
 
                 var newItem = new ItemFormViewModel
-                {                    
+                {
                     Name = item.ProductName,
                     Price = item.ProductPrice.ToString("f2"),
                     Quantity = item.Quantity,
@@ -94,7 +113,7 @@ namespace Bakery.Service
         }
 
         public Order FinishOrder(Order order, DateTime dateOfDelivery)
-        {           
+        {
             order.DateOfDelivery = dateOfDelivery;
 
             order.IsFinished = true;
@@ -106,16 +125,24 @@ namespace Bakery.Service
 
         private void AddItem(Item item)
         {
-            this.data.Items.Add(item);
+            Task.Run(() =>
+            {
+                this.data.Items.Add(item);
 
-            this.data.SaveChanges();
+                this.data.SaveChanges();
+
+            }).GetAwaiter().GetResult();           
         }
 
         private void AddOrder(Order order)
         {
-            this.data.Orders.Add(order);
+            Task.Run(() =>
+            {
+                this.data.Orders.Add(order);
 
-            this.data.SaveChanges();
+                this.data.SaveChanges();
+
+            }).GetAwaiter().GetResult();           
         }
     }
 }

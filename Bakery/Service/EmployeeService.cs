@@ -15,7 +15,11 @@ namespace Bakery.Service
 
         public IEnumerable<EmployeeViewModel> GetAllApplies()
         {
-            var employees = this.data
+            var employees = new List<EmployeeViewModel>();
+
+            Task.Run(() =>
+            {
+                employees = this.data
                 .Employees
                 .Where(e => e.IsApproved == null)
                 .OrderByDescending(e => e.ApplayDate)
@@ -34,24 +38,36 @@ namespace Bakery.Service
                 })
                 .ToList();
 
-            return employees;                
+            }).GetAwaiter().GetResult();
+
+            return employees;
         }
 
         public Employee GetById(int id)
         {
-            var employee = this.data
-                .Employees
-                .Where(e => e.Id == id)                
-                .FirstOrDefault();
+            var employee = new Employee();
+
+            Task.Run(() =>
+            {
+                employee = this.data
+               .Employees
+               .Where(e => e.Id == id)
+               .FirstOrDefault();
+
+            }).GetAwaiter().GetResult();
 
             return employee;
         }
 
         public void SetEmployee(Employee employee, bool isApprove)
         {
-            employee.IsApproved = isApprove;
+            Task.Run(() =>
+            {
+                employee.IsApproved = isApprove;
 
-            this.data.SaveChanges();
+                this.data.SaveChanges();
+
+            }).GetAwaiter().GetResult();
         }
     }
 }

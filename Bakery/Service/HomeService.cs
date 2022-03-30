@@ -16,7 +16,11 @@ namespace Bakery.Service
 
         public CountViewModel GetIndex()
         {
-            var products = data
+            CountViewModel countPlusProductModel = new CountViewModel();
+
+            Task.Run(() =>
+            {
+                var products = data
                 .Products
                 .Where(p => p.IsDelete == false)
                 .OrderByDescending(x => x.Id)
@@ -32,12 +36,14 @@ namespace Bakery.Service
                 .Take(4)
                 .ToList();
 
-            var countPlusProductModel = new CountViewModel
-            {
-                AllProductViewModel = products,
-                ProductCount = data.Products.Count(),
-                IngredientCount = data.Ingredients.Count()
-            };
+                countPlusProductModel = new CountViewModel
+                {
+                    AllProductViewModel = products,
+                    ProductCount = data.Products.Count(),
+                    IngredientCount = data.Ingredients.Count()
+                };
+
+            }).GetAwaiter().GetResult();           
 
             return countPlusProductModel;
         }

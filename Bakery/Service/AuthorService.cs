@@ -17,18 +17,24 @@ namespace Bakery.Service
 
         public Employee CreateEmployee(ApplyFormModel model, IFormFile cv)
         {
-            var cvByte = CreateByteFile(cv);
+            Employee employee = new Employee(); 
 
-            var employee = new Employee
+            Task.Run(() => 
             {
-                FullName = model.FullName,
-                Phone = model.Phone,
-                Email = model.Email,
-                Description = model.Description,
-                Experience = model.Experience,
-                Autobiography = cvByte,
-            };
+                var cvByte = CreateByteFile(cv);
 
+                employee = new Employee
+                {
+                    FullName = model.FullName,
+                    Phone = model.Phone,
+                    Email = model.Email,
+                    Description = model.Description,
+                    Experience = model.Experience,
+                    Autobiography = cvByte,
+                };
+
+            }).GetAwaiter().GetResult();          
+                       
             return employee;
         }
 
@@ -36,28 +42,35 @@ namespace Bakery.Service
         {
             var isValid = true;
 
-            var fileData = cv.FileName.Split('.').ToList();
-
-            var fileFormat = fileData[fileData.Count - 1];
-
-            var commonFormats = new List<string>() { "doc", "docx", "odt", "txt", "PDF" };
-
-            if (!commonFormats.Contains(fileFormat) || cv.Length > 2 * 1024 * 1024)
+            Task.Run(() => 
             {
-                isValid = false;
-            }
+                var fileData = cv.FileName.Split('.').ToList();
+
+                var fileFormat = fileData[fileData.Count - 1];
+
+                var commonFormats = new List<string>() { "doc", "docx", "odt", "txt", "PDF" };
+
+                if (!commonFormats.Contains(fileFormat) || cv.Length > 2 * 1024 * 1024)
+                {
+                    isValid = false;
+                }
+
+            }).GetAwaiter().GetResult();
+
+            
 
             return isValid;
         }
 
         public AuthorViewModel GetAuthorInfo()
         {
-            var authorInfo = this.data.Authors.FirstOrDefault();
+            var authorInfo = new Author();
 
-            if (authorInfo == null)
+            Task.Run(() =>
             {
-                return null;
-            }           
+                 authorInfo = this.data.Authors.FirstOrDefault();                          
+                             
+            }).GetAwaiter().GetResult();
 
             var author = new AuthorViewModel
             {
@@ -72,17 +85,29 @@ namespace Bakery.Service
         }
 
         public bool IsAuthor(string userId)
-        {          
-            return this.data
+        {     
+            var isValidAuthor = true;
+
+            Task.Run(() =>
+            {
+                isValidAuthor = this.data
                 .Authors
                 .Any(a => a.AuthorId == userId);
+
+            }).GetAwaiter().GetResult();
+
+            return isValidAuthor;
         }
 
         public void AddEmployee(Employee employee)
         {
-            this.data.Employees.Add(employee);
+            Task.Run(() => 
+            {
+                this.data.Employees.Add(employee);
 
-            this.data.SaveChanges();
+                this.data.SaveChanges();
+
+            }).GetAwaiter().GetResult();            
         }
 
         private byte[] CreateByteFile(IFormFile file)
