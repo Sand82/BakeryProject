@@ -27,7 +27,7 @@ namespace Bakery.Service
                 item = this.data
                 .Items
                 .FirstOrDefault(
-                i => i.ProductName == name && i.Quantity == quantity && i.ProductPrice == currPrice);
+                /*i => i.ProductName == name && i.Quantity == quantity && i.ProductPrice == currPrice*/);
 
             }).GetAwaiter().GetResult();
 
@@ -45,7 +45,7 @@ namespace Bakery.Service
                 items = order.Items.Select(x => new EditItemsFormModel
                 {
                     Id = x.Id,
-                    Name = x.ProductName,
+                    //Name = x.ProductName,
                     Quantity = x.Quantity,
                 })
                .ToList();

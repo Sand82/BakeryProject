@@ -34,13 +34,12 @@ namespace Bakery.Service
             return order;
         }
 
-        public Item CreateItem(int id, string name, decimal price, int quantity, string userId)
+        public Item CreateItem(int productId,  int quantity, string userId)
         {
             var item = new Item
-            {
-                ProductName = name,
-                ProductPrice = price,
+            {                
                 Quantity = quantity,
+                ProductId = productId
             };
 
             Task.Run(() =>
@@ -71,7 +70,7 @@ namespace Bakery.Service
             {
                   order = this.data
                  .Orders
-                 .Include(i => i.Items)
+                 .Include(i => i.Items)               
                  .Where(o => o.UserId == userId && o.IsFinished == false)
                  .FirstOrDefault();
 
@@ -93,12 +92,12 @@ namespace Bakery.Service
 
             foreach (var item in order.Items)
             {
-                totalPrice += item.ProductPrice * item.Quantity;
+                //totalPrice += item.ProductPrice * item.Quantity;
 
                 var newItem = new ItemFormViewModel
                 {
-                    Name = item.ProductName,
-                    Price = item.ProductPrice.ToString("f2"),
+                    //Name = item.ProductName,
+                    //Price = item.ProductPrice.ToString("f2"),
                     Quantity = item.Quantity,
                 };
 
