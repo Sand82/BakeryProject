@@ -1,4 +1,5 @@
-﻿using Bakery.Service;
+﻿using Bakery.Models.Items;
+using Bakery.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,7 +34,7 @@ namespace Bakery.Controllers
             
             return View(product);
         }
-
+               
         [Authorize]
         public IActionResult Vote(int id, byte vote)
         {

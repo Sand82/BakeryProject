@@ -82,22 +82,19 @@
                         <span class="color blue"></span>
                         </h5>*@
 
-                    <form>
+                    <form method="POST">
                         <div class="form-group">
                             <input asp-for="Quantity" type="text" id="quantity input" placeholder="Quantity">
                             <span asp-validation-for="Quantity"></span>
                         </div>
-                    </form>
-                    <div class="action">
+                        <div class="action">
                         <a class="add-to-cart btn btn-default" id="details-add"
-                           onclick="ChangeQuantityValue(event);"
-                           asp-controller="Order" asp-action="Add"
-                           asp-route-id="@Model.Id"
-                           asp-route-name="@Model.Name"
-                           asp-route-price="@Model.Price"
-                           asp-route-quantity="@Model.Quantity">add to cart</a>
+                           onclick="ChangeQuantityValue(event, @Model.Id );"                           
+                        >add to cart</a>
                         @*<button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>*@
                     </div>
+                    </form>
+                    
                 </div>
             </div>
         </div>
@@ -106,17 +103,32 @@
 
 @section Scripts {
 <script>
-    function ChangeQuantityValue(e) { 
+    function ChangeQuantityValue(e, productId) { 
         
        e.preventDefault();
 
        let quantity = document.getElementById('quantity input').value;
 
-       let url = document.getElementById("details-add").getAttribute("href");
+       console.log(quantity);
+       console.log(productId);
 
-       var newUrl = url.replace("quantity=1","quantity=" + quantity);   
+       var model = {productId: productId, quantity: quantity}
+
+       $.ajax({
+                type: "POST",
+                url: "/api/Details",
+                data: JSON.stringify(model),
+                success: function (data) {
+                   console.log(data);
+                },
+                contentType: 'application/json'
+              });            
+
+       //let url = document.getElementById("details-add").getAttribute("href");
+
+       //var newUrl = url.replace("quantity=1","quantity=" + quantity);   
    
-       location.href = newUrl; 
+       //location.href = newUrl; 
  }
 </script>
 }
