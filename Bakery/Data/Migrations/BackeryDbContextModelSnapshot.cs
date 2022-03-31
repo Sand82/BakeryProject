@@ -201,6 +201,9 @@ namespace Bakery.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -213,6 +216,8 @@ namespace Bakery.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Items");
                 });
@@ -564,6 +569,13 @@ namespace Bakery.Data.Migrations
                     b.Navigation("Author");
                 });
 
+            modelBuilder.Entity("Bakery.Data.Models.Item", b =>
+                {
+                    b.HasOne("Bakery.Data.Models.Product", null)
+                        .WithMany("Items")
+                        .HasForeignKey("ProductId");
+                });
+
             modelBuilder.Entity("Bakery.Data.Models.Product", b =>
                 {
                     b.HasOne("Bakery.Data.Models.Author", null)
@@ -685,6 +697,8 @@ namespace Bakery.Data.Migrations
 
             modelBuilder.Entity("Bakery.Data.Models.Product", b =>
                 {
+                    b.Navigation("Items");
+
                     b.Navigation("Votes");
                 });
 #pragma warning restore 612, 618

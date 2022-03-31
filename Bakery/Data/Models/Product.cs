@@ -11,6 +11,8 @@ namespace Bakery.Data.Models
             this.Ingredients = new HashSet<Ingredient>();            
 
             this.Votes = new HashSet<Vote>();
+
+            this.Items = new HashSet<Item>();
         }
 
         [Key]
@@ -41,5 +43,8 @@ namespace Bakery.Data.Models
         public ICollection<Ingredient> Ingredients { get; set; }        
 
         public ICollection<Vote>? Votes { get; set; }
+
+        public ICollection<Item>? Items { get; set; }
+        
     }
 }

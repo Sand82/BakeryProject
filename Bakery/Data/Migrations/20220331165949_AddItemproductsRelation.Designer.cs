@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bakery.Data.Migrations
 {
     [DbContext(typeof(BackeryDbContext))]
-    [Migration("20220328185359_AddEmploeesDbSet")]
-    partial class AddEmploeesDbSet
+    [Migration("20220331165949_AddItemproductsRelation")]
+    partial class AddItemproductsRelation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -130,6 +130,9 @@ namespace Bakery.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<DateTime>("ApplayDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int?>("AuthorId")
                         .HasColumnType("int");
 
@@ -157,7 +160,10 @@ namespace Bakery.Data.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<bool>("IsApproved")
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<bool?>("IsApproved")
                         .HasColumnType("bit");
 
                     b.Property<string>("Phone")
@@ -197,6 +203,9 @@ namespace Bakery.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -209,6 +218,8 @@ namespace Bakery.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Items");
                 });
@@ -560,6 +571,13 @@ namespace Bakery.Data.Migrations
                     b.Navigation("Author");
                 });
 
+            modelBuilder.Entity("Bakery.Data.Models.Item", b =>
+                {
+                    b.HasOne("Bakery.Data.Models.Product", null)
+                        .WithMany("Items")
+                        .HasForeignKey("ProductId");
+                });
+
             modelBuilder.Entity("Bakery.Data.Models.Product", b =>
                 {
                     b.HasOne("Bakery.Data.Models.Author", null)
@@ -681,6 +699,8 @@ namespace Bakery.Data.Migrations
 
             modelBuilder.Entity("Bakery.Data.Models.Product", b =>
                 {
+                    b.Navigation("Items");
+
                     b.Navigation("Votes");
                 });
 #pragma warning restore 612, 618
