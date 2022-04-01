@@ -1,15 +1,9 @@
 ﻿@using Bakery.Infrastructure
-@using static Bakery.WebConstants
 @inject IAuthorService authorService
 @model AllProductQueryModel
 
 @{
     ViewData["Title"] = "All Bake";
-}
-
-@if (this.TempData.ContainsKey(ItemAdded))
-{
-    <div class="alert alert-success">@this.TempData[ItemAdded]</div>
 }
 
 <form method="get">

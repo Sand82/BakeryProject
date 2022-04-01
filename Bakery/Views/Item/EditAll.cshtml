@@ -45,8 +45,12 @@
                 
             const quantity = Number(quantityData);
 
-            let model = {itemId: itemId, quantity: quantity};   
-          
+            let model = {itemId: itemId, quantity: quantity};    
+            
+            console.log(itemId);
+            console.log(quantity);
+            console.log(model);
+
               $.ajax({
                 type: "POST",
                 url: "/api/EditItem",

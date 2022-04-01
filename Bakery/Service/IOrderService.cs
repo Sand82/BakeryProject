@@ -8,7 +8,7 @@ namespace Bakery.Service
     {
         Order CreatOrder(string userId);
 
-        Item CreateItem(int id, int quantity, string userId);
+        Item CreateItem(int id, string name, decimal price, int quantity, string userId);
 
         void AddItemInOrder(Item item, Order order);
 

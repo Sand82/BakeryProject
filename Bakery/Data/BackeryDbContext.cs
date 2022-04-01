@@ -18,9 +18,7 @@ namespace Bakery.Data
 
         public DbSet<Ingredient> Ingredients { get; set; }       
 
-        public DbSet<Product> Products { get; set; }
-
-        public DbSet<Item> Items { get; set; }
+        public DbSet<Product> Products { get; set; }        
 
         public DbSet<Order> Orders { get; set; }  
         
@@ -28,12 +26,23 @@ namespace Bakery.Data
         
         public DbSet<Vote> Votes { get; set; }  
         
-        public DbSet<Employee> Employees { get; set; }  
+        public DbSet<Employee> Employees { get; set; }
 
-                       
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {           
-                        
+        public DbSet<OrdersProducts> OrdersProducts { get; set; }    
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)      
+        {
+
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Order>().HasMany(x => x.Products).WithMany("Orders").UsingEntity<OrdersProducts>(
+                e => e.HasOne(x => x.Product).WithMany(),
+                e => e.HasOne(x => x.Order).WithMany(),
+                join =>
+                {
+                    join.ToTable("OrdersProducts");
+                    join.HasKey($"{nameof(Order)}Id", $"{nameof(Product)}Id");
+                });            
+
             modelBuilder.Entity<Product>()
                 .Property(p => p.Price)
                 .HasColumnType("decimal(18,2)");

@@ -34,12 +34,13 @@ namespace Bakery.Service
             return order;
         }
 
-        public Item CreateItem(int productId,  int quantity, string userId)
+        public Item CreateItem(int id, string name, decimal price, int quantity, string userId)
         {
             var item = new Item
-            {                
+            {
+                ProductName = name,
+                ProductPrice = price,
                 Quantity = quantity,
-                ProductId = productId
             };
 
             Task.Run(() =>
@@ -55,9 +56,9 @@ namespace Bakery.Service
         {
             Task.Run(() =>
             {
-                order.Items.Add(item);
+                //order.Items.Add(item);
 
-                this.data.SaveChanges();
+                //this.data.SaveChanges();
 
             }).GetAwaiter().GetResult();            
         }
@@ -68,11 +69,11 @@ namespace Bakery.Service
 
             Task.Run(() =>
             {
-                  order = this.data
-                 .Orders
-                 .Include(i => i.Items)               
-                 .Where(o => o.UserId == userId && o.IsFinished == false)
-                 .FirstOrDefault();
+                 // order = this.data
+                 //.Orders
+                 //.Include(i => i.Items)
+                 //.Where(o => o.UserId == userId && o.IsFinished == false)
+                 //.FirstOrDefault();
 
             }).GetAwaiter().GetResult();            
 
@@ -88,25 +89,25 @@ namespace Bakery.Service
                 DateOfOrder = order.DateOfOrder.ToString("dd.mm.yyyy")
             };
 
-            var totalPrice = 0.0m;
+            //var totalPrice = 0.0m;
 
-            foreach (var item in order.Items)
-            {
-                //totalPrice += item.ProductPrice * item.Quantity;
+            //foreach (var item in order.Items)
+            //{
+            //    totalPrice += item.ProductPrice * item.Quantity;
 
-                var newItem = new ItemFormViewModel
-                {
-                    //Name = item.ProductName,
-                    //Price = item.ProductPrice.ToString("f2"),
-                    Quantity = item.Quantity,
-                };
+            //    var newItem = new ItemFormViewModel
+            //    {
+            //        Name = item.ProductName,
+            //        Price = item.ProductPrice.ToString("f2"),
+            //        Quantity = item.Quantity,
+            //    };
 
-                orderModel.items.Add(newItem);
-            }
+            //    orderModel.items.Add(newItem);
+            //}
 
-            orderModel.TotallPrice = totalPrice.ToString("f2");
+            //orderModel.TotallPrice = totalPrice.ToString("f2");
 
-            orderModel.ItemsCount = order.Items.Count();
+            //orderModel.ItemsCount = order.Items.Count();
 
             return orderModel;
         }
@@ -126,9 +127,9 @@ namespace Bakery.Service
         {
             Task.Run(() =>
             {
-                this.data.Items.Add(item);
+                //this.data.Items.Add(item);
 
-                this.data.SaveChanges();
+                //this.data.SaveChanges();
 
             }).GetAwaiter().GetResult();           
         }

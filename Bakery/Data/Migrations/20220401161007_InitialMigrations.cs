@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Bakery.Data.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialMigrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -89,22 +89,6 @@ namespace Bakery.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Ingredients", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Items",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ProductPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Items", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -312,30 +296,6 @@ namespace Bakery.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ItemOrder",
-                columns: table => new
-                {
-                    ItemsId = table.Column<int>(type: "int", nullable: false),
-                    OrdersId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ItemOrder", x => new { x.ItemsId, x.OrdersId });
-                    table.ForeignKey(
-                        name: "FK_ItemOrder_Items_ItemsId",
-                        column: x => x.ItemsId,
-                        principalTable: "Items",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ItemOrder_Orders_OrdersId",
-                        column: x => x.OrdersId,
-                        principalTable: "Orders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "IngredientProduct",
                 columns: table => new
                 {
@@ -354,6 +314,31 @@ namespace Bakery.Data.Migrations
                     table.ForeignKey(
                         name: "FK_IngredientProduct_Products_ProductsId",
                         column: x => x.ProductsId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrdersProducts",
+                columns: table => new
+                {
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    ProductQuantity = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrdersProducts", x => new { x.OrderId, x.ProductId });
+                    table.ForeignKey(
+                        name: "FK_OrdersProducts_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrdersProducts_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -435,9 +420,9 @@ namespace Bakery.Data.Migrations
                 column: "ProductsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItemOrder_OrdersId",
-                table: "ItemOrder",
-                column: "OrdersId");
+                name: "IX_OrdersProducts_ProductId",
+                table: "OrdersProducts",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_AuthorId",
@@ -482,7 +467,7 @@ namespace Bakery.Data.Migrations
                 name: "IngredientProduct");
 
             migrationBuilder.DropTable(
-                name: "ItemOrder");
+                name: "OrdersProducts");
 
             migrationBuilder.DropTable(
                 name: "Votes");
@@ -495,9 +480,6 @@ namespace Bakery.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Ingredients");
-
-            migrationBuilder.DropTable(
-                name: "Items");
 
             migrationBuilder.DropTable(
                 name: "Orders");

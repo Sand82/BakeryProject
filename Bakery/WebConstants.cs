@@ -7,7 +7,5 @@
         public const string DateOfDelivery = "Order.DateOfDelivery";
 
         public const string ProductAdded = "Added";
-
-        public const string ItemAdded = "ItemAdded";
     }
 }

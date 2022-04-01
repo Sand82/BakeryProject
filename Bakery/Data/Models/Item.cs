@@ -12,12 +12,17 @@ namespace Bakery.Data.Models
         }
 
         [Key]
-        public int Id { get; set; }                    
+        public int Id { get; set; }
+
+        [Required]
+        [StringLength(ProductMaxLenght)]
+        public string ProductName { get; set; }
+
+        [Range(typeof(decimal), DecimalMinValue, DecimalMaxValue)]
+        public decimal ProductPrice { get; set; }             
 
         [Range(ItemMinValue, ItemMaxValue)]
         public int Quantity { get; set; }
-
-        public int? ProductId { get; set; }
 
         public ICollection<Order> Orders { get; set; }
         

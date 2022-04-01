@@ -1,5 +1,4 @@
-﻿using Bakery.Models.Items;
-using Bakery.Service;
+﻿using Bakery.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,26 +33,26 @@ namespace Bakery.Controllers
             
             return View(product);
         }
-               
-        [Authorize]
-        public IActionResult Vote(int id, byte vote)
-        {
-            if (id == 0)
-            {
-                return BadRequest();
-            }
 
-            if (vote < 0 || vote > 5)
-            {
-                return BadRequest();
-            }
+        //[Authorize]
+        //public IActionResult Vote(int id, byte vote)
+        //{
+        //    if (id == 0)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            var userId = User.GetId();
+        //    if (vote < 0 || vote > 5)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            voteService.SetVote(userId, id, vote);         
+        //    var userId = User.GetId();
+
+        //    voteService.SetVote(userId, id, vote);         
             
-            return RedirectToAction("Details", "Item",  new { id });
-        }
+        //    return RedirectToAction("Details", "Item",  new { id });
+        //}
 
         [Authorize]
         public IActionResult EditAll(int id)

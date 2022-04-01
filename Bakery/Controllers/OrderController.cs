@@ -23,13 +23,49 @@ namespace Bakery.Controllers
             this.itemsService = itemsService;
             this.customerService = customerService;
         }
+        
+        [Authorize]
+        public IActionResult Add(int id, string name, string price, int quantity)
+        {
+            if (quantity < 1 || quantity > 2000)
+            {
+                return Redirect("/Item/Details/" + id);
+            }
 
-        //[Authorize]
-        //public IActionResult Add()
-        //{
+            var ParsePrice = Decimal.TryParse(price, out var currPrice);
 
-        //} 
+            if (!ParsePrice)
+            {
+                throw new InvalidOperationException("Unknown format for 'Price'");
+            }
 
+            var userId = GetUserId();
+
+            if (userId == null)
+            {
+                return BadRequest();
+            }
+
+            var order = orderService.FindOrderByUserId(userId);
+
+            if (order == null)
+            {
+               order = orderService.CreatOrder(userId);
+            }
+
+            var item = itemsService.FindItem(name, quantity, currPrice);            
+            
+
+            if (item == null )
+            {
+                item = orderService.CreateItem(id, name, currPrice, quantity, userId);
+            }
+
+            orderService.AddItemInOrder(item, order);
+
+            return RedirectToAction("All", "Bakery");
+        } 
+        
 
         [Authorize]
         public IActionResult Buy()
@@ -50,11 +86,11 @@ namespace Bakery.Controllers
 
             var orderModel = orderService.CreateOrderModel(order);
 
-            var formCustomerOrder = new CustomerFormModel
+            var formCustomerOrder = new CustomerFormModel 
             {
                 Order = orderModel,
-                OrderId = orderModel.Id,
-            };
+                OrderId = orderModel.Id,                        
+            };            
 
             return View(formCustomerOrder);
         }
@@ -79,7 +115,7 @@ namespace Bakery.Controllers
             var order = orderService.FindOrderByUserId(userId);
 
             if (!ModelState.IsValid)
-            {
+            {                
                 var orderModel = orderService.CreateOrderModel(order);
 
                 formCustomerOrder.Order.DateOfOrder = orderModel.DateOfOrder;
@@ -88,19 +124,19 @@ namespace Bakery.Controllers
                 {
                     Order = orderModel,
                     OrderId = orderModel.Id,
-                };
+                };               
 
                 return View(formCustomerOrder);
-            }
-
+            }          
+                      
             if (!isValidDate)
             {
                 return BadRequest();
             }
 
-            var finishedOrder = orderService.FinishOrder(order, dateOfDelivery);
-
-            var customer = customerService.CreateCustomer(userId, formCustomerOrder);
+            var finishedOrder = orderService.FinishOrder(order, dateOfDelivery);            
+            
+            var customer = customerService.CreateCustomer(userId, formCustomerOrder);           
 
             customer.Order = finishedOrder;
 
@@ -112,17 +148,17 @@ namespace Bakery.Controllers
         private string GetUserId()
         {
             return User.GetId();
-        }
-
+        }  
+        
         private (bool, DateTime) TryParceDate(string date)
-        {
+        {         
             DateTime dateOfOrder;
 
-            var isValidDate = DateTime.TryParseExact(
-                date.ToString(),
-                "dd.MM.yyyy", CultureInfo.InvariantCulture,
-                DateTimeStyles.None,
-                out dateOfOrder);
+           var isValidDate = DateTime.TryParseExact(
+               date.ToString(),
+               "dd.MM.yyyy", CultureInfo.InvariantCulture,
+               DateTimeStyles.None,
+               out dateOfOrder);
 
             return (isValidDate, dateOfOrder);
         }

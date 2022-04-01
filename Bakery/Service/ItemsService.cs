@@ -24,10 +24,10 @@ namespace Bakery.Service
 
             Task.Run(() =>
             {
-                item = this.data
-                .Items
-                .FirstOrDefault(
-                /*i => i.ProductName == name && i.Quantity == quantity && i.ProductPrice == currPrice*/);
+                //item = this.data
+                //.Items
+                //.FirstOrDefault(
+                //i => i.ProductName == name && i.Quantity == quantity && i.ProductPrice == currPrice);
 
             }).GetAwaiter().GetResult();
 
@@ -42,13 +42,13 @@ namespace Bakery.Service
             {
                 var order = FindOrderById(id);
 
-                items = order.Items.Select(x => new EditItemsFormModel
-                {
-                    Id = x.Id,
-                    //Name = x.ProductName,
-                    Quantity = x.Quantity,
-                })
-               .ToList();
+               // items = order.Items.Select(x => new EditItemsFormModel
+               // {
+               //     Id = x.Id,
+               //     Name = x.ProductName,
+               //     Quantity = x.Quantity,
+               // })
+               //.ToList();
 
             }).GetAwaiter().GetResult();
 
@@ -101,11 +101,11 @@ namespace Bakery.Service
 
             Task.Run(() =>
             {
-                order = this.data
-               .Orders
-               .Include(x => x.Items)
-               .Where(x => x.Id == id)
-               .FirstOrDefault();
+               // order = this.data
+               //.Orders
+               //.Include(x => x.Items)
+               //.Where(x => x.Id == id)
+               //.FirstOrDefault();
 
             }).GetAwaiter().GetResult();
 
@@ -118,11 +118,11 @@ namespace Bakery.Service
 
             Task.Run(() =>
             {
-                order = this.data
-               .Orders
-               .Include(x => x.Items)
-               .Where(x => x.UserId == userId && x.IsFinished == false)
-               .FirstOrDefault();
+               // order = this.data
+               //.Orders
+               //.Include(x => x.Items)
+               //.Where(x => x.UserId == userId && x.IsFinished == false)
+               //.FirstOrDefault();
 
             }).GetAwaiter().GetResult();
 
@@ -136,10 +136,10 @@ namespace Bakery.Service
 
             Task.Run(() =>
             {
-                item = this.data
-               .Items
-               .Where(i => i.Id == id)
-               .FirstOrDefault();
+               // item = this.data
+               //.Items
+               //.Where(i => i.Id == id)
+               //.FirstOrDefault();
 
             }).GetAwaiter().GetResult();
 
@@ -150,9 +150,9 @@ namespace Bakery.Service
         {
             Task.Run(() =>
             {
-                order.Items.Remove(item);
+                //order.Items.Remove(item);
 
-                data.SaveChanges();
+                //data.SaveChanges();
 
             }).GetAwaiter().GetResult();
         }
@@ -161,9 +161,9 @@ namespace Bakery.Service
         {
             Task.Run(() =>
             {
-                order.Items = null;
+                //order.Items = null;
 
-                data.SaveChanges();
+                //data.SaveChanges();
 
             }).GetAwaiter().GetResult();
         }
