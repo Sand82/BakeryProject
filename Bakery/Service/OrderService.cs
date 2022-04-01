@@ -70,7 +70,8 @@ namespace Bakery.Service
             Task.Run(() =>
             {
                 order = this.data
-               .Orders               
+               .Orders    
+               .Include(o => o.Products)               
                .Where(o => o.UserId == userId && o.IsFinished == false)
                .FirstOrDefault();
 
@@ -96,34 +97,45 @@ namespace Bakery.Service
             return orderId;
         }
 
-        public CreateOrderModel CreateOrderModel(Order order)
+        public CreateOrderModel CreateOrderModel(string userId)
         {
+            var orderProducts = new OrdersProducts();
+
+            Task.Run(() =>
+            {
+                orderProducts = this.data.OrdersProducts
+                .Include(o=> o.Order).ThenInclude(p => p.Products)
+                .Where(o => o.Order.UserId == userId && o.Order.IsFinished == false)                               
+                .FirstOrDefault();
+
+            }).GetAwaiter().GetResult();
+
             var orderModel = new CreateOrderModel
             {
-                Id = order.Id,
-                IsFinished = order.IsFinished,
-                DateOfOrder = order.DateOfOrder.ToString("dd.mm.yyyy")
+                Id = orderProducts.Order.Id,
+                IsFinished = orderProducts.Order.IsFinished,
+                DateOfOrder = orderProducts.Order.DateOfOrder.ToString("dd.mm.yyyy")
             };
 
-            //var totalPrice = 0.0m;
+            var totalPrice = 0.0m;
 
-            //foreach (var item in order.Items)
-            //{
-            //    totalPrice += item.ProductPrice * item.Quantity;
+            foreach (var product in orderProducts.Order.Products)
+            {
+                totalPrice += product.Price * orderProducts.ProductQuantity;
 
-            //    var newItem = new ItemFormViewModel
-            //    {
-            //        Name = item.ProductName,
-            //        Price = item.ProductPrice.ToString("f2"),
-            //        Quantity = item.Quantity,
-            //    };
+                var newItem = new ItemFormViewModel
+                {
+                    Name = product.Name,
+                    Price = product.Price.ToString("f2"),
+                    Quantity = orderProducts.ProductQuantity
+                };
 
-            //    orderModel.items.Add(newItem);
-            //}
+                orderModel.items.Add(newItem);
+            }
 
-            //orderModel.TotallPrice = totalPrice.ToString("f2");
+            orderModel.TotallPrice = totalPrice.ToString("f2");
 
-            //orderModel.ItemsCount = order.Items.Count();
+            orderModel.ItemsCount = orderProducts.Order.Products.Count();
 
             return orderModel;
         }

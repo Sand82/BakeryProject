@@ -1,9 +1,9 @@
-﻿using Bakery.Data.Models;
+﻿using Bakery.Models.Details;
 
 namespace Bakery.Service
 {
     public interface IDetailsService
     {
-        OrdersProducts AddProductToOrder(int productId,int orderId,int quantity);
+       void AddProductToOrder(int productId,int orderId,int quantity);
     }
 }

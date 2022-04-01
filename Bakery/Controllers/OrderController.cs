@@ -24,47 +24,47 @@ namespace Bakery.Controllers
             this.customerService = customerService;
         }
         
-        [Authorize]
-        public IActionResult Add(int id, string name, string price, int quantity)
-        {
-            if (quantity < 1 || quantity > 2000)
-            {
-                return Redirect("/Item/Details/" + id);
-            }
+        //[Authorize]
+        //public IActionResult Add(int id, string name, string price, int quantity)
+        //{
+        //    if (quantity < 1 || quantity > 2000)
+        //    {
+        //        return Redirect("/Item/Details/" + id);
+        //    }
 
-            var ParsePrice = Decimal.TryParse(price, out var currPrice);
+        //    var ParsePrice = Decimal.TryParse(price, out var currPrice);
 
-            if (!ParsePrice)
-            {
-                throw new InvalidOperationException("Unknown format for 'Price'");
-            }
+        //    if (!ParsePrice)
+        //    {
+        //        throw new InvalidOperationException("Unknown format for 'Price'");
+        //    }
 
-            var userId = GetUserId();
+        //    var userId = GetUserId();
 
-            if (userId == null)
-            {
-                return BadRequest();
-            }
+        //    if (userId == null)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            var order = orderService.FindOrderByUserId(userId);
+        //    var order = orderService.FindOrderByUserId(userId);
 
-            if (order == null)
-            {
-               order = orderService.CreatOrder(userId);
-            }
+        //    if (order == null)
+        //    {
+        //       order = orderService.CreatOrder(userId);
+        //    }
 
-            var item = itemsService.FindItem(name, quantity, currPrice);            
+        //    var item = itemsService.FindItem(name, quantity, currPrice);            
             
 
-            if (item == null )
-            {
-                item = orderService.CreateItem(id, name, currPrice, quantity, userId);
-            }
+        //    if (item == null )
+        //    {
+        //        item = orderService.CreateItem(id, name, currPrice, quantity, userId);
+        //    }
 
-            orderService.AddItemInOrder(item, order);
+        //    orderService.AddItemInOrder(item, order);
 
-            return RedirectToAction("All", "Bakery");
-        } 
+        //    return RedirectToAction("All", "Bakery");
+        //} 
         
 
         [Authorize]
@@ -75,16 +75,9 @@ namespace Bakery.Controllers
             if (userId == null)
             {
                 return BadRequest();
-            }
+            }           
 
-            var order = orderService.FindOrderByUserId(userId);
-
-            if (order == null)
-            {
-                order = orderService.CreatOrder(userId);
-            }
-
-            var orderModel = orderService.CreateOrderModel(order);
+            var orderModel = orderService.CreateOrderModel(userId);
 
             var formCustomerOrder = new CustomerFormModel 
             {
@@ -116,7 +109,7 @@ namespace Bakery.Controllers
 
             if (!ModelState.IsValid)
             {                
-                var orderModel = orderService.CreateOrderModel(order);
+                var orderModel = orderService.CreateOrderModel(userId);
 
                 formCustomerOrder.Order.DateOfOrder = orderModel.DateOfOrder;
 

@@ -58,9 +58,9 @@ namespace Bakery.Controllers
                 order = orderService.CreatOrder(userId);
             }
 
-            var orderProduct = detailsService.AddProductToOrder(id, order.Id, quantity);
+            detailsService.AddProductToOrder(id, order.Id, quantity);
 
-            return RedirectToAction("All", "Product");
+            return RedirectToAction("All", "Bakery");
         }
 
         //[Authorize]

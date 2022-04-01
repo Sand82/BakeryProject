@@ -14,7 +14,7 @@ namespace Bakery.Service
             this.data = data;
         }
 
-        public OrdersProducts AddProductToOrder(int productId, int orderId, int quantity)
+        public void AddProductToOrder(int productId, int orderId, int quantity)
         {
             var orderProduct = new OrdersProducts
             {
@@ -29,9 +29,7 @@ namespace Bakery.Service
 
                 this.data.SaveChanges();
 
-            }).GetAwaiter().GetResult();
-
-            return orderProduct;
+            }).GetAwaiter().GetResult();            
         }       
     }
 }
