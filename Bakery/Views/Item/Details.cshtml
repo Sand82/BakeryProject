@@ -47,7 +47,7 @@
 
                             @if (Model.Vote == 0)
                             {
-                                <form class="row g-2">
+                                
                                     <div class="col-auto">
                                         <button asp-controller="Item" asp-action="Vote" asp-route-id="@Model.Id" class="add-to-cart btn btn-default mb-3" style="padding: 0.4em 1.5em;">Vote</button>
                                     </div>
@@ -61,7 +61,8 @@
                                             <option value="1">1</option>
                                         </select>
                                     </div>
-                                </form>
+                                @* <form class="row g-2">
+                                </form>*@
                             }
                         </div>
                         <span class="review-no">Average result: @Model.VoteCount</span>
@@ -82,22 +83,15 @@
                         <span class="color blue"></span>
                         </h5>*@
 
-                    <form>
+                    <form method="Post" class="form-group">
                         <div class="form-group">
                             <input asp-for="Quantity" type="text" id="quantity input" placeholder="Quantity">
-                            <span asp-validation-for="Quantity"></span>
-                        </div>
-                    </form>
-                    <div class="action">
-                        <a class="add-to-cart btn btn-default" id="details-add"
-                           onclick="ChangeQuantityValue(event);"
-                           asp-controller="Order" asp-action="Add"
-                           asp-route-id="@Model.Id"
-                           asp-route-name="@Model.Name"
-                           asp-route-price="@Model.Price"
-                           asp-route-quantity="@Model.Quantity">add to cart</a>
+                            <span asp-validation-for="Quantity"></span>                       
+                            <button class="add-to-cart btn btn-default" type="submit" id="details-add">add to cart</button>
                         @*<button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>*@
-                    </div>
+                        </div>
+                   </form>
+                   
                 </div>
             </div>
         </div>

@@ -69,15 +69,31 @@ namespace Bakery.Service
 
             Task.Run(() =>
             {
-                 // order = this.data
-                 //.Orders
-                 //.Include(i => i.Items)
-                 //.Where(o => o.UserId == userId && o.IsFinished == false)
-                 //.FirstOrDefault();
+                order = this.data
+               .Orders               
+               .Where(o => o.UserId == userId && o.IsFinished == false)
+               .FirstOrDefault();
 
             }).GetAwaiter().GetResult();            
 
             return order;
+        }
+
+        public int FindOrderIdByUserId(string userId)
+        {
+            var orderId = 0;
+
+            Task.Run(() =>
+            {
+                orderId = this.data
+               .Orders
+               .Where(o => o.UserId == userId && o.IsFinished == false)
+               .Select(x => x.Id)
+               .FirstOrDefault();
+
+            }).GetAwaiter().GetResult();
+
+            return orderId;
         }
 
         public CreateOrderModel CreateOrderModel(Order order)
@@ -143,6 +159,6 @@ namespace Bakery.Service
                 this.data.SaveChanges();
 
             }).GetAwaiter().GetResult();           
-        }
+        }       
     }
 }

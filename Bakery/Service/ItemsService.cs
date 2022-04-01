@@ -56,6 +56,7 @@ namespace Bakery.Service
         }
 
         public DetailsViewModel GetDetails(int id, string userId)
+        
         {
 
             var averageVoteCount = (int)Math.Ceiling(voteService.GetAverage(id));
@@ -64,7 +65,6 @@ namespace Bakery.Service
 
             Task.Run(() =>
             {
-
                 product = this.data.
                 Products
                .Include(i => i.Ingredients)
