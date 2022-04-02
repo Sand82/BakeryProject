@@ -27,6 +27,7 @@ namespace Bakery.Service
                 {
                     FullName = model.FullName,
                     Phone = model.Phone,
+                    Age = model.Age,
                     Email = model.Email,
                     Description = model.Description,
                     Experience = model.Experience,
@@ -74,7 +75,7 @@ namespace Bakery.Service
 
             var author = new AuthorViewModel
             {
-                Id = authorInfo.Id,
+                Id = authorInfo.Id,                
                 FirstName = authorInfo.FirstName,
                 LastName = authorInfo.LastName,
                 Description = authorInfo.Description,

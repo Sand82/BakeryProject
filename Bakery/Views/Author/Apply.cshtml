@@ -10,27 +10,33 @@
     <div class="row mx-0 justify-content-center">
         <div class="col-md-7 col-lg-5 px-lg-2 col-xl-4 px-xl-0 px-xxl-3">
             <form method="Post" class="w-100 rounded-1 p-4 border bg-white" enctype="multipart/form-data">
-                <label asp-for="@Model.FullName" class="d-block mb-4">
+                <label asp-for="FullName" class="d-block mb-4">
                     <span  class="form-label d-block">Your name</span>
-                    <input asp-for="@Model.FullName" class="form-control " placeholder="Vqra Bakery" />
-                    <span asp-validation-for="@Model.FullName" class="small text-danger"></span>
+                    <input asp-for="FullName" class="form-control " placeholder="Vqra Bakery" />
+                    <span asp-validation-for="FullName" class="small text-danger"></span>
                 </label>
 
-                <label asp-for="@Model.Email" class="d-block mb-4">
+                <label asp-for="Age" class="d-block mb-4">
+                    <span  class="form-label d-block">Age</span>
+                    <input asp-for="Age" class="form-control " placeholder="Vqra Bakery" />
+                    <span asp-validation-for="Age" class="small text-danger"></span>
+                </label>
+
+                <label asp-for="Email" class="d-block mb-4">
                     <span class="form-label d-block">Email address</span>
-                    <input asp-for="@Model.Email" required class="form-control" placeholder="vqra@example.com" />
-                    <span asp-validation-for="@Model.Email" class="small text-danger"></span>
+                    <input asp-for="Email" required class="form-control" placeholder="vqra@example.com" />
+                    <span asp-validation-for="Email" class="small text-danger"></span>
                 </label>
 
-                <label asp-for="@Model.Phone" class="d-block mb-4">
+                <label asp-for="Phone" class="d-block mb-4">
                     <span class="form-label d-block">Phone number</span>
-                    <input asp-for="@Model.Phone" required class="form-control" placeholder="+359888112233" />
-                    <span asp-validation-for="@Model.Phone" class="small text-danger"></span>
+                    <input asp-for="Phone" required class="form-control" placeholder="+359888112233" />
+                    <span asp-validation-for="Phone" class="small text-danger"></span>
                 </label>
 
-                <label asp-for="@Model.Experience" class="d-block mb-4">
+                <label asp-for="Experience" class="d-block mb-4">
                     <span class="form-label d-block">Years of experience</span>
-                    <select asp-for="@Model.Experience" class="form-select">
+                    <select asp-for="Experience" class="form-select">
                         <option>Less than a year</option>
                         <option>1 - 2 years</option>
                         <option>2 - 4 years</option>
@@ -38,13 +44,13 @@
                         <option>7 - 10 years</option>
                         <option>10+ years</option>
                     </select>
-                    <span asp-validation-for="@Model.Experience" class="small text-danger"></span>
+                    <span asp-validation-for="Experience" class="small text-danger"></span>
                 </label>
 
-                <label asp-for="@Model.Description" class="d-block mb-4">
+                <label asp-for="Description" class="d-block mb-4">
                     <span class="form-label d-block">Tell us more about yourself</span>
-                    <textarea asp-for="@Model.Description" class="form-control" rows="3" placeholder="What motivates you?"></textarea>
-                    <span asp-validation-for="@Model.Description" class="small text-danger"></span>
+                    <textarea asp-for="Description" class="form-control" rows="3" placeholder="What motivates you?"></textarea>
+                    <span asp-validation-for="Description" class="small text-danger"></span>
                 </label>
 
                 <label class="d-block mb-4">

@@ -15,6 +15,10 @@ namespace Bakery.Data.Models
         public string FullName { get; set; }
 
         [Required]
+        [Range(AgeMinValue, AgeMaxValue)]
+        public int Age { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email address")]
         [StringLength(EmailMaxLength)]

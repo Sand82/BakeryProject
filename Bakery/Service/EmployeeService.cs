@@ -26,6 +26,7 @@ namespace Bakery.Service
                 .Select(x => new EmployeeViewModel
                 {
                     Id = x.Id,
+                    Age = x.Age,
                     FullName = x.FullName,
                     Phone = x.Phone,
                     Email = x.Email,

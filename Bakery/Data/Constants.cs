@@ -29,6 +29,9 @@
         public const int ExperienceMaxLength = 40;
         public const int ExperienceMinLength = 1;
 
-       
+        public const int AgeMaxValue = 65;
+        public const int AgeMinValue = 18;
+
+
     }
 }

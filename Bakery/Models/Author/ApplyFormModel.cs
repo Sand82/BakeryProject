@@ -11,6 +11,10 @@ namespace Bakery.Models.Author
         public string FullName { get; set; }
 
         [Required]
+        [Range(AgeMinValue, AgeMaxValue)]
+        public int Age { get; set; }
+
+        [Required]
         [EmailAddress]
         [StringLength(EmailMaxLength, MinimumLength = EmailMinLength,
             ErrorMessage = "The field {0} is not valid! Must be between of {2} and {1} symbols.")]
