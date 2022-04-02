@@ -10,9 +10,9 @@ namespace Bakery.Service
 
         bool IsAuthor(string userId);
 
-        bool FileValidator(IFormFile cv);
+        bool FileValidator(IFormFile cv, IFormFile image);
 
-        Employee CreateEmployee(ApplyFormModel model, IFormFile cv);
+        Employee CreateEmployee(ApplyFormModel model, IFormFile cv, IFormFile image);
 
         void AddEmployee(Employee employee);
     }

@@ -7,7 +7,9 @@ namespace Bakery.Service
     {
         IEnumerable<EmployeeViewModel> GetAllApplies();
 
-        Employee GetById(int id);
+        Employee GetEmployeeById(int id);
+
+        EmployeeInfoViewModel GetModelById(int id);
 
         void SetEmployee(Employee employee, bool isApprove);
     }

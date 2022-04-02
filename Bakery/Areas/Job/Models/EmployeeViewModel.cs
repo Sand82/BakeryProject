@@ -12,15 +12,9 @@ namespace Bakery.Areas.Job.Models
         
         public string Email { get; set; }
         
-        public string Phone { get; set; }
-        
-        public string Description { get; set; }
-        
-        public string Experience { get; set; }
-
-        public IFormFile Autobiography { get; set; }
-
-        public byte[] Image { get; set; }
+        public string Phone { get; set; }        
+       
+        public string Experience { get; set; }       
 
         public string ApplayDate { get; set; } 
 

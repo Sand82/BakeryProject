@@ -38,9 +38,9 @@ namespace Bakery.Data.Models
         [StringLength(ExperienceMaxLength)]
         public string Experience { get; set; }
 
-        public byte[] Autobiography { get; set; }
+        public string FileId { get; set; } = Guid.NewGuid().ToString();
 
-        public byte[]? Image { get; set; }
+        public string ImageId { get; set; } = Guid.NewGuid().ToString();
 
         public DateTime ApplayDate { get; set; } = DateTime.UtcNow;
 

@@ -35,9 +35,9 @@ namespace Bakery.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult Apply(ApplyFormModel apply, IFormFile cv)
+        public IActionResult Apply(ApplyFormModel apply, IFormFile cv, IFormFile image)
         {
-            var isValidFileFormat = authorService.FileValidator(cv);
+            var isValidFileFormat = authorService.FileValidator(cv, image);            
 
             if (!isValidFileFormat)
             {
@@ -49,7 +49,7 @@ namespace Bakery.Controllers
                 return View(apply);
             }
 
-            var employee = authorService.CreateEmployee(apply, cv);
+            var employee = authorService.CreateEmployee(apply, cv, image);
 
             authorService.AddEmployee(employee);
 

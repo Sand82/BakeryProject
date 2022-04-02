@@ -29,7 +29,7 @@ namespace Bakery.Areas.Job.Controllers
         [Authorize]
         public IActionResult Add(int id)
         {
-            var employee = employeeService.GetById(id);
+            var employee = employeeService.GetEmployeeById(id);
 
             if (employee == null)
             {
@@ -45,7 +45,7 @@ namespace Bakery.Areas.Job.Controllers
         [Authorize]
         public IActionResult Reject(int id)
         {
-            var employee = employeeService.GetById(id);
+            var employee = employeeService.GetEmployeeById(id);
 
             if (employee == null)
             {
@@ -60,7 +60,7 @@ namespace Bakery.Areas.Job.Controllers
         [Authorize]
         public IActionResult Info(int id)
         {
-            var employee = employeeService.GetById(id);
+            var employee = employeeService.GetModelById(id);
 
             if (employee == null)
             {
@@ -69,5 +69,12 @@ namespace Bakery.Areas.Job.Controllers
 
             return View(employee);
         }
+
+        //[Authorize]
+        //[HttpPost]
+        //public IActionResult Info(EmployeeInfoViewModel model)
+        //{
+        //   return RedirectToAction("Approve", "Employee");
+        //}
     }
 }

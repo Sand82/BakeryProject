@@ -2,27 +2,28 @@
 using Bakery.Data.Models;
 using Bakery.Models.Author;
 using Bakery.Models.Bakeries;
-using Microsoft.AspNetCore.Identity;
+
+using static Bakery.WebConstants;
 
 namespace Bakery.Service
 {
     public class AuthorService : IAuthorService
     {
-        private readonly BackeryDbContext data;        
+        private readonly BackeryDbContext data;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public AuthorService(BackeryDbContext data)
+        public AuthorService(BackeryDbContext data, IWebHostEnvironment webHostEnvironment)
         {
             this.data = data;
+            this.webHostEnvironment = webHostEnvironment;
         }        
 
-        public Employee CreateEmployee(ApplyFormModel model, IFormFile cv)
+        public Employee CreateEmployee(ApplyFormModel model, IFormFile cv, IFormFile image)
         {
-            Employee employee = new Employee(); 
+            Employee employee = null; 
 
             Task.Run(() => 
-            {
-                var cvByte = CreateByteFile(cv);
-
+            {               
                 employee = new Employee
                 {
                     FullName = model.FullName,
@@ -30,35 +31,38 @@ namespace Bakery.Service
                     Age = model.Age,
                     Email = model.Email,
                     Description = model.Description,
-                    Experience = model.Experience,
-                    Autobiography = cvByte,
+                    Experience = model.Experience,                    
                 };
 
-            }).GetAwaiter().GetResult();          
+            }).GetAwaiter().GetResult();   
+            
+            CreateFile(cv, employee.FileId);
+            CreateFile(image, employee.ImageId);
                        
             return employee;
-        }
+        }      
 
-        public bool FileValidator(IFormFile cv)
+        public bool FileValidator(IFormFile cv, IFormFile image)
         {
-            var isValid = true;
+            var isValid = true;          
 
-            Task.Run(() => 
+            Task.Run(() =>
             {
-                var fileData = cv.FileName.Split('.').ToList();
+                var fileExstention = Path.GetExtension(cv.FileName).ToLower();
 
-                var fileFormat = fileData[fileData.Count - 1];
+                var imageExstention = Path.GetExtension(image.FileName).ToLower();
 
-                var commonFormats = new List<string>() { "doc", "docx", "odt", "txt", "PDF" };
+                var commonFileFormats = new List<string>() { ".doc", ".docx", ".odt", ".txt", ".pdf"};
 
-                if (!commonFormats.Contains(fileFormat) || cv.Length > 2 * 1024 * 1024)
+                var commonImageFormats = new List<string>() {".png", ".img", ".jpeg", ".gif", ".jpg" };
+
+                if (!AllowedFileExtension.Contains(fileExstention) || !AllowedImageExtension.Contains(imageExstention) ||
+                cv.Length > 2 * 1024 * 1024 || image.Length > 2 * 1024 * 1024)
                 {
                     isValid = false;
                 }
 
             }).GetAwaiter().GetResult();
-
-            
 
             return isValid;
         }
@@ -111,15 +115,18 @@ namespace Bakery.Service
             }).GetAwaiter().GetResult();            
         }
 
-        private byte[] CreateByteFile(IFormFile file)
+        private void CreateFile(IFormFile file, string id)
         {
-            var cvInMemory = new MemoryStream();
+            Directory.CreateDirectory($"{webHostEnvironment.WebRootPath}/files/");
 
-            file.CopyTo(cvInMemory);
+            var extension = Path.GetExtension(file.FileName);
 
-            var cvBytes = cvInMemory.ToArray();
+            var path = $"{webHostEnvironment.WebRootPath}/files/{id}{extension}";
 
-            return cvBytes;
+            using (FileStream fs = new FileStream(path, FileMode.Create))
+            {
+                file.CopyTo(fs);
+            };
         }
     }
 }
