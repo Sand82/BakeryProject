@@ -5,6 +5,7 @@ namespace Bakery.Areas.Job.Models
     public class EmployeeViewModel
     {
         public int Id { get; set; }
+
         public int Age { get; set; }
 
         public string FullName { get; set; }
@@ -17,7 +18,7 @@ namespace Bakery.Areas.Job.Models
         
         public string Experience { get; set; }
 
-        public byte[] Autobiography { get; set; }
+        public IFormFile Autobiography { get; set; }
 
         public byte[] Image { get; set; }
 

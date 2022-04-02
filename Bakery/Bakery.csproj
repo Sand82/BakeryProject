@@ -23,6 +23,9 @@
     <Content Update="wwwroot\css\applayForJob.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="wwwroot\css\info.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\Images\BakingLady.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
