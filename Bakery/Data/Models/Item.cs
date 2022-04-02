@@ -24,6 +24,8 @@ namespace Bakery.Data.Models
         [Range(ItemMinValue, ItemMaxValue)]
         public int Quantity { get; set; }
 
+        public int? ProductId { get; set; }
+
         public ICollection<Order> Orders { get; set; }
         
     }

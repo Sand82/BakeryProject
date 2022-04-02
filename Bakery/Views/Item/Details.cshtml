@@ -47,7 +47,7 @@
 
                             @if (Model.Vote == 0)
                             {
-                                
+                                <form class="row g-2">
                                     <div class="col-auto">
                                         <button asp-controller="Item" asp-action="Vote" asp-route-id="@Model.Id" class="add-to-cart btn btn-default mb-3" style="padding: 0.4em 1.5em;">Vote</button>
                                     </div>
@@ -61,8 +61,7 @@
                                             <option value="1">1</option>
                                         </select>
                                     </div>
-                                @* <form class="row g-2">
-                                </form>*@
+                                </form>
                             }
                         </div>
                         <span class="review-no">Average result: @Model.VoteCount</span>
@@ -83,7 +82,7 @@
                         <span class="color blue"></span>
                         </h5>*@
 
-                    <form method="Post" class="form-group">
+                   <form method="Post" class="form-group">
                         <div class="form-group">
                             <input asp-for="Quantity" type="text" id="quantity input" placeholder="Quantity">
                             <span asp-validation-for="Quantity"></span>                       
@@ -91,26 +90,41 @@
                         @*<button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>*@
                         </div>
                    </form>
-                   
+                    
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-@section Scripts {
+@*@section Scripts {
 <script>
-    function ChangeQuantityValue(e) { 
+    function ChangeQuantityValue(e, productId) { 
         
        e.preventDefault();
 
        let quantity = document.getElementById('quantity input').value;
 
-       let url = document.getElementById("details-add").getAttribute("href");
+       console.log(quantity);
+       console.log(productId);
 
-       var newUrl = url.replace("quantity=1","quantity=" + quantity);   
+       var model = {productId: productId, quantity: quantity}
+
+       $.ajax({
+                type: "POST",
+                url: "/api/Details",
+                data: JSON.stringify(model),
+                success: function (data) {
+                   console.log(data);
+                },
+                contentType: 'application/json'
+              });            
+
+       //let url = document.getElementById("details-add").getAttribute("href");
+
+       //var newUrl = url.replace("quantity=1","quantity=" + quantity);   
    
-       location.href = newUrl; 
+       //location.href = newUrl; 
  }
 </script>
-}
+}*@

@@ -38,6 +38,7 @@ namespace Bakery.Service
         {
             var item = new Item
             {
+                ProductId = id,
                 ProductName = name,
                 ProductPrice = price,
                 Quantity = quantity,
@@ -56,9 +57,9 @@ namespace Bakery.Service
         {
             Task.Run(() =>
             {
-                //order.Items.Add(item);
+                order.Items.Add(item);
 
-                //this.data.SaveChanges();
+                this.data.SaveChanges();
 
             }).GetAwaiter().GetResult();            
         }
@@ -69,69 +70,37 @@ namespace Bakery.Service
 
             Task.Run(() =>
             {
-                order = this.data
-               .Orders    
-               .Include(o => o.Products)               
-               .Where(o => o.UserId == userId && o.IsFinished == false)
-               .FirstOrDefault();
+                  order = this.data
+                 .Orders
+                 .Include(i => i.Items)
+                 .Where(o => o.UserId == userId && o.IsFinished == false)
+                 .FirstOrDefault();
 
             }).GetAwaiter().GetResult();            
 
             return order;
         }
 
-        public int FindOrderIdByUserId(string userId)
+        public CreateOrderModel CreateOrderModel(Order order)
         {
-            var orderId = 0;
-
-            Task.Run(() =>
-            {
-                orderId = this.data
-               .Orders
-               .Where(o => o.UserId == userId && o.IsFinished == false)
-               .Select(x => x.Id)
-               .FirstOrDefault();
-
-            }).GetAwaiter().GetResult();
-
-            return orderId;
-        }
-
-        public CreateOrderModel CreateOrderModel(string userId)
-        {
-            var orderProducts = new OrdersProducts();
-
-            Task.Run(() =>
-            {
-                orderProducts = this.data.OrdersProducts
-                .Include(o=> o.Order).ThenInclude(p => p.Products)
-                .Where(o => o.Order.UserId == userId && o.Order.IsFinished == false)                               
-                .FirstOrDefault();
-
-            }).GetAwaiter().GetResult();
-
-            if (orderProducts == null)
-            {
-                return null;
-            }
             var orderModel = new CreateOrderModel
             {
-                Id = orderProducts.Order.Id,
-                IsFinished = orderProducts.Order.IsFinished,
-                DateOfOrder = orderProducts.Order.DateOfOrder.ToString("dd.mm.yyyy")
+                Id = order.Id,
+                IsFinished = order.IsFinished,
+                DateOfOrder = order.DateOfOrder.ToString("dd.mm.yyyy")
             };
 
             var totalPrice = 0.0m;
 
-            foreach (var product in orderProducts.Order.Products)
+            foreach (var item in order.Items)
             {
-                totalPrice += product.Price * orderProducts.ProductQuantity;
+                totalPrice += item.ProductPrice * item.Quantity;
 
                 var newItem = new ItemFormViewModel
                 {
-                    Name = product.Name,
-                    Price = product.Price.ToString("f2"),
-                    Quantity = orderProducts.ProductQuantity
+                    Name = item.ProductName,
+                    Price = item.ProductPrice.ToString("f2"),
+                    Quantity = item.Quantity,
                 };
 
                 orderModel.items.Add(newItem);
@@ -139,7 +108,7 @@ namespace Bakery.Service
 
             orderModel.TotallPrice = totalPrice.ToString("f2");
 
-            orderModel.ItemsCount = orderProducts.Order.Products.Count();
+            orderModel.ItemsCount = order.Items.Count();
 
             return orderModel;
         }
@@ -159,9 +128,9 @@ namespace Bakery.Service
         {
             Task.Run(() =>
             {
-                //this.data.Items.Add(item);
+                this.data.Items.Add(item);
 
-                //this.data.SaveChanges();
+                this.data.SaveChanges();
 
             }).GetAwaiter().GetResult();           
         }
@@ -175,6 +144,6 @@ namespace Bakery.Service
                 this.data.SaveChanges();
 
             }).GetAwaiter().GetResult();           
-        }       
+        }
     }
 }

@@ -6,7 +6,7 @@ namespace Bakery.Data.Models
     {
         public Order()
         {
-            this.Products = new HashSet<Product>();  
+            this.Items = new HashSet<Item>();  
         }
 
         [Key]
@@ -18,8 +18,8 @@ namespace Bakery.Data.Models
 
         public DateTime DateOfDelivery { get; set; }               
 
-        public bool IsFinished { get; set; } = false;      
-             
-        public ICollection<Product> Products { get; set; }
+        public bool IsFinished { get; set; } = false;       
+
+        public ICollection<Item> Items { get; set; }
     }
 }

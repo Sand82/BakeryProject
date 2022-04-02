@@ -1,6 +1,8 @@
 ﻿using Bakery.Service;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 using static Bakery.Infrastructure.ClaimsPrincipalExtensions;
 
@@ -9,14 +11,19 @@ namespace Bakery.Controllers
     public class ItemController : Controller
     {
         private readonly IItemsService itemsService;
+        private readonly IVoteService voteService;
         private readonly IOrderService orderService;
-        private readonly IDetailsService detailsService;
+        private readonly IBakerySevice bakerySevice;
 
-        public ItemController(IItemsService itemsService, IOrderService orderService, IDetailsService detailsService)
+        public ItemController(IItemsService itemsService,
+            IVoteService voteService,
+            IOrderService orderService,
+            IBakerySevice bakerySevice)
         {
             this.itemsService = itemsService;
+            this.voteService = voteService;
             this.orderService = orderService;
-            this.detailsService = detailsService;
+            this.bakerySevice = bakerySevice;
         }
 
         [Authorize]
@@ -38,18 +45,31 @@ namespace Bakery.Controllers
         [HttpPost]
         public IActionResult Details(int id, int quantity)
         {
+            var dataProduct = bakerySevice.CreateNamePriceModel(id);
 
-            if(id == 0 || quantity < 0 || quantity > 2000)
+            if (dataProduct == null)
             {
-                ModelState.AddModelError("Quantity", "Quantity is not valid value!");                
+                return BadRequest();
             }
 
-            if (!ModelState.IsValid)
+            if (quantity < 1 || quantity > 2000)
             {
-                return RedirectToAction("Details", "Item");
+                return Redirect("/Item/Details/" + id);
+            }
+
+            var ParsePrice = Decimal.TryParse(dataProduct.Price, out var currPrice);            
+
+            if (!ParsePrice)
+            {
+                throw new InvalidOperationException("Unknown format for 'Price'");
             }
 
             var userId = User.GetId();
+
+            if (userId == null)
+            {
+                return BadRequest();
+            }
 
             var order = orderService.FindOrderByUserId(userId);
 
@@ -57,31 +77,34 @@ namespace Bakery.Controllers
             {
                 order = orderService.CreatOrder(userId);
             }
+            
+            var item = orderService.CreateItem(id, dataProduct.Name, currPrice, quantity, userId);            
 
-            detailsService.AddProductToOrder(id, order.Id, quantity);
+            orderService.AddItemInOrder(item, order);
 
             return RedirectToAction("All", "Bakery");
+            
         }
 
-        //[Authorize]
-        //public IActionResult Vote(int id, byte vote)
-        //{
-        //    if (id == 0)
-        //    {
-        //        return BadRequest();
-        //    }
+        [Authorize]
+        public IActionResult Vote(int id, byte vote)
+        {
+            if (id == 0)
+            {
+                return BadRequest();
+            }
 
-        //    if (vote < 0 || vote > 5)
-        //    {
-        //        return BadRequest();
-        //    }
+            if (vote < 0 || vote > 5)
+            {
+                return BadRequest();
+            }
 
-        //    var userId = User.GetId();
+            var userId = User.GetId();
 
-        //    voteService.SetVote(userId, id, vote);         
-
-        //    return RedirectToAction("Details", "Item",  new { id });
-        //}
+            voteService.SetVote(userId, id, vote);         
+            
+            return RedirectToAction("Details", "Item",  new { id });
+        }
 
         [Authorize]
         public IActionResult EditAll(int id)
@@ -113,6 +136,6 @@ namespace Bakery.Controllers
             itemsService.DeleteItem(item, order);
 
             return RedirectToAction("Buy", "Order");
-        }       
+        }        
     }
 }

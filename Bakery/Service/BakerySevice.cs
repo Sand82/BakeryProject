@@ -2,7 +2,7 @@
 using Bakery.Data.Models;
 using Bakery.Models.Bakeries;
 using Bakery.Models.Bakery;
-
+using Bakery.Models.Items;
 using static Bakery.Infrastructure.ClaimsPrincipalExtensions;
 
 namespace Bakery.Service
@@ -234,19 +234,29 @@ namespace Bakery.Service
         private List<string> AddCategories()
         {
             var category = new List<string>();
-
-            Task.Run(() => 
-            {
-                category = this.data
-               .Categories
-               .Select(p => p.Name)
-               .Distinct()
-               .OrderBy(c => c)
-               .ToList();
-
-            }).GetAwaiter().GetResult();             
-
+            
             return category;
-        }        
+        }
+
+        public NamePriceDataModel CreateNamePriceModel(int id)
+        {
+            NamePriceDataModel model = null;
+
+            Task.Run(() =>
+            {
+                Product? product = this.data.Products
+                .Where(x => x.Id == id)
+                .FirstOrDefault();
+
+                model = new NamePriceDataModel
+                {
+                    Name = product.Name,
+                    Price = product.Price.ToString()
+                };
+
+            }).GetAwaiter().GetResult();
+
+            return model;
+        }
     }
 }

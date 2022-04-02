@@ -53,7 +53,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors", (string)null);
+                    b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Category", b =>
@@ -70,7 +70,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Customer", b =>
@@ -117,7 +117,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Employee", b =>
@@ -173,7 +173,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Ingredient", b =>
@@ -190,7 +190,36 @@ namespace Bakery.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Ingredients", (string)null);
+                    b.ToTable("Ingredients");
+                });
+
+            modelBuilder.Entity("Bakery.Data.Models.Item", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<decimal>("ProductPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Order", b =>
@@ -216,25 +245,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders", (string)null);
-                });
-
-            modelBuilder.Entity("Bakery.Data.Models.OrdersProducts", b =>
-                {
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductQuantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrderId", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrdersProducts", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Product", b =>
@@ -278,7 +289,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Vote", b =>
@@ -303,7 +314,7 @@ namespace Bakery.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Votes", (string)null);
+                    b.ToTable("Votes");
                 });
 
             modelBuilder.Entity("IngredientProduct", b =>
@@ -318,7 +329,22 @@ namespace Bakery.Data.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("IngredientProduct", (string)null);
+                    b.ToTable("IngredientProduct");
+                });
+
+            modelBuilder.Entity("ItemOrder", b =>
+                {
+                    b.Property<int>("ItemsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrdersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ItemsId", "OrdersId");
+
+                    b.HasIndex("OrdersId");
+
+                    b.ToTable("ItemOrder");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -543,23 +569,11 @@ namespace Bakery.Data.Migrations
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("Bakery.Data.Models.OrdersProducts", b =>
+            modelBuilder.Entity("Bakery.Data.Models.Item", b =>
                 {
-                    b.HasOne("Bakery.Data.Models.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Bakery.Data.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
+                    b.HasOne("Bakery.Data.Models.Product", null)
+                        .WithMany("Items")
+                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("Bakery.Data.Models.Product", b =>
@@ -599,6 +613,21 @@ namespace Bakery.Data.Migrations
                     b.HasOne("Bakery.Data.Models.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ItemOrder", b =>
+                {
+                    b.HasOne("Bakery.Data.Models.Item", null)
+                        .WithMany()
+                        .HasForeignKey("ItemsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Bakery.Data.Models.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -668,6 +697,8 @@ namespace Bakery.Data.Migrations
 
             modelBuilder.Entity("Bakery.Data.Models.Product", b =>
                 {
+                    b.Navigation("Items");
+
                     b.Navigation("Votes");
                 });
 #pragma warning restore 612, 618

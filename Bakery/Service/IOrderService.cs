@@ -14,9 +14,7 @@ namespace Bakery.Service
 
         Order FindOrderByUserId(string userId);
 
-        int FindOrderIdByUserId(string userId);
-
-        CreateOrderModel CreateOrderModel(string userId);
+        CreateOrderModel CreateOrderModel(Order order);
 
         Order FinishOrder(Order order, DateTime dateOfOrder);
     }

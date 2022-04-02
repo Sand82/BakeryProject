@@ -12,10 +12,10 @@ namespace Bakery.Data.Models
 
             this.Votes = new HashSet<Vote>();
 
-            this.Orders = new HashSet<Order>();
+            this.Items = new HashSet<Item>();
         }
 
-      
+        [Key]
         public int Id { get; init; }
 
         [Required]
@@ -44,6 +44,7 @@ namespace Bakery.Data.Models
 
         public ICollection<Vote>? Votes { get; set; }
 
-        public ICollection<Order>? Orders { get; set; }
+        public ICollection<Item>? Items { get; set; }
+        
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Bakery.Data.Models;
 using Bakery.Models.Bakeries;
 using Bakery.Models.Bakery;
+using Bakery.Models.Items;
 
 namespace Bakery.Service
 {
@@ -17,6 +18,8 @@ namespace Bakery.Service
         IEnumerable<BakryCategoryViewModel> GetBakeryCategories();
 
         Product FindById(int id);
+
+        NamePriceDataModel CreateNamePriceModel(int id);
 
         void Delete(Product product);
     }
