@@ -7,12 +7,12 @@ namespace Bakery.Controllers
 
     [ApiController]
     [Route("api/[controller]")]
-    public class DetailsController : Controller
+    public class VoteController : Controller
     {
 
         [HttpPost]
         [Authorize]       
-        public IActionResult Details(DetailsModel details)
+        public IActionResult Post(DetailsModel details)
         {
             if(!ModelState.IsValid)
             {
