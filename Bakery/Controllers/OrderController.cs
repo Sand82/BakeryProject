@@ -79,6 +79,11 @@ namespace Bakery.Controllers
 
             var orderModel = orderService.CreateOrderModel(userId);
 
+            if (orderModel == null)
+            {
+                return View();
+            }
+
             var formCustomerOrder = new CustomerFormModel 
             {
                 Order = orderModel,

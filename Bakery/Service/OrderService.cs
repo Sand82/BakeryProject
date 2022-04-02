@@ -110,6 +110,10 @@ namespace Bakery.Service
 
             }).GetAwaiter().GetResult();
 
+            if (orderProducts == null)
+            {
+                return null;
+            }
             var orderModel = new CreateOrderModel
             {
                 Id = orderProducts.Order.Id,

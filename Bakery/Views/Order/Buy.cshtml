@@ -8,7 +8,17 @@
     ViewData["Title"] = "Order Buy";
 }
 
-<div class="container">    
+@if (@Model == null)
+{
+    <div class="conteiner" style="text-align: center">
+        <h1>No orders available </h1>
+        <h2>You may like some of our products here </h2>
+        <a style="text-align: center"  class="btn btn-secondary" asp-area="" asp-controller="Bakery" asp-action="All">All Product</a>
+    </div>
+}
+else
+{
+    <div class="container">
         <div class="py-5 text-center">
             <img class="d-block mx-auto mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
             <h2>Checkout form</h2>
@@ -45,7 +55,7 @@
                     </li>
                 </ul>
                 <a asp-controller="Item" asp-action="EditAll" asp-route-id="@Model.Order.Id" class="btn  btn-warning"> Edit </a>
-                <a asp-controller="Item" asp-action="DeleteAll" asp-route-id="@Model.Order.Id" class="btn  btn-danger">Delete</a>               
+                <a asp-controller="Item" asp-action="DeleteAll" asp-route-id="@Model.Order.Id" class="btn  btn-danger">Delete</a>
             </div>
             <div class="col-md-7 col-lg-8">
                 <h4 class="mb-3">Billing address</h4>
@@ -80,13 +90,13 @@
                             <span asp-validation-for="PhoneNumber" class="small text-danger"></span>
                         </div>
 
-                         <div class="col-12">
-                            <label asp-for="Order.DateOfDelivery" class="form-label">Date of delivery</label >
+                        <div class="col-12">
+                            <label asp-for="Order.DateOfDelivery" class="form-label">Date of delivery</label>
                             <input asp-for="Order.DateOfDelivery" class="form-control" placeholder="Date of preparation 'dd.mm.gggg'" required>
                             <span asp-validation-for="Order.DateOfDelivery" class="small text-danger"></span>
                         </div>
 
-                       @* <hr class="my-4">*@
+                        @* <hr class="my-4">*@
 
                         @*<div class="form-check">
                             <input type="checkbox" class="form-check-input" id="same-address">
@@ -98,20 +108,22 @@
                             <label class="form-check-label" for="save-info">Save this information for next time</label>
                             </div>
 
-                            <hr class="my-4">*@                       
+                            <hr class="my-4">*@
 
 
-                       @* <hr class="my-4">*@
+                        @* <hr class="my-4">*@
 
                         <button class="w-100 btn btn-primary btn-lg" type="submit">Finish order</button>
                     </div>
                 </form>
             </div>
-        </div>    
-</div>
+        </div>
+    </div>
 
-<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
-<script src="form-validation.js"></script>
-<script src="~/js/calendar.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="form-validation.js"></script>
+    <script src="~/js/calendar.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+}
+
 
