@@ -7,7 +7,7 @@ namespace Bakery.Areas.Job.Controllers
 {
 
     [Authorize(Roles = WebConstants.AdministratorRoleName)]
-    [Area(AreaName)]
+    [Area(AreaNameJob)]
     public abstract class AdminController : Controller
     {
     }

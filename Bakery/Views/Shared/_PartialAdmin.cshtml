@@ -9,7 +9,7 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    @if (authorService.IsAuthor(userId) || User.IsAdmin() || SignInManager.IsSignedIn(User))
+    @if (authorService.IsAuthor(userId) || User.IsAdmin())
     {
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Bakery" asp-action="Add">Add</a>

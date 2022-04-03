@@ -43,8 +43,4 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\Task\Models\" />
-  </ItemGroup>
-
 </Project>

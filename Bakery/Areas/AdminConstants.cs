@@ -2,6 +2,8 @@
 {
     public static class AdminConstants
     {
-        public const string AreaName = "Job";
+        public const string AreaNameJob = "Job";
+
+        public const string AreaNameTask = "Task";
     }
 }

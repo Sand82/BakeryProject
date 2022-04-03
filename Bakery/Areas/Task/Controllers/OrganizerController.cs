@@ -1,12 +1,31 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Bakery.Service;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+using static Bakery.Areas.AdminConstants;
 
 namespace Bakery.Areas.Task.Controllers
 {
     public class OrganizerController : Controller
     {
+        private readonly IOrganizerService organizerService;
+
+        public OrganizerController(IOrganizerService organizerService)
+        {
+            this.organizerService = organizerService;
+        }
+
+        [Authorize(Roles = WebConstants.AdministratorRoleName)]
+        [Area(AreaNameTask)]
         public IActionResult Request() 
-        { 
-            return View(); 
+        {
+            var date = DateTime.UtcNow;
+
+            var days = 1;
+
+            var items = organizerService.GetItems(date, days);
+
+            return View(items); 
         }
     }
 }
