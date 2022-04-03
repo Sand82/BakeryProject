@@ -76,23 +76,20 @@ namespace Bakery.Service
                 model.Description = employee.Description;
                 model.Age = employee.Age;
                 model.Experience = employee.Experience;
-                model.File = GetExstention(employee.FileId);
+                model.File = GetExstention(employee.FileId, employee.FileExtension);
+                model.Image = GetExstention(employee.ImageId, employee.ImageExtension);
 
-            }).GetAwaiter().GetResult();           
-                   
+            }).GetAwaiter().GetResult();                
 
             return model;
         } 
         
-        private string GetExstention(string id)
+        private string GetExstention(string id, string exstension)
         {
-            var path = string.Empty;
-
-
+            var path = $"/files/" + id + '.' + exstension;
 
             return path;
         }
-
 
         public void SetEmployee(Employee employee, bool isApprove)
         {

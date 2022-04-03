@@ -40,7 +40,11 @@ namespace Bakery.Data.Models
 
         public string FileId { get; set; } = Guid.NewGuid().ToString();
 
+        public string FileExtension { get; set; }
+
         public string ImageId { get; set; } = Guid.NewGuid().ToString();
+
+        public string ImageExtension { get; set; }
 
         public DateTime ApplayDate { get; set; } = DateTime.UtcNow;
 

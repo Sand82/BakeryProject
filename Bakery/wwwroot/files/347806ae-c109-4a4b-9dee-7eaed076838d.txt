@@ -1,0 +1,1 @@
+https://www.entityframeworktutorial.net/efcore/configure-many-to-many-relationship-in-ef-core.aspx

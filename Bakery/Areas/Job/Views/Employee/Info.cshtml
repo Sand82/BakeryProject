@@ -1,4 +1,6 @@
-﻿@{
+﻿@model EmployeeInfoViewModel
+
+@{
     ViewData["Title"] = "Info Employee Buy";
 }
 
@@ -10,16 +12,16 @@
             <div class="profile-bio">
                 <div class="row">
                     <div class="col-md-5 text-center">
-                        <img class="img-thumbnail md-margin-bottom-10" src="https://bootdey.com/img/Content/user-453533-fdadfd.png" alt="">
+                        <img class="img-thumbnail md-margin-bottom-10" src="@Model.Image" alt="">
                     </div>
                     <div class="col-md-7">
-                        <h2>Edward Rooster age</h2>
+                        <h2>@Model.Name @Model.Age</h2>
                         <span><strong>Job Place:</strong> My Bakery </span>
                         <span><strong>Position:</strong> Baker </span>
                         <hr>
                         <span></span>
                         <hr>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget massa nec turpis congue bibendum. Integer nulla felis, porta suscipit nulla et, dignissim commodo nunc. Morbi a semper nulla.</p>                        
+                        <p>@Model.Description</p>                        
                     </div>
                 </div>    
             </div>

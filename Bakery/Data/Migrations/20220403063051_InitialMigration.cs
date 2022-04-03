@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -226,7 +225,9 @@ namespace Bakery.Data.Migrations
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     Experience = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     FileId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FileExtension = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ImageId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageExtension = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ApplayDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsApproved = table.Column<bool>(type: "bit", nullable: true),
                     AuthorId = table.Column<int>(type: "int", nullable: true)

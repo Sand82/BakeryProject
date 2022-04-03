@@ -3,8 +3,6 @@ using Bakery.Data.Models;
 using Bakery.Models.Author;
 using Bakery.Models.Bakeries;
 
-using static Bakery.WebConstants;
-
 namespace Bakery.Service
 {
     public class AuthorService : IAuthorService
@@ -36,28 +34,29 @@ namespace Bakery.Service
 
             }).GetAwaiter().GetResult();   
             
-            CreateFile(cv, employee.FileId);
-            CreateFile(image, employee.ImageId);
+            employee.FileExtension = CreateFile(cv, employee.FileId);
+            employee.ImageExtension = CreateFile(image, employee.ImageId);
                        
             return employee;
         }      
 
         public bool FileValidator(IFormFile cv, IFormFile image)
         {
-            var isValid = true;          
+            var isValid = true;
+
+            var fileExstention = Path.GetExtension(cv.FileName).ToLower().Trim('.');
+
+            var imageExstention = Path.GetExtension(image.FileName).ToLower().Trim('.');
 
             Task.Run(() =>
-            {
-                var fileExstention = Path.GetExtension(cv.FileName).ToLower();
+            {               
 
-                var imageExstention = Path.GetExtension(image.FileName).ToLower();
+                var commonFileFormats = new List<string>() { "doc", "docx", "odt", "txt", "pdf"};
 
-                var commonFileFormats = new List<string>() { ".doc", ".docx", ".odt", ".txt", ".pdf"};
+                var commonImageFormats = new List<string>() {"png", "img", "jpeg", "gif", "jpg" };
 
-                var commonImageFormats = new List<string>() {".png", ".img", ".jpeg", ".gif", ".jpg" };
-
-                if (!AllowedFileExtension.Contains(fileExstention) || !AllowedImageExtension.Contains(imageExstention) ||
-                cv.Length > 2 * 1024 * 1024 || image.Length > 2 * 1024 * 1024)
+                if (!commonFileFormats.Contains(fileExstention) || !commonImageFormats.Contains(imageExstention) ||
+                cv.Length > 2 * 1024 * 1024 || image.Length > 6 * 1024 * 1024)
                 {
                     isValid = false;
                 }
@@ -115,18 +114,20 @@ namespace Bakery.Service
             }).GetAwaiter().GetResult();            
         }
 
-        private void CreateFile(IFormFile file, string id)
+        private string CreateFile(IFormFile file, string id)
         {
             Directory.CreateDirectory($"{webHostEnvironment.WebRootPath}/files/");
 
-            var extension = Path.GetExtension(file.FileName);
+            var extension = Path.GetExtension(file.FileName).Trim('.');
 
-            var path = $"{webHostEnvironment.WebRootPath}/files/{id}{extension}";
+            var path = $"{webHostEnvironment.WebRootPath}/files/{id}.{extension}";
 
             using (FileStream fs = new FileStream(path, FileMode.Create))
             {
                 file.CopyTo(fs);
             };
+
+            return extension;
         }
     }
 }
