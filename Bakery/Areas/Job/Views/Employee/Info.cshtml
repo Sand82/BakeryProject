@@ -18,13 +18,40 @@
                         <h2>@Model.Name @Model.Age</h2>
                         <span><strong>Job Place:</strong> My Bakery </span>
                         <span><strong>Position:</strong> Baker </span>
+
                         <hr>
-                        <span></span>
+                        <p>@Model.Description</p>
                         <hr>
-                        <p>@Model.Description</p>                        
+                        <form enctype="multipart/form-data">
+                            <span><strong>Autobiography </strong></span>
+                            <a asp-area="Job" asp-controller="File" asp-action="Download" asp-route-filePath="@Model.FilePath" class="btn btn-outline-secondary"> Download</a>
+                            <a asp-area="Job" asp-controller="Employee" asp-action="Approve" asp-route-filePath="@Model.Id" class="btn btn-outline-secondary">Go Back</a>
+                        </form>
                     </div>
-                </div>    
+                </div>
             </div>
-    	</div>
+        </div>
     </div>
-</div>                                                   
+</div>
+@*
+    @section Scripts {
+    <script>
+    function downloadAutobiography (e, filePath) {
+
+    e.preventDefault();
+
+    console.log(filePath);
+
+    //$.ajax({
+    //         type: "POST",
+    //         url: "/api/Details",
+    //         data: JSON.stringify(model),
+    //         success: function (data) {
+    //            console.log(data);
+    //         },
+    //         contentType: 'application/json'
+    //       });
+
+    }
+    </script>
+    }*@

@@ -90,31 +90,10 @@
                             @*<button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>*@
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-@section Scripts {
-<script>
-       function ChangeQuantityValue(e, productId) {
 
-          
-
-          var model = {productId: productId, quantity: quantity}
-
-          $.ajax({
-                   type: "POST",
-                   url: "/api/Details",
-                   data: JSON.stringify(model),
-                   success: function (data) {
-                      console.log(data);
-                   },
-                   contentType: 'application/json'
-                 });
-
-    }
-</script>
-}

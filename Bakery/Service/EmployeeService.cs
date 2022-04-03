@@ -76,7 +76,7 @@ namespace Bakery.Service
                 model.Description = employee.Description;
                 model.Age = employee.Age;
                 model.Experience = employee.Experience;
-                model.File = GetExstention(employee.FileId, employee.FileExtension);
+                model.FilePath = GetExstention(employee.FileId, employee.FileExtension);
                 model.Image = GetExstention(employee.ImageId, employee.ImageExtension);
 
             }).GetAwaiter().GetResult();                
@@ -84,7 +84,7 @@ namespace Bakery.Service
             return model;
         } 
         
-        private string GetExstention(string id, string exstension)
+         string GetExstention(string id, string exstension)
         {
             var path = $"/files/" + id + '.' + exstension;
 
@@ -100,6 +100,33 @@ namespace Bakery.Service
                 this.data.SaveChanges();
 
             }).GetAwaiter().GetResult();
-        }        
+        }
+
+        public string GetContentType(string path)
+        {
+            var tokens = path.Split('.').ToArray();
+
+            var extention = tokens[tokens.Length - 1];
+
+            var contentType = ContentTypeColection(extention);
+
+            return contentType;
+        }
+
+        private string ContentTypeColection(string extention)
+        {
+            var extentions = new Dictionary<string, string>()
+            {
+                {"txt", "text/plain" },
+                {"pdf", "application/pdf"},
+                {"doc", "application/vnd.ms-word"},
+                {"docx", "application/vnd.ms-word" },
+                {"odt", "application/vnd.oasis.opendocument.text" },                
+            };
+
+            var needetExtention = extentions[extention];
+
+            return needetExtention;
+        }
     }
 }

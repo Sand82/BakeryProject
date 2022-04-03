@@ -12,5 +12,7 @@ namespace Bakery.Service
         EmployeeInfoViewModel GetModelById(int id);
 
         void SetEmployee(Employee employee, bool isApprove);
+
+        string GetContentType(string path);
     }
 }
