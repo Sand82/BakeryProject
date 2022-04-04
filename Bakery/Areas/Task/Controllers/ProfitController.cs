@@ -3,11 +3,11 @@ using Bakery.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Bakery.Controllers
+namespace Bakery.Areas.Task.Controllers
 {    
     [ApiController]
-    [Route("api/[controller]")]
-    public class ProfitController : Controller
+    [Route("Task/api/[controller]")]
+    public class ProfitController : AdminController
     {
         private readonly IOrderService orderService;
         
@@ -25,7 +25,7 @@ namespace Bakery.Controllers
 
            var (IsValidToDate, toDate) = orderService.TryParceDate(model.ValueTo);
 
-            if (!IsValidFromDate || !IsValidFromDate || DateTime.Compare(fromDate, toDate) > 0)
+            if (!IsValidFromDate || !IsValidToDate || DateTime.Compare(fromDate, toDate) > 0)
             {
                 
             }
