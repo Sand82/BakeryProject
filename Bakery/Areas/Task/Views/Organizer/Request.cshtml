@@ -6,14 +6,15 @@
     <div class="row">
         <div class="col-sm-12 col-lg-3 col-lg-8 offset-xl-3 col-xl-6 col" style="margin-top: 20px">
             <h2 class="heading text-center">Welcome to administration section</h2>
-            <p class="fw-bold text-center">Here you can check you income for period of time and product for baking for 5 days a had.</p>
+            <p class="fw-bold text-center">Here you can check you income for period of time and product for baking for 5 days a had.</p>            
             <form>
                 <div style="margin-bottom: 20px" class="input-group">
                     <span class="input-group-text">Date: From - To</span>
                     <input id="from-value" class="form-control" placeholder="From: dd.MM.yyyy">
                     <input id="to-value" class="form-control" placeholder="To: dd.MM.yyyy">
-                    <a onclick="GetDates(event)" class="form-control btn btn-outline-secondary">Submit</a>
+                    <a onclick="GetDates(event)" class="form-control btn btn-outline-secondary">Submit</a>                    
                 </div>
+                <p class="fw-bold text-center">Income for the period is: <span id="totallProfit"></span></p>
             </form>
         </div>
         <div class="accordion" id="accordionExample">
@@ -94,7 +95,7 @@
                 url: "/Task/api/Profit",
                 data: JSON.stringify(model),
                 success: function (data) {
-                    console.log(data)
+                    $('#totallProfit').html(data +'$');                    
                 },
                 contentType: 'application/json'
               });            

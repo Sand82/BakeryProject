@@ -10,14 +10,17 @@ namespace Bakery.Areas.Task.Controllers
     public class ProfitController : AdminController
     {
         private readonly IOrderService orderService;
-        
+        private readonly IOrganizerService organizerService;
 
-        public ProfitController(IOrderService orderService)
+        public ProfitController(IOrderService orderService, IOrganizerService organizerService)
         {
-            this.orderService = orderService;            
+            this.orderService = orderService;
+            this.organizerService = organizerService;
         }
 
-        [Authorize]        
+        [Authorize]
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
         public string Check(CheckFormModel model)
         {
            
@@ -27,10 +30,12 @@ namespace Bakery.Areas.Task.Controllers
 
             if (!IsValidFromDate || !IsValidToDate || DateTime.Compare(fromDate, toDate) > 0)
             {
-                
+                //return BadRequest();
             }
 
-            return null;
+            var totallProfit = organizerService.GetCustomProfit(fromDate, toDate);            
+
+            return totallProfit;
         }
     }
 }
