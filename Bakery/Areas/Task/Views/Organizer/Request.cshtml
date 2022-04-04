@@ -2,60 +2,76 @@
 @{
     ViewData["Title"] = "Request Organizer Task";
 }
-
 <div class="container">
     <div class="row">
+        <div class="col-sm-12 col-lg-3 col-lg-8 offset-xl-3 col-xl-6 col" style="margin-top: 20px">
+            <h2 class="heading text-center">Welcome to administration section</h2>
+            <p class="fw-bold text-center">Here you can check you income for period of time and product for baking for 5 days a had.</p>
+            <form>
+                <div style="margin: 20px" class="input-group">
+                    <span class="input-group-text">Date: From - To</span>
+                    <input type="text" class="form-control" placeholder="From: dd.MM.yyyy">
+                    <input type="text" class="form-control" placeholder="To: dd.MM.yyyy">
+                    <a class="form-control btn btn-outline-secondary">Submit</a>
+                </div>
+            </form>
+        </div>
         <div class="accordion" id="accordionExample">
             @for (var i = 0; i < @Model.Count; i++)
             {
+                var heading = "heading" + @Model[i].ColapsValue;
+                var collapse = "collapse" + @Model[i].ColapsValue;
+
                 <div class="accordion-item">
-                <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                       
-                        <div >
-                             <h5>Reqests for: @Model[i].DayOfOrder.ToString("dd.MM.yyyy")</h5>
-                            <span >Total income for the day: @Model[i].TottalPrice$</span>
-                        </div>                         
-                    </button>
-                </h2>
-                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Number</th>
-                                    <th scope="col">Product name</th>
-                                    <th scope="col">Product count</th>
-                                    <th scope="col">Product price</th>
-                                    <th scope="col">Total product income</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    var num = 1;
-                                }
+                    <h2 class="accordion-header" id="@heading">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#@collapse" aria-expanded="true" aria-controls="@collapse">
 
-                                @foreach (var item in @Model[i].Items)
-                                {
+                            <div>
+                                <h5>Reqests for: @Model[i].DayOfOrder.ToString("dd.MM.yyyy")</h5>
+                                <span>Total income for the day: @Model[i].TottalPrice$</span>
+                            </div>
+                        </button>
+                    </h2>
+                    <div id="@collapse" class="accordion-collapse collapse show" aria-labelledby="@heading" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <table class="table">
+                                <thead>
                                     <tr>
-                                        <th scope="row">@(num++)</th>
-                                        <td>@item.Key</td>
+                                        <th scope="col">Number</th>
+                                        <th scope="col">Product name</th>
+                                        <th scope="col">Product count</th>
+                                        <th scope="col">Product price</th>
+                                        <th scope="col">Total product income</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        var num = 1;
+                                    }
 
-                                        @foreach (var nestedItems in @item.Value)
-                                        {
-                                            <td>@nestedItems.Value</td>
-                                            <td>@nestedItems.Key$</td>                                            
-                                            <td>@(nestedItems.Key * nestedItems.Value)$</td>
-                                        }                                        
-                                    </tr>                                    
-                                }
-                            </tbody>
-                        </table>
+                                    @foreach (var item in @Model[i].Items)
+                                    {
+                                        <tr>
+                                            <th scope="row">@(num++)</th>
+                                            <td>@item.Key</td>
+
+                                            @foreach (var nestedItems in @item.Value)
+                                            {
+                                                <td>@nestedItems.Value</td>
+                                                <td>@nestedItems.Key$</td>
+                                                <td>@(nestedItems.Key * nestedItems.Value)$</td>
+                                            }
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
             }
         </div>
     </div>
 </div>
+
+
 

@@ -51,10 +51,30 @@ namespace Bakery.Service
                     model.TottalPrice += item.Quantity * item.ProductPrice;
                 }
 
+                model.ColapsValue = GetColapsValue(i);
+
                 modelItems.Add(model);
             }          
                       
             return modelItems;
+        }
+
+        private string GetColapsValue(int number)
+        {
+            var value = string.Empty;
+
+            var colaps = new Dictionary<int, string>()
+            {
+                { 1, "One" },
+                { 2, "Two" },
+                { 3, "Three" },
+                { 4, "Tour" },
+                { 5, "Five " },
+            };
+
+            value = colaps[number];
+
+            return value;
         }
     }
 }
