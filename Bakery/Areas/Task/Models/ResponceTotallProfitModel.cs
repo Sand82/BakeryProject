@@ -1,4 +1,4 @@
-﻿namespace Bakery.Areas.Task.Controllers
+﻿namespace Bakery.Areas.Task.Models
 {
     public class ResponceTotallProfitModel
     {

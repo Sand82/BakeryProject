@@ -156,28 +156,7 @@ namespace Bakery.Service
                 productDate.Price = product.Price;
                 productDate.ImageUrl = product.ImageUrl;
                 productDate.CategoryId = product.CategoryId;
-
-                //var ingredients = new List<Ingredient>();
-
-                //foreach (var ingredient in product.Ingredients)
-                //{
-                //    var curredntIngredient = this.data
-                //        .Ingredients
-                //        .FirstOrDefault(i => i.Name == ingredient.Name);
-
-                //    if (curredntIngredient == null)
-                //    {
-                //        curredntIngredient = new Ingredient
-                //        {
-                //            Name = ingredient.Name,
-                //        };
-                //    }
-
-                //    ingredients.Add(curredntIngredient);
-                //}
-
-                //productDate.Ingredients = ingredients;
-
+                              
                 this.data.SaveChanges();
             });            
         }
