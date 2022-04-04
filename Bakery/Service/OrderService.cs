@@ -4,6 +4,7 @@ using Bakery.Models;
 using Bakery.Models.Customer;
 using Bakery.Models.Orders;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace Bakery.Service
 {
@@ -122,6 +123,19 @@ namespace Bakery.Service
             this.data.SaveChanges();
 
             return order;
+        }
+
+        public (bool, DateTime) TryParceDate(string date)
+        {
+            DateTime dateOfOrder;
+
+            var isValidDate = DateTime.TryParseExact(
+                date.ToString(),
+                "dd.MM.yyyy", CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out dateOfOrder);
+
+            return (isValidDate, dateOfOrder);
         }
 
         private void AddItem(Item item)

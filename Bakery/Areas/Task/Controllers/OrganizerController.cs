@@ -6,7 +6,7 @@ using static Bakery.Areas.AdminConstants;
 
 namespace Bakery.Areas.Task.Controllers
 {
-    public class OrganizerController : Controller
+    public class OrganizerController : AdminController
     {
         private readonly IOrganizerService organizerService;
 
@@ -16,7 +16,7 @@ namespace Bakery.Areas.Task.Controllers
         }
 
         [Authorize(Roles = WebConstants.AdministratorRoleName)]
-        [Area(AreaNameTask)]
+        [Area(AreaNameTask)]        
         public IActionResult Request() 
         {
             var date = DateTime.UtcNow;            

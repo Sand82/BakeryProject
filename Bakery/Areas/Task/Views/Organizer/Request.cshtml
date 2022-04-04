@@ -8,11 +8,11 @@
             <h2 class="heading text-center">Welcome to administration section</h2>
             <p class="fw-bold text-center">Here you can check you income for period of time and product for baking for 5 days a had.</p>
             <form>
-                <div style="margin: 20px" class="input-group">
+                <div style="margin-bottom: 20px" class="input-group">
                     <span class="input-group-text">Date: From - To</span>
-                    <input type="text" class="form-control" placeholder="From: dd.MM.yyyy">
-                    <input type="text" class="form-control" placeholder="To: dd.MM.yyyy">
-                    <a class="form-control btn btn-outline-secondary">Submit</a>
+                    <input id="from-value" class="form-control" placeholder="From: dd.MM.yyyy">
+                    <input id="to-value" class="form-control" placeholder="To: dd.MM.yyyy">
+                    <a onclick="GetDates(event)" class="form-control btn btn-outline-secondary">Submit</a>
                 </div>
             </form>
         </div>
@@ -72,6 +72,35 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+<script>
+            function GetDates(e) {
+
+            e.preventDefault();
+
+            var valueFrom = document.getElementById('from-value').value; 
+            
+            var valueTo = document.getElementById('to-value').value;            
+                
+            console.log(valueFrom);
+            
+            console.log(valueTo);
+
+            model = {ValueFrom: valueFrom, ValueTo: valueTo }
+          
+              $.ajax({
+                type: "POST",
+                url: "/api/Profit",
+                data: JSON.stringify(model),
+                success: function (data) {
+                    console.log(data)
+                },
+                contentType: 'application/json'
+              });            
+        }
+</script>
+}
 
 
 

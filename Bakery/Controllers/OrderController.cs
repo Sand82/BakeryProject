@@ -11,16 +11,13 @@ namespace Bakery.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly IOrderService orderService;
-        private readonly IItemsService itemsService;
+        private readonly IOrderService orderService;        
         private readonly ICustomerService customerService;
 
-        public OrderController(IOrderService orderService,
-            IItemsService itemsService,
+        public OrderController(IOrderService orderService,           
             ICustomerService customerService)
         {
-            this.orderService = orderService;
-            this.itemsService = itemsService;
+            this.orderService = orderService;           
             this.customerService = customerService;
         }
                        
@@ -59,7 +56,7 @@ namespace Bakery.Controllers
         {
             var actualDate = DateTime.UtcNow;
 
-            var (isValidDate, dateOfDelivery) = TryParceDate(formCustomerOrder.Order.DateOfDelivery.ToString());
+            var (isValidDate, dateOfDelivery) = orderService.TryParceDate(formCustomerOrder.Order.DateOfDelivery.ToString());
 
             if (dateOfDelivery < actualDate)
             {
@@ -101,20 +98,7 @@ namespace Bakery.Controllers
             customerService.AddCustomer(customer);
 
             return RedirectToAction("All", "Bakery");
-        }
-
-        private (bool, DateTime) TryParceDate(string date)
-        {
-            DateTime dateOfOrder;
-
-            var isValidDate = DateTime.TryParseExact(
-                date.ToString(),
-                "dd.MM.yyyy", CultureInfo.InvariantCulture,
-                DateTimeStyles.None,
-                out dateOfOrder);
-
-            return (isValidDate, dateOfOrder);
-        }
+        }        
 
         private string GetUserId()
         {

@@ -17,5 +17,7 @@ namespace Bakery.Service
         CreateOrderModel CreateOrderModel(Order order);
 
         Order FinishOrder(Order order, DateTime dateOfOrder);
+
+        (bool, DateTime) TryParceDate(string date);
     }
 }
