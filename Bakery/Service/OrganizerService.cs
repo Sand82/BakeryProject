@@ -13,41 +13,48 @@ namespace Bakery.Service
             this.data = data;
         }
 
-        public OrganizeViewModel GetItems(DateTime date,int days)
+        public List<OrganizeViewModel> GetItems(DateTime date)
         {
-           date = date.AddDays(days);
+            List<OrganizeViewModel> modelItems = new List<OrganizeViewModel>();
 
-            var items = this.data
+            for (int i = 1; i <= 5; i++)
+            {
+
+                 date = date.AddDays(1);
+
+                var items = this.data
                 .Items
                 .Include(o => o.Orders)
-                .Where(i => i.Orders.Any(o => 
-                                         o.DateOfDelivery.Year == date.Year && 
-                                         o.DateOfDelivery.Month == date.Month || 
+                .Where(i => i.Orders.Any(o =>
+                                         o.DateOfDelivery.Year == date.Year &&
+                                         o.DateOfDelivery.Month == date.Month &&
                                          o.DateOfDelivery.Day == date.Day))
                 .ToList();
 
-            OrganizeViewModel model = new OrganizeViewModel();
+                OrganizeViewModel model = new OrganizeViewModel();
 
-            model.DayOfOrder = date;
+                model.DayOfOrder = date;
 
-            foreach (var item in items)
-            {
-                if (!model.Items.ContainsKey(item.ProductName))
+                foreach (var item in items)
                 {
-                    model.Items.Add(item.ProductName, new Dictionary<decimal, int>());
+                    if (!model.Items.ContainsKey(item.ProductName))
+                    {
+                        model.Items.Add(item.ProductName, new Dictionary<decimal, int>());
+                    }
+                    if (!model.Items[item.ProductName].ContainsKey(item.ProductPrice))
+                    {
+                        model.Items[item.ProductName].Add(item.ProductPrice, 0);
+                    }
+
+                    model.Items[item.ProductName][item.ProductPrice] += item.Quantity;
+
+                    model.TottalPrice += item.Quantity * item.ProductPrice;
                 }
-                if (!model.Items[item.ProductName].ContainsKey(item.ProductPrice))
-                {
-                    model.Items[item.ProductName].Add(item.ProductPrice, 0);
-                }
 
-                model.Items[item.ProductName][item.ProductPrice] += item.Quantity;
-
-                model.TottalPrice += item.Quantity * item.ProductPrice;
-            }
-
-
-            return model;
+                modelItems.Add(model);
+            }          
+                      
+            return modelItems;
         }
     }
 }

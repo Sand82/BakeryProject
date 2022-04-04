@@ -4,6 +4,6 @@ namespace Bakery.Service
 {
     public interface IOrganizerService
     {
-        OrganizeViewModel GetItems(DateTime date, int days);
+        List<OrganizeViewModel> GetItems(DateTime date);
     }
 }

@@ -19,11 +19,9 @@ namespace Bakery.Areas.Task.Controllers
         [Area(AreaNameTask)]
         public IActionResult Request() 
         {
-            var date = DateTime.UtcNow;
+            var date = DateTime.UtcNow;            
 
-            var days = 1;
-
-            var items = organizerService.GetItems(date, days);
+            var items = organizerService.GetItems(date);
 
             return View(items); 
         }
