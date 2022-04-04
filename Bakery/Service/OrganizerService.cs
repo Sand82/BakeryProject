@@ -15,26 +15,31 @@ namespace Bakery.Service
 
         public string GetCustomProfit(DateTime fromDate, DateTime toDate)
         {
-            var models = this.data
-                    .Items
-                    .Include(o => o.Orders)
-                    .Where(o => o.Orders.Any(o => o.DateOfDelivery >= fromDate &&
-                    o.DateOfDelivery <= toDate &&
-                    o.IsFinished == true))
-                    .Select(i => new ProfitDataModel 
-                    { 
-                        Price = i.ProductPrice,
-                        Quantity = i.Quantity,
-                    })
-                    .ToList();
 
             decimal totallProfit = 0.0M;
 
-            foreach (var model in models)
+            Task.Run(() => 
             {
-                totallProfit += model.Price * model.Quantity;
-            }
+                var models = this.data
+                   .Items
+                   .Include(o => o.Orders)
+                   .Where(o => o.Orders.Any(o => o.DateOfDelivery >= fromDate &&
+                   o.DateOfDelivery <= toDate &&
+                   o.IsFinished == true))
+                   .Select(i => new ProfitDataModel
+                   {
+                       Price = i.ProductPrice,
+                       Quantity = i.Quantity,
+                   })
+                   .ToList();
 
+                foreach (var model in models)
+                {
+                    totallProfit += model.Price * model.Quantity;
+                }
+
+            }).GetAwaiter().GetResult();
+                      
             return totallProfit.ToString("f2") + '$';
         }
 
