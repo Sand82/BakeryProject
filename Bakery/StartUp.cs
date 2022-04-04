@@ -10,6 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<BackeryDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddAntiforgery(options => 
+{
+    options.HeaderName = "X-ANTIF-TOKEN";
+});
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {

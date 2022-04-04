@@ -19,8 +19,7 @@ namespace Bakery.Areas.Task.Controllers
         }
 
         [Authorize]
-        [HttpPost]
-        [IgnoreAntiforgeryToken]
+        [HttpPost]        
         public string Check(CheckFormModel model)
         {
            
@@ -30,7 +29,7 @@ namespace Bakery.Areas.Task.Controllers
 
             if (!IsValidFromDate || !IsValidToDate || DateTime.Compare(fromDate, toDate) > 0)
             {
-                //return BadRequest();
+                return $"Invalid data format or data period";
             }
 
             var totallProfit = organizerService.GetCustomProfit(fromDate, toDate);            

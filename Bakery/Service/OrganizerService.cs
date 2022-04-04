@@ -35,8 +35,7 @@ namespace Bakery.Service
                 totallProfit += model.Price * model.Quantity;
             }
 
-
-            return totallProfit.ToString("f2");
+            return totallProfit.ToString("f2") + '$';
         }
 
         public List<OrganizeViewModel> GetItems(DateTime date)
