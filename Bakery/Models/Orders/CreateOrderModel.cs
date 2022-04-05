@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using static Bakery.Data.Constants;
+
 namespace Bakery.Models.Orders
 {
     public class CreateOrderModel
@@ -17,7 +19,9 @@ namespace Bakery.Models.Orders
 
         public string? DateOfOrder { get; set; }
 
-        [Required]        
+        [Required]
+        [Display(Name = "Preparation day")]
+        [StringLength(DateLength, MinimumLength = DateLength)]
         public string DateOfDelivery { get; set; }
 
         public int? ItemsCount { get; set; }

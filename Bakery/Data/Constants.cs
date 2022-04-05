@@ -25,6 +25,7 @@
         public const int EmailMinLength = 10;
 
         public const int PhoneLength = 13;
+        public const int DateLength = 10;
 
         public const int ExperienceMaxLength = 40;
         public const int ExperienceMinLength = 1;

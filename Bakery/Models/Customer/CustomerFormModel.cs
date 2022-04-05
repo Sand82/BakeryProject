@@ -37,7 +37,6 @@ namespace Bakery.Models.Customer
         [StringLength(AdressMaxValue, MinimumLength = AdressMinValue,
             ErrorMessage = "The field {0} is not valid! Must be between of {2} and {1} symbols.")]
         public string Address { get; set; }
-
         
         public string? UserId { get; set; }
 

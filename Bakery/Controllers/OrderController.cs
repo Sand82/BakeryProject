@@ -56,11 +56,18 @@ namespace Bakery.Controllers
         {
             var actualDate = DateTime.UtcNow;
 
-            var (isValidDate, dateOfDelivery) = orderService.TryParceDate(formCustomerOrder.Order.DateOfDelivery.ToString());
+            string? stringDate = formCustomerOrder.Order.DateOfDelivery == null ? "00.00.0000" : formCustomerOrder.Order.DateOfDelivery.ToString();
+
+            var (isValidDate, dateOfDelivery) = orderService.TryParceDate(stringDate);
 
             if (dateOfDelivery < actualDate)
             {
                 ModelState.AddModelError(WebConstants.DateOfDelivery, "The date cannot be older than the current one.");
+            }
+
+            if (!isValidDate)
+            {
+                ModelState.AddModelError(WebConstants.DateOfDelivery, "Invalid date format.");
             }
 
             var userId = GetUserId();
@@ -83,12 +90,7 @@ namespace Bakery.Controllers
 
                 return View(formCustomerOrder);
             }          
-                      
-            if (!isValidDate)
-            {
-                return BadRequest();
-            }
-
+                   
             var finishedOrder = orderService.FinishOrder(order, dateOfDelivery);            
             
             var customer = customerService.CreateCustomer(userId, formCustomerOrder);           

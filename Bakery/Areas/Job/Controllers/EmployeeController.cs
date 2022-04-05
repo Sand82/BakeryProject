@@ -40,7 +40,7 @@ namespace Bakery.Areas.Job.Controllers
         }
 
 
-        [Authorize]        
+        [Authorize]
         public IActionResult Reject(int id)
         {
             var employee = employeeService.GetEmployeeById(id);
