@@ -114,7 +114,7 @@ namespace Bakery.Controllers
             return View(items);
         }
 
-        [Authorize]
+        [Authorize]        
         public IActionResult DeleteAll (int id)
         {
              var order = itemsService.FindOrderById(id);
@@ -124,7 +124,7 @@ namespace Bakery.Controllers
             return RedirectToAction("Buy", "Order");
         }
 
-        [Authorize]
+        [Authorize]       
         public IActionResult Delete(int id)
         {
             var userId = User.GetId();

@@ -12,7 +12,7 @@
             <th scope="col">Age</th>
             <th scope="col">Experience</th>
             <th scope="col">Email address</th>
-            <th scope="col">Phone number</th>            
+            <th scope="col">Phone number</th>
             <th scope="col"></th>
         </tr>
     </thead>
@@ -27,9 +27,11 @@
                 <td scope="col">@applied.Email</td>
                 <td scope="col">@applied.Phone</td>
                 <td scope="col">
-                    <a asp-area="Job" asp-controller="Employee" asp-action="Info" asp-route-id="@applied.Id" class="btn btn-info">Info</a>
-                    <a asp-area="Job" asp-controller="Employee" asp-action="Add" asp-route-id="@applied.Id" class="btn btn-success">Approve</a>
-                    <a asp-area="Job" asp-controller="Employee" asp-action="Reject" asp-route-id="@applied.Id" class="btn btn-danger">Delete</a>
+                    <form method="Post">
+                        <a asp-area="Job" asp-controller="Employee" asp-action="Info" asp-route-id="@applied.Id" class="btn btn-info">Info</a>
+                        <a asp-area="Job" asp-controller="Employee" asp-action="Add" asp-route-id="@applied.Id" class="btn btn-success">Approve</a>
+                        <a asp-area="Job" asp-controller="Employee" asp-action="Reject" asp-route-id="@applied.Id" class="btn btn-danger">Delete</a>
+                    </form>
                 </td>
             </tr>
         }
@@ -37,40 +39,40 @@
 </table>
 
 <div class="modal" tabindex="-1" id="modalAprove">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Approve Employee</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p>Do you wanna approve this change? </p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Approve Employee</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Do you wanna approve this change? </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 @*@section Scripts {
-<script>
-            onclick="ApproveFunction(event, @applied.Id)"
+    <script>
+    onclick="ApproveFunction(event, @applied.Id)"
 
-            function ApproveFunction(e, appliedId) {
+    function ApproveFunction(e, appliedId) {
 
-            e.preventDefault();            
-            console.log(e.target.name);
-            console.log(appliedId);
+    e.preventDefault();
+    console.log(e.target.name);
+    console.log(appliedId);
 
-            const url = "Job/Employee/"+ {e.target.name}+'.'{}
+    const url = "Job/Employee/"+ {e.target.name}+'.'{}
 
-                        
-         
-        }
-</script>
-}*@
+
+
+    }
+    </script>
+    }*@
 
 
 

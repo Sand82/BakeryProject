@@ -64,7 +64,6 @@ namespace Bakery.Service
 
             Task.Run(() =>
             {
-
                 product = this.data.
                 Products
                .Include(i => i.Ingredients)
