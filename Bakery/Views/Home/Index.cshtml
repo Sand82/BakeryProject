@@ -7,7 +7,7 @@
 
 @if (this.TempData.ContainsKey(ProductAdded))
 {
-    <div class="alert alert-success">@this.TempData["Message"]</div>
+    <div class="alert alert-success" id="alert" style="text-align: center;">@this.TempData[ProductAdded]</div>
 }
 
 <h1 class="titles">Welcome to my Bakery</h1>
@@ -52,3 +52,11 @@
     <partial name="~/Views/_ProductPartial.cshtml" model="@Model.AllProductViewModel"></partial>
 </div>
 
+@section Scripts
+{
+    <script>
+        $("#alert").delay(4000).slideUp(200, function() {
+    $(this).alert('close');
+    });
+    </script>
+}

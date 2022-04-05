@@ -158,7 +158,8 @@ namespace Bakery.Service
                 productDate.CategoryId = product.CategoryId;
                               
                 this.data.SaveChanges();
-            });            
+
+            }).GetAwaiter().GetResult();
         }
 
         public void Delete(Product product)
@@ -192,7 +193,7 @@ namespace Bakery.Service
 
             Task.Run(() => 
             {
-                this.data.Products.Find(id);
+                product = this.data.Products.Find(id);
 
             }).GetAwaiter().GetResult();
 
