@@ -10,7 +10,12 @@
       "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
       "DisplayName": "Miscellaneous Files",
       "ColorIndex": -1
+    },
+    "bd796627-627a-4c65-a920-5615e695dc31": {
+      "ProjectGuid": "bd796627-627a-4c65-a920-5615e695dc31",
+      "DisplayName": "Bakery.Test",
+      "ColorIndex": 1
     }
   },
-  "NextColorIndex": 1
+  "NextColorIndex": 2
 }
