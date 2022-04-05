@@ -124,6 +124,30 @@ namespace Bakery.Service
 
             return order;
         }
+        public CustomerFormModel GetCustomer(string userId)
+        {
+            CustomerFormModel? customer = null;
+
+            Task.Run(() => 
+            {
+                customer = this.data.Customers
+                .OrderByDescending(x => x.Id)
+                .Where(c => c.UserId == userId)
+                .Select(c => new CustomerFormModel 
+                {
+                    FirstName = c.FirstName,
+                    LastName = c.LastName,
+                    Email = c.Email,
+                    Address = c.Adress,
+                    UserId = userId,
+                    PhoneNumber = c.PhoneNumber,
+                })
+                .FirstOrDefault();
+
+            }).GetAwaiter().GetResult();
+
+            return customer;
+        }
 
         public (bool, DateTime) TryParceDate(string date)
         {
@@ -158,6 +182,6 @@ namespace Bakery.Service
                 this.data.SaveChanges();
 
             }).GetAwaiter().GetResult();           
-        }
+        }       
     }
 }

@@ -7,14 +7,17 @@ namespace Bakery.Service
     public class CustomerService : ICustomerService
     {
         private readonly BackeryDbContext data;
+        private readonly IOrderService orderService;
 
-        public CustomerService(BackeryDbContext data)
+        public CustomerService(BackeryDbContext data, IOrderService orderService)
         {
             this.data = data;
+            this.orderService = orderService;
         }       
 
         public Customer CreateCustomer(string userId, CustomerFormModel form)
-        {
+        {                      
+
             var customer = new Customer
             {
                 UserId = userId,
@@ -58,6 +61,6 @@ namespace Bakery.Service
                 this.data.SaveChanges();
 
             }).GetAwaiter().GetResult();            
-        }
+        }        
     }
 }

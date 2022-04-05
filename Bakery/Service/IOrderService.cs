@@ -19,5 +19,7 @@ namespace Bakery.Service
         Order FinishOrder(Order order, DateTime dateOfOrder);
 
         (bool, DateTime) TryParceDate(string date);
+
+        CustomerFormModel GetCustomer(string userId);
     }
 }

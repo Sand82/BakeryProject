@@ -41,12 +41,16 @@ namespace Bakery.Controllers
 
             var orderModel = orderService.CreateOrderModel(order);
 
-            var formCustomerOrder = new CustomerFormModel 
-            {
-                Order = orderModel,
-                OrderId = orderModel.Id,                        
-            };            
+            var formCustomerOrder = orderService.GetCustomer(userId);
 
+            if (formCustomerOrder == null)
+            {
+                formCustomerOrder = new CustomerFormModel();
+            }
+
+            formCustomerOrder.Order = orderModel;
+            formCustomerOrder.OrderId = orderModel.Id;           
+                       
             return View(formCustomerOrder);
         }
 
