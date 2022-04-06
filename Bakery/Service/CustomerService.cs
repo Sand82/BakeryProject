@@ -6,10 +6,10 @@ namespace Bakery.Service
 {
     public class CustomerService : ICustomerService
     {
-        private readonly BackeryDbContext data;
+        private readonly BakeryDbContext data;
         private readonly IOrderService orderService;
 
-        public CustomerService(BackeryDbContext data, IOrderService orderService)
+        public CustomerService(BakeryDbContext data, IOrderService orderService)
         {
             this.data = data;
             this.orderService = orderService;

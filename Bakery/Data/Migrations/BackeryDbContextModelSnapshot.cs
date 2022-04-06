@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bakery.Data.Migrations
 {
-    [DbContext(typeof(BackeryDbContext))]
+    [DbContext(typeof(BakeryDbContext))]
     partial class BackeryDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

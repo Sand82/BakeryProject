@@ -6,10 +6,10 @@ namespace Bakery.Service
 {
     public class EmployeeService : IEmployeeService
     {
-        private readonly BackeryDbContext data;
+        private readonly BakeryDbContext data;
         private readonly IWebHostEnvironment webHostEnvironment;
 
-        public EmployeeService(BackeryDbContext data, IWebHostEnvironment webHostEnvironment)
+        public EmployeeService(BakeryDbContext data, IWebHostEnvironment webHostEnvironment)
         {
             this.data = data;
             this.webHostEnvironment = webHostEnvironment;

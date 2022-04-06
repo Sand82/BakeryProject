@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bakery.Data
 {
-    public class BackeryDbContext : IdentityDbContext
+    public class BakeryDbContext : IdentityDbContext
     {
                
-        public BackeryDbContext(DbContextOptions<BackeryDbContext> options)
+        public BakeryDbContext(DbContextOptions<BakeryDbContext> options)
             : base(options)
         {
         }

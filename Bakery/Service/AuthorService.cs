@@ -7,10 +7,10 @@ namespace Bakery.Service
 {
     public class AuthorService : IAuthorService
     {
-        private readonly BackeryDbContext data;
+        private readonly BakeryDbContext data;
         private readonly IWebHostEnvironment webHostEnvironment;
 
-        public AuthorService(BackeryDbContext data, IWebHostEnvironment webHostEnvironment)
+        public AuthorService(BakeryDbContext data, IWebHostEnvironment webHostEnvironment)
         {
             this.data = data;
             this.webHostEnvironment = webHostEnvironment;

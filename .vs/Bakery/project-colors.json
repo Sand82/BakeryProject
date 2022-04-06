@@ -10,7 +10,22 @@
       "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
       "DisplayName": "Miscellaneous Files",
       "ColorIndex": -1
+    },
+    "d9193c1d-848b-43e7-a5a9-cf67f1ec21d2": {
+      "ProjectGuid": "d9193c1d-848b-43e7-a5a9-cf67f1ec21d2",
+      "DisplayName": "Bakery.Tests",
+      "ColorIndex": 1
+    },
+    "42b47693-f0a3-43cd-aca0-f1e0b78946af": {
+      "ProjectGuid": "42b47693-f0a3-43cd-aca0-f1e0b78946af",
+      "DisplayName": "Bakery.Tests",
+      "ColorIndex": 2
+    },
+    "edd6e1d2-0068-444a-beff-74448dcc7f74": {
+      "ProjectGuid": "edd6e1d2-0068-444a-beff-74448dcc7f74",
+      "DisplayName": "Bakery.Tests",
+      "ColorIndex": 3
     }
   },
-  "NextColorIndex": 1
+  "NextColorIndex": 4
 }

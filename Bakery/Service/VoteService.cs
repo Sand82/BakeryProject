@@ -6,9 +6,9 @@ namespace Bakery.Service
 {
     public class VoteService : IVoteService
     {
-        private readonly BackeryDbContext data;
+        private readonly BakeryDbContext data;
 
-        public VoteService(BackeryDbContext data)
+        public VoteService(BakeryDbContext data)
         {
             this.data = data;
         }

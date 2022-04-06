@@ -14,9 +14,9 @@ namespace Bakery.Controllers
     {
         private readonly IBakerySevice bakerySevice;    
         private readonly IAuthorService authorService;
-        private readonly BackeryDbContext data;
+        private readonly BakeryDbContext data;
 
-        public BakeryController(IBakerySevice bakerySevice,IAuthorService authorService, BackeryDbContext data)
+        public BakeryController(IBakerySevice bakerySevice,IAuthorService authorService, BakeryDbContext data)
         {
             this.bakerySevice = bakerySevice;          
             this.authorService = authorService;

@@ -9,10 +9,10 @@ namespace Bakery.Service
 {
     public class ItemsService : IItemsService
     {
-        private readonly BackeryDbContext data;
+        private readonly BakeryDbContext data;
         private readonly IVoteService voteService;
 
-        public ItemsService(BackeryDbContext data, IVoteService voteService)
+        public ItemsService(BakeryDbContext data, IVoteService voteService)
         {
             this.data = data;
             this.voteService = voteService;

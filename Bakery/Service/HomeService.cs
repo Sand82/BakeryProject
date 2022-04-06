@@ -7,9 +7,9 @@ namespace Bakery.Service
     public class HomeService : IHomeService
     {
 
-        private readonly BackeryDbContext data;
+        private readonly BakeryDbContext data;
 
-        public HomeService(BackeryDbContext data)
+        public HomeService(BakeryDbContext data)
         {
             this.data = data;
         }

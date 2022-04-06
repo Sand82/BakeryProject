@@ -9,9 +9,9 @@ namespace Bakery.Service
 {
     public class BakerySevice : IBakerySevice
     {
-        private readonly BackeryDbContext data;        
+        private readonly BakeryDbContext data;        
 
-        public BakerySevice(BackeryDbContext data)
+        public BakerySevice(BakeryDbContext data)
         {
             this.data = data;            
         }

@@ -10,9 +10,9 @@ namespace Bakery.Service
 {
     public class OrderService : IOrderService
     {
-        private readonly BackeryDbContext data;
+        private readonly BakeryDbContext data;
 
-        public OrderService(BackeryDbContext data)
+        public OrderService(BakeryDbContext data)
         {
             this.data = data;
         }

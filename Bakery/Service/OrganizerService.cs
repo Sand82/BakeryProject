@@ -6,9 +6,9 @@ namespace Bakery.Service
 {
     public class OrganizerService : IOrganizerService
     {
-        private readonly BackeryDbContext data;
+        private readonly BakeryDbContext data;
 
-        public OrganizerService(BackeryDbContext data)
+        public OrganizerService(BakeryDbContext data)
         {
             this.data = data;
         }

@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<BackeryDbContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<BakeryDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddAntiforgery(options => 
@@ -27,7 +27,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     //options.User.RequireUniqueEmail = true;
 })
 .AddRoles<IdentityRole>()
-.AddEntityFrameworkStores<BackeryDbContext>();
+.AddEntityFrameworkStores<BakeryDbContext>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IBakerySevice, BakerySevice>();

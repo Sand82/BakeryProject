@@ -17,7 +17,7 @@ namespace Bakery.Infrastructure
             var scolpedServices = app.ApplicationServices.CreateScope();
             var serviceProvider = scolpedServices.ServiceProvider;
 
-            var data = serviceProvider.GetRequiredService<BackeryDbContext>();
+            var data = serviceProvider.GetRequiredService<BakeryDbContext>();
 
             data.Database.Migrate();
 
@@ -36,7 +36,7 @@ namespace Bakery.Infrastructure
 
 
 
-        private static void SeedDayOfTheWeek(BackeryDbContext data)
+        private static void SeedDayOfTheWeek(BakeryDbContext data)
         {
             //if (data.DayOfTheWeek.Any())
             //{
@@ -80,7 +80,7 @@ namespace Bakery.Infrastructure
                 .GetResult();
         }
 
-        private static void SeedCategories(BackeryDbContext data)
+        private static void SeedCategories(BakeryDbContext data)
         {
             if (data.Categories.Any())
             {
@@ -99,7 +99,7 @@ namespace Bakery.Infrastructure
             data.SaveChanges();
         }
 
-        private static void SeedAuthor(BackeryDbContext data)
+        private static void SeedAuthor(BakeryDbContext data)
         {
             if (data.Authors.Any())
             {
@@ -118,7 +118,7 @@ namespace Bakery.Infrastructure
             data.SaveChanges();
         }
 
-        private static void SeedProducts(BackeryDbContext data)
+        private static void SeedProducts(BakeryDbContext data)
         {
             if (data.Products.Any())
             {
@@ -291,7 +291,7 @@ namespace Bakery.Infrastructure
             CreateProduct(productsDTO, data);
         }
 
-        private static void CreateProduct(List<SeedingProductModel> productsDTO, BackeryDbContext data)
+        private static void CreateProduct(List<SeedingProductModel> productsDTO, BakeryDbContext data)
         {
 
             foreach (var product in productsDTO)
@@ -327,7 +327,7 @@ namespace Bakery.Infrastructure
             }
         }
 
-        private static void AddInDatabase(Product currProduct, BackeryDbContext data)
+        private static void AddInDatabase(Product currProduct, BakeryDbContext data)
         {
             data.Products.Add(currProduct);
 
