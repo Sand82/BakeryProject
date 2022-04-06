@@ -3,7 +3,6 @@ using Bakery.Models.Customer;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Globalization;
 
 using static Bakery.Infrastructure.ClaimsPrincipalExtensions;
 

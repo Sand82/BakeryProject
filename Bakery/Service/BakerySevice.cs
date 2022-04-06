@@ -21,7 +21,8 @@ namespace Bakery.Service
 
             Task.Run(() => 
             {
-               var productQuery = this.data.Products.AsQueryable();
+                var productQuery = this.data.Products.AsQueryable();
+                
 
                 if (!string.IsNullOrWhiteSpace(query.Category))
                 {
@@ -161,15 +162,12 @@ namespace Bakery.Service
             });            
         }
 
+
         public void Delete(Product product)
-        {
-            Task.Run (() => 
-            {
-                product.IsDelete = true;
+        {            
+             product.IsDelete = true;
 
-                data.SaveChanges();
-
-            }).GetAwaiter().GetResult();            
+             data.SaveChanges();                       
         }
 
         public IEnumerable<BakryCategoryViewModel> GetBakeryCategories()

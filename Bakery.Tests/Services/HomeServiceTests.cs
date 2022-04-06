@@ -1,6 +1,4 @@
 ﻿using Bakery.Data.Models;
-using Bakery.Models.Bakeries;
-using Bakery.Models.Home;
 using Bakery.Service;
 using Bakery.Tests.Mock;
 using System.Collections.Generic;
@@ -13,7 +11,7 @@ namespace Bakery.Tests.Services
         [Fact]
         public void HomeServiceShouldReturnCorrectProductCount()
         {
-            var data = DatabaseMock.Instance;
+            using var data = DatabaseMock.Instance;
 
             var product = ProductsCollection();
 
@@ -32,7 +30,7 @@ namespace Bakery.Tests.Services
         [Fact]
         public void HomeServiceShouldReturnCorrectIngredientsCount()
         {
-            var data = DatabaseMock.Instance;
+            using var data = DatabaseMock.Instance;
 
             var product = ProductsCollection();
 
@@ -50,8 +48,8 @@ namespace Bakery.Tests.Services
 
         [Fact]
         public void HomeServiceShouldReturnCountOfZeroWhenEmptyDatabase()
-        {         
-            var data = DatabaseMock.Instance;            
+        {
+            using var data = DatabaseMock.Instance;            
 
             var homeService = new HomeService(data);
 
