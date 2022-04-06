@@ -34,13 +34,13 @@ namespace Bakery.Service
                     Category = p.Category.Name
                 })
                 .Take(4)
-                .ToList();
+                .ToList();               
 
                 countPlusProductModel = new CountViewModel
                 {
                     AllProductViewModel = products,
                     ProductCount = data.Products.Count(),
-                    IngredientCount = data.Ingredients.Count()
+                    IngredientCount = data.Ingredients.Distinct().Count()
                 };
 
             }).GetAwaiter().GetResult();           

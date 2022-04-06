@@ -2,6 +2,7 @@
 using Bakery.Models.Customer;
 using Bakery.Service;
 using Bakery.Tests.Mock;
+using Microsoft.AspNetCore.Mvc;
 using Xunit;
 
 namespace Bakery.Tests.Services
@@ -84,8 +85,7 @@ namespace Bakery.Tests.Services
 
             var result = customerService.FindCustomer(userId, form);
 
-            Assert.Null(result);
-
+            Assert.Null(result);           
         }
 
         private CustomerFormModel ReturnModel() 
