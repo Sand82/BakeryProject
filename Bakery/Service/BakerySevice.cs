@@ -9,20 +9,20 @@ namespace Bakery.Service
 {
     public class BakerySevice : IBakerySevice
     {
-        private readonly BakeryDbContext data;        
+        private readonly BakeryDbContext data;
 
         public BakerySevice(BakeryDbContext data)
         {
-            this.data = data;            
+            this.data = data;
         }
 
         public AllProductQueryModel GetAllProducts(AllProductQueryModel query)
-        {           
+        {
 
-            Task.Run(() => 
+            Task.Run(() =>
             {
                 var productQuery = this.data.Products.AsQueryable();
-                
+
 
                 if (!string.IsNullOrWhiteSpace(query.Category))
                 {
@@ -72,7 +72,7 @@ namespace Bakery.Service
 
                 query.TotalProduct = totalProducts;
                 query.Products = products;
-                               
+
 
             }).GetAwaiter().GetResult();
 
@@ -80,8 +80,8 @@ namespace Bakery.Service
         }
 
         public void CreateProduct(BakeryFormModel formProduct)
-        {        
-            Task.Run(() => 
+        {
+            Task.Run(() =>
             {
                 var product = new Product
                 {
@@ -111,15 +111,15 @@ namespace Bakery.Service
 
                 AddProduct(product);
 
-            }).GetAwaiter().GetResult();        
-          
+            }).GetAwaiter().GetResult();
+
         }
 
         public ProductDetailsServiceModel EditProduct(int id)
         {
             ProductDetailsServiceModel? product = new ProductDetailsServiceModel();
 
-            Task.Run(() => 
+            Task.Run(() =>
             {
                 product = this.data
                .Products
@@ -141,7 +141,7 @@ namespace Bakery.Service
                .FirstOrDefault();
 
             }).GetAwaiter().GetResult();
-          
+
             return product;
         }
 
@@ -157,17 +157,23 @@ namespace Bakery.Service
                 productDate.Price = product.Price;
                 productDate.ImageUrl = product.ImageUrl;
                 productDate.CategoryId = product.CategoryId;
-                              
+
                 this.data.SaveChanges();
-            });            
+
+            }).GetAwaiter().GetResult();
+
         }
 
 
         public void Delete(Product product)
-        {            
-             product.IsDelete = true;
+        {
+            Task.Run(() =>
+            {
+                product.IsDelete = true;
 
-             data.SaveChanges();                       
+                this.data.SaveChanges();
+
+            }).GetAwaiter().GetResult();
         }
 
         public IEnumerable<BakryCategoryViewModel> GetBakeryCategories()
@@ -188,9 +194,9 @@ namespace Bakery.Service
         {
             var product = new Product();
 
-            Task.Run(() => 
+            Task.Run(() =>
             {
-                this.data.Products.Find(id);
+                product = this.data.Products.Find(id);
 
             }).GetAwaiter().GetResult();
 
@@ -199,13 +205,13 @@ namespace Bakery.Service
 
         private void AddProduct(Product product)
         {
-            Task.Run(() => 
+            Task.Run(() =>
             {
                 this.data.Products.Add(product);
 
                 this.data.SaveChanges();
 
-            }).GetAwaiter().GetResult();            
+            }).GetAwaiter().GetResult();
         }
 
         private List<string> AddCategories()
@@ -223,7 +229,7 @@ namespace Bakery.Service
 
             }).GetAwaiter().GetResult();
 
-             return category;
+            return category;
         }
 
         public NamePriceDataModel CreateNamePriceModel(int id)
