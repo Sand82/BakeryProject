@@ -1,6 +1,8 @@
-﻿using Bakery.Data.Models;
+﻿using Bakery.Data;
+using Bakery.Data.Models;
 using Bakery.Models.Bakeries;
 using Bakery.Models.Bakery;
+using Bakery.Models.Items;
 using Bakery.Service;
 using Bakery.Tests.Mock;
 using Newtonsoft.Json;
@@ -17,11 +19,7 @@ namespace Bakery.Tests.Services
         {
             using var data = DatabaseMock.Instance;
 
-            var product = ProductsCollection();
-
-            data.Products.AddRange(product);
-
-            data.SaveChanges();
+            AddProductsInDatabase(data);
 
             var bakerySevice = new BakerySevice(data);
 
@@ -44,11 +42,7 @@ namespace Bakery.Tests.Services
         {
             using var data = DatabaseMock.Instance;
 
-            var product = ProductsCollection();
-
-            data.Products.AddRange(product);
-
-            data.SaveChanges();
+            AddProductsInDatabase(data);
 
             var bakerySevice = new BakerySevice(data);
 
@@ -71,11 +65,7 @@ namespace Bakery.Tests.Services
         {
             using var data = DatabaseMock.Instance;
 
-            var product = ProductsCollection();
-
-            data.Products.AddRange(product);
-
-            data.SaveChanges();
+            AddProductsInDatabase(data);
 
             var bakerySevice = new BakerySevice(data);
 
@@ -124,11 +114,7 @@ namespace Bakery.Tests.Services
         {
             using var data = DatabaseMock.Instance;
 
-            var product = ProductsCollection();
-
-            data.Products.AddRange(product);
-
-            data.SaveChanges();
+            AddProductsInDatabase(data);
 
             var bakerySevice = new BakerySevice(data);
             
@@ -152,6 +138,135 @@ namespace Bakery.Tests.Services
 
             Assert.Equal(obj1Str, obj2Str);           
         }
+
+        [Fact]
+        public void FinByIdShouldReturnCorrectResult()
+        {
+            using var data = DatabaseMock.Instance;
+
+            AddProductsInDatabase(data);
+
+            var bakerySevice = new BakerySevice(data);
+
+            var model = new BakeryFormModel();            
+
+            var result = bakerySevice.FindById(1);
+
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void FinByIdShouldReturnZeroResultWithEmptyDatabase()
+        {
+            using var data = DatabaseMock.Instance;            
+
+            var bakerySevice = new BakerySevice(data);
+
+            var model = new BakeryFormModel();
+
+            var result = bakerySevice.FindById(1);
+
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void GetBakeryCategoriesShouldReturnCorrectResult()
+        {
+
+            using var data = DatabaseMock.Instance;
+
+            var categories = GetListOfCategories();
+
+            data.Categories.AddRange(categories);
+
+            data.SaveChanges();
+
+            var bakerySevice = new BakerySevice(data);
+
+            var result = bakerySevice.GetBakeryCategories();
+
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void GetBakeryCategoriesShouldReturnEmptyResultIfNoDataOnDatabase()
+        {
+            using var data = DatabaseMock.Instance;            
+
+            var bakerySevice = new BakerySevice(data);
+
+            var result = bakerySevice.GetBakeryCategories();
+
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public void EditShouldReturnCorrectResult()
+        {
+            using var data = DatabaseMock.Instance;
+
+            AddProductsInDatabase(data);          
+            
+            var bakerySevice = new BakerySevice(data);
+
+            var product = bakerySevice.FindById(10);
+
+            var model = new ProductDetailsServiceModel()
+            {
+                Name = "Basi",
+                Description = "Great descriprion",
+                ImageUrl = "nqma1.png",
+                Price = 3.76m,
+                CategoryId = 1
+            };
+
+            bakerySevice.Edit(model, product);
+
+            data.SaveChanges();
+
+            var result = bakerySevice.FindById(10);
+                      
+            Assert.NotNull(result);
+            Assert.Equal(model.Name, result.Name);
+            Assert.Equal(model.Description, result.Description);
+            Assert.Equal(model.ImageUrl, result.ImageUrl);
+            Assert.Equal(model.Price, result.Price);
+            Assert.Equal(model.CategoryId, result.CategoryId);
+        }       
+
+        [Fact]
+        public void CreateNamePriceModelShouldReturnCorrectResult()
+        {
+            using var data = DatabaseMock.Instance;
+
+            AddProductsInDatabase(data);
+
+            var bakerySevice = new BakerySevice(data);
+
+            var product = bakerySevice.CreateNamePriceModel(1);
+
+            var model = bakerySevice.FindById(1);
+
+            var result = new NamePriceDataModel
+            {
+                Name = "Bread1",
+                Price = 3.20m.ToString(),
+            };         
+                    
+            Assert.NotNull(result);
+            Assert.Equal(model.Name, result.Name);
+            Assert.Equal(model.Price.ToString(), result.Price);                
+        }
+
+        private void AddProductsInDatabase(BakeryDbContext data)
+        {
+            var product = ProductsCollection();
+
+            data.Products.AddRange(product);
+
+            data.SaveChanges();
+        }
+
 
         private List<Product> ProductsCollection()
         {
@@ -182,7 +297,6 @@ namespace Bakery.Tests.Services
                 var product = new Product { Id = i, Name = $"Bread{i}", IsDelete = true, Description = "Bread Bread Bread Bread Bread.", Price = 3.20m, ImageUrl = $"nqma{i}.png", Ingredients = ingredients };
 
                 products.Add(product);
-
             }
 
             return products;
@@ -191,6 +305,18 @@ namespace Bakery.Tests.Services
         private Category GetCategory()
         {
             return new Category { Id = 1, Name = "Bread" };
+        }
+
+        private List<Category> GetListOfCategories()
+        {
+            var categories = new List<Category>() 
+            {
+                new Category  {Id = 1, Name = "Bread" },
+                new Category  {Id = 2, Name = "Sweets" },
+                new Category  {Id = 3, Name = "Cookies" },               
+            };
+
+            return categories;
         }
 
         private ICollection<Ingredient> GetIngredients()

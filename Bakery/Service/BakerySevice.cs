@@ -146,13 +146,10 @@ namespace Bakery.Service
             return product;
         }
 
-        public void Edit(int id, ProductDetailsServiceModel product)
+        public void Edit( ProductDetailsServiceModel product, Product productDate)
         {
-
             Task.Run(() =>
-            {
-                var productDate = FindById(id);
-
+            {             
                 productDate.Name = product.Name;
                 productDate.Description = product.Description;
                 productDate.Price = product.Price;
@@ -162,7 +159,6 @@ namespace Bakery.Service
                 this.data.SaveChanges();
 
             }).GetAwaiter().GetResult();
-
         }
 
         public NamePriceDataModel CreateNamePriceModel(int id)
@@ -199,14 +195,20 @@ namespace Bakery.Service
 
         public IEnumerable<BakryCategoryViewModel> GetBakeryCategories()
         {
-            var categories = this.data.
-                Categories.
-                Select(c => new BakryCategoryViewModel
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                })
-                .ToList();
+            IEnumerable<BakryCategoryViewModel>? categories = null;
+
+            Task.Run(() =>
+            {
+                 categories = this.data.
+                 Categories.
+                 Select(c => new BakryCategoryViewModel
+                 {
+                     Id = c.Id,
+                     Name = c.Name,
+                 })
+                 .ToList();
+
+            }).GetAwaiter().GetResult();
 
             return categories;
         }

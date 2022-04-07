@@ -19,7 +19,7 @@ namespace Bakery.Service
 
         NamePriceDataModel CreateNamePriceModel(int id);
 
-        void Edit(int id, ProductDetailsServiceModel product);
+        void Edit(ProductDetailsServiceModel productModel, Product dataProdcuct);
 
         void Delete(Product product);
 

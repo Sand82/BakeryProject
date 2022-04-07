@@ -101,14 +101,14 @@ namespace Bakery.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult Edit(int id, ProductDetailsServiceModel product)
+        public IActionResult Edit(int id, ProductDetailsServiceModel productModel)
         {
 
             if (!ModelState.IsValid)
             {
-                product.Categories = bakerySevice.GetBakeryCategories();
+                productModel.Categories = bakerySevice.GetBakeryCategories();
 
-                return View(product);
+                return View(productModel);
             }
 
             var author = AuthorValidation();
@@ -118,7 +118,9 @@ namespace Bakery.Controllers
                 return BadRequest();
             }
 
-            bakerySevice.Edit(id, product);
+            var product = bakerySevice.FindById(id);
+
+            bakerySevice.Edit(productModel, product);
 
             return RedirectToAction("All", "Bakery");
         }
