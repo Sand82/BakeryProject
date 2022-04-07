@@ -118,7 +118,7 @@ namespace Bakery.Service
 
         public ProductDetailsServiceModel EditProduct(int id)
         {
-            ProductDetailsServiceModel? product = new ProductDetailsServiceModel();
+            ProductDetailsServiceModel? product = null;
 
             Task.Run(() =>
             {

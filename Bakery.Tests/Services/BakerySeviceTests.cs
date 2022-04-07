@@ -3,6 +3,7 @@ using Bakery.Models.Bakeries;
 using Bakery.Models.Bakery;
 using Bakery.Service;
 using Bakery.Tests.Mock;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using Xunit;
 
@@ -66,7 +67,7 @@ namespace Bakery.Tests.Services
         }
 
         [Fact]
-        public void GetAllProductsReturnCorrectResultWhenSerchTearms()
+        public void GetAllProductsReturnCorrectResultWhenUseSerchTearms()
         {
             using var data = DatabaseMock.Instance;
 
@@ -94,7 +95,7 @@ namespace Bakery.Tests.Services
         }
 
         [Fact]
-        public void CreatProductReturnCorrectResultWhen()
+        public void CreatProductReturnCorrectResult()
         {
             using var data = DatabaseMock.Instance;            
 
@@ -118,11 +119,45 @@ namespace Bakery.Tests.Services
             Assert.NotNull(result);            
         }
 
+        [Fact]
+        public void EditProductReturnCorrectResult()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var product = ProductsCollection();
+
+            data.Products.AddRange(product);
+
+            data.SaveChanges();
+
+            var bakerySevice = new BakerySevice(data);
+            
+            var category = GetCategory();
+
+            var ingredients = GetIngredientAddFormModel();
+            
+            var currModel = new ProductDetailsServiceModel();
+            currModel.Id = 1;
+            currModel.Name = "Bread1";            
+            currModel.Description = "Bread Bread Bread Bread Bread.";
+            currModel.CategoryId = category.Id;            
+            currModel.ImageUrl = "nqma1.png";
+            currModel.Price = 3.20m;
+            currModel.Ingredients = ingredients;
+
+            var result = bakerySevice.EditProduct(1);
+
+            var obj1Str = JsonConvert.SerializeObject(result);
+            var obj2Str = JsonConvert.SerializeObject(currModel);
+
+            Assert.Equal(obj1Str, obj2Str);           
+        }
+
         private List<Product> ProductsCollection()
         {
             var ingredients = GetIngredients();
 
-            var category = new Category { Id = 1, Name = "Bread" };
+            var category = GetCategory();
 
             var products = new List<Product>();
 
