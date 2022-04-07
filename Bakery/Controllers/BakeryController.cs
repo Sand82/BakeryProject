@@ -73,11 +73,13 @@ namespace Bakery.Controllers
                 return BadRequest();
             }
 
-            bakerySevice.CreateProduct(formProduct);
+           var product = bakerySevice.CreateProduct(formProduct);
 
-            this.TempData[SuccessOrder] = "Product added seccessfully."; 
+            bakerySevice.AddProduct(product);
 
-            return RedirectToAction("Index", "Home");
+            this.TempData[SuccessOrder] = "Product added seccessfully.";
+
+            return RedirectToAction("All", "Bakery");
         }
 
         [Authorize]

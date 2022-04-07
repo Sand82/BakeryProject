@@ -3,7 +3,6 @@ using Bakery.Data.Models;
 using Bakery.Models.Bakeries;
 using Bakery.Models.Bakery;
 using Bakery.Models.Items;
-using static Bakery.Infrastructure.ClaimsPrincipalExtensions;
 
 namespace Bakery.Service
 {
@@ -79,11 +78,13 @@ namespace Bakery.Service
             return query;
         }
 
-        public void CreateProduct(BakeryFormModel formProduct)
+        public Product CreateProduct(BakeryFormModel formProduct)
         {
+            Product? product = null;
+
             Task.Run(() =>
             {
-                var product = new Product
+                product = new Product
                 {
                     Name = formProduct.Name,
                     Description = formProduct.Description,
@@ -107,11 +108,11 @@ namespace Bakery.Service
                     }
 
                     product.Ingredients.Add(curredntIngredient);
-                }
-
-                AddProduct(product);
+                }                
 
             }).GetAwaiter().GetResult();
+
+            return product;
 
         }
 
@@ -223,7 +224,7 @@ namespace Bakery.Service
             return product;
         }
 
-        private void AddProduct(Product product)
+        public void AddProduct(Product product)
         {
             Task.Run(() =>
             {

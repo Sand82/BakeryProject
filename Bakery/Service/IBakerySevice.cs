@@ -9,11 +9,9 @@ namespace Bakery.Service
     {
         AllProductQueryModel GetAllProducts(AllProductQueryModel query);
 
-        void CreateProduct(BakeryFormModel formProduct);
+        Product CreateProduct(BakeryFormModel formProduct);
 
-        ProductDetailsServiceModel EditProduct(int id);
-
-        void Edit(int id, ProductDetailsServiceModel product);
+        ProductDetailsServiceModel EditProduct(int id);        
 
         IEnumerable<BakryCategoryViewModel> GetBakeryCategories();
 
@@ -21,6 +19,10 @@ namespace Bakery.Service
 
         NamePriceDataModel CreateNamePriceModel(int id);
 
+        void Edit(int id, ProductDetailsServiceModel product);
+
         void Delete(Product product);
+
+        void AddProduct(Product product);
     }
 }

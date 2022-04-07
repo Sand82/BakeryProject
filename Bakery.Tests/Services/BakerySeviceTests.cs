@@ -1,5 +1,6 @@
 ﻿using Bakery.Data.Models;
 using Bakery.Models.Bakeries;
+using Bakery.Models.Bakery;
 using Bakery.Service;
 using Bakery.Tests.Mock;
 using System.Collections.Generic;
@@ -92,11 +93,34 @@ namespace Bakery.Tests.Services
             Assert.StrictEqual(1, result.TotalProduct);
         }
 
+        [Fact]
+        public void CreatProductReturnCorrectResultWhen()
+        {
+            using var data = DatabaseMock.Instance;            
+
+            var bakerySevice = new BakerySevice(data);
+
+            var model = new BakeryFormModel();
+
+            var categoy = GetCategory();
+
+            var ingredients = GetIngredientAddFormModel();
+
+            model.Name = "Bread";
+            model.Description = "Great bread";
+            model.CategoryId = categoy.Id;
+            model.ImageUrl = "Bread.png";
+            model.Price = 3.20m;
+            model.Ingredients = ingredients;
+
+            var result = bakerySevice.CreateProduct(model);
+
+            Assert.NotNull(result);            
+        }
+
         private List<Product> ProductsCollection()
         {
-            ICollection<Ingredient> ingredients = new HashSet<Ingredient>(){new Ingredient { Id = 1, Name = "Ingredient1"  },
-                new Ingredient { Id = 2, Name = "Ingredient2" },
-                new Ingredient { Id = 3, Name = "Ingredient3" } };
+            var ingredients = GetIngredients();
 
             var category = new Category { Id = 1, Name = "Bread" };
 
@@ -120,13 +144,36 @@ namespace Bakery.Tests.Services
 
             for (int i = 11; i <= 15; i++)
             {
-                var product = new Product { Id = i, Name = $"Bread{i}", IsDelete = false, Description = "Bread Bread Bread Bread Bread.", Price = 3.20m, ImageUrl = $"nqma{i}.png", Ingredients = ingredients };
+                var product = new Product { Id = i, Name = $"Bread{i}", IsDelete = true, Description = "Bread Bread Bread Bread Bread.", Price = 3.20m, ImageUrl = $"nqma{i}.png", Ingredients = ingredients };
 
                 products.Add(product);
 
             }
 
             return products;
+        }
+
+        private Category GetCategory()
+        {
+            return new Category { Id = 1, Name = "Bread" };
+        }
+
+        private ICollection<Ingredient> GetIngredients()
+        {
+            var ingredients = new HashSet<Ingredient>(){new Ingredient { Id = 1, Name = "Ingredient1"  },
+                new Ingredient { Id = 2, Name = "Ingredient2" },
+                new Ingredient { Id = 3, Name = "Ingredient3" } };
+
+            return ingredients;
+        }
+
+        private ICollection<IngredientAddFormModel> GetIngredientAddFormModel()
+        {
+            var ingredients = new HashSet<IngredientAddFormModel>(){new IngredientAddFormModel { Name = "Ingredient1"  },
+                new IngredientAddFormModel {  Name = "Ingredient2" },
+                new IngredientAddFormModel {  Name = "Ingredient3" } };
+
+            return ingredients;
         }
     }
 }
