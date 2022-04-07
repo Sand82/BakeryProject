@@ -164,6 +164,26 @@ namespace Bakery.Service
 
         }
 
+        public NamePriceDataModel CreateNamePriceModel(int id)
+        {
+            NamePriceDataModel? model = null;
+
+            Task.Run(() =>
+            {
+                model = this.data.Products
+                .Where(x => x.Id == id)
+                .Select(p => new NamePriceDataModel
+                {
+                    Name = p.Name,
+                    Price = p.Price.ToString()
+                })
+                .FirstOrDefault();               
+
+            }).GetAwaiter().GetResult();
+
+            return model;
+        }
+
 
         public void Delete(Product product)
         {
@@ -230,27 +250,6 @@ namespace Bakery.Service
             }).GetAwaiter().GetResult();
 
             return category;
-        }
-
-        public NamePriceDataModel CreateNamePriceModel(int id)
-        {
-            NamePriceDataModel model = null;
-
-            Task.Run(() =>
-            {
-                Product? product = this.data.Products
-                .Where(x => x.Id == id)
-                .FirstOrDefault();
-
-                model = new NamePriceDataModel
-                {
-                    Name = product.Name,
-                    Price = product.Price.ToString()
-                };
-
-            }).GetAwaiter().GetResult();
-
-            return model;
-        }
+        }        
     }
 }

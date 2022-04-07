@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using static Bakery.Infrastructure.ClaimsPrincipalExtensions;
+using static Bakery.WebConstants;
 
 namespace Bakery.Controllers
 {
@@ -56,6 +57,13 @@ namespace Bakery.Controllers
         [HttpPost]
         public IActionResult Buy(CustomerFormModel formCustomerOrder)
         {
+            if (formCustomerOrder.Order.items.Count() == 0)
+            {
+                this.TempData[EmptyOrder] = "Cannot complete empty order.";
+
+                return RedirectToAction("All", "Bakery");
+            }
+
             var actualDate = DateTime.UtcNow;
 
             string? stringDate = formCustomerOrder.Order.DateOfDelivery == null ? "00.00.0000" : formCustomerOrder.Order.DateOfDelivery.ToString();

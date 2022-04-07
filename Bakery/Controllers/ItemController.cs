@@ -45,17 +45,17 @@ namespace Bakery.Controllers
         [HttpPost]
         public IActionResult Details(int id, int quantity)
         {
-            var dataProduct = bakerySevice.CreateNamePriceModel(id);
-
-            if (dataProduct == null)
-            {
-                return BadRequest();
-            }
-
             if (quantity < 1 || quantity > 2000)
             {
                 return Redirect("/Item/Details/" + id);
             }
+
+            var dataProduct = bakerySevice.CreateNamePriceModel(id);
+
+            if (dataProduct == null)
+            {
+                return BadRequest();            
+            }           
 
             var ParsePrice = Decimal.TryParse(dataProduct.Price, out var currPrice);            
 
