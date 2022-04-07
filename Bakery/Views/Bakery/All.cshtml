@@ -68,7 +68,7 @@
            asp-route-searchTerm="@Model.SearchTerm"
            asp-route-products="@Model.Products"
            asp-route-sorting="@((int)Model.Sorting)"
-           asp-route-category="@(Model.Category)"><<</a>
+           asp-route-category="@(Model.Category)">Previous</a>
     </div>
     <div class="col-md-6">
         <a class="btn btn-primary float-end @(Model.CurrentPage  == maxPage ? "disabled" : string.Empty)"
@@ -78,7 +78,7 @@
            asp-route-searchTerm="@Model.SearchTerm"
            asp-route-products="@Model.Products"
            asp-route-sorting="@((int)Model.Sorting)"
-           asp-route-category="@(Model.Category)">>></a>
+           asp-route-category="@(Model.Category)">Next</a>
     </div>
 </div>
 @if (!Model.Products.Any())

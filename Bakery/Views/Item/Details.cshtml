@@ -30,8 +30,9 @@
                 </div>
                 <div class="details col-md-6">
                     <h3 class="product-title">@Model.Name</h3>
-                    <h4 class="product-category">@Model.Category</h4>
+                    <h4 class="product-category">Product Category: @Model.Category</h4>
                     <div class="rating">
+                        <span class="fw-bold">Vote our products:</span>
                         <div class="stars">
                             @for (var i = 0; i < 5; i++)
                             {
@@ -84,7 +85,10 @@
 
                     <form method="Post" class="form-group">
                         <div class="form-group">
-                            <input asp-for="Quantity" type="text" id="quantity input" placeholder="Quantity">
+                            <div class="fw-bold">
+                                <span>Order a product:</span>
+                            </div>                            
+                            <input asp-for="Quantity" placeholder="Quantity">
                             <span asp-validation-for="Quantity"></span>
                             <button class="add-to-cart btn btn-default" type="submit" id="details-add">add to cart</button>
                             @*<button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>*@
