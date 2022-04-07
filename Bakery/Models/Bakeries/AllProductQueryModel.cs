@@ -10,7 +10,7 @@ namespace Bakery.Models.Bakeries
 
         public int TotalProduct { get; set; }
 
-        [Display(Name = "Search by product")]
+        [Display(Name = "Search by word")]
         public string SearchTerm { get; set; }
 
         [Display(Name = "Sorting by: ")]

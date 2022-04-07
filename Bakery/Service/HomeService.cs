@@ -39,7 +39,7 @@ namespace Bakery.Service
                 countPlusProductModel = new CountViewModel
                 {
                     AllProductViewModel = products,
-                    ProductCount = data.Products.Count(),
+                    ProductCount = data.Products.Where(p => p.IsDelete == false).Count(),
                     IngredientCount = data.Ingredients.Distinct().Count()
                 };
 

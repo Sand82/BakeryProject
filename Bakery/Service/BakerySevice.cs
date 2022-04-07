@@ -66,9 +66,7 @@ namespace Bakery.Service
                         Description = p.Description,
                         Category = p.Category.Name
                     })
-                    .ToList();
-
-                
+                    .ToList();                
 
                 query.Categories = AddCategories();
 

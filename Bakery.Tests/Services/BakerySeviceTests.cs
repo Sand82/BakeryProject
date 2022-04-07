@@ -25,9 +25,8 @@ namespace Bakery.Tests.Services
 
             var categoryList = new List<string> { "Bread", "Cookies" };
 
-            var model = new AllProductQueryModel();                   
+            var model = new AllProductQueryModel();                  
                         
-            model.CurrentPage = 1;
             model.Categories = categoryList;            
             model.SearchTerm = string.Empty;
             model.Category = string.Empty;
@@ -35,8 +34,63 @@ namespace Bakery.Tests.Services
            var result = bakerySevice.GetAllProducts(model);
 
             Assert.NotNull(result);
-            Assert.StrictEqual(10, result.TotalProduct);
+            Assert.StrictEqual(10, result.TotalProduct);           
           }
+
+        [Fact]
+        public void GetAllProductsReturnCorrectResultWhenAddCategoryTerms()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var product = ProductsCollection();
+
+            data.Products.AddRange(product);
+
+            data.SaveChanges();
+
+            var bakerySevice = new BakerySevice(data);
+
+            var categoryList = new List<string> { "Bread", "Cookies" };
+
+            var model = new AllProductQueryModel();
+                      
+            model.Categories = categoryList;
+            model.SearchTerm = string.Empty;
+            model.Category = "Bread";
+
+            var result = bakerySevice.GetAllProducts(model);
+
+            Assert.NotNull(result);
+            Assert.StrictEqual(10, result.TotalProduct);
+        }
+
+        [Fact]
+        public void GetAllProductsReturnCorrectResultWhenSerchTearms()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var product = ProductsCollection();
+
+            data.Products.AddRange(product);
+
+            data.SaveChanges();
+
+            var bakerySevice = new BakerySevice(data);
+
+            var categoryList = new List<string> { "Bread", "Cookies" };
+
+            var model = new AllProductQueryModel();
+            
+            model.Categories = categoryList;
+            model.SearchTerm = string.Empty;
+            model.Category = string.Empty;
+            model.SearchTerm = "Bread2";
+
+            var result = bakerySevice.GetAllProducts(model);
+
+            Assert.NotNull(result);
+            Assert.StrictEqual(1, result.TotalProduct);
+        }
 
         private List<Product> ProductsCollection()
         {
@@ -44,11 +98,21 @@ namespace Bakery.Tests.Services
                 new Ingredient { Id = 2, Name = "Ingredient2" },
                 new Ingredient { Id = 3, Name = "Ingredient3" } };
 
+            var category = new Category { Id = 1, Name = "Bread" };
+
             var products = new List<Product>();
 
             for (int i = 1; i <= 10; i++)
             {
-                var product = new Product { Id = i, Name = $"Bread{i}", IsDelete = false, Description = "Bread Bread Bread Bread Bread.", Price = 3.20m, ImageUrl = $"nqma{i}.png", Ingredients = ingredients };
+                var product = new Product {
+                    Id = i,
+                    Name = $"Bread{i}",
+                    IsDelete = false,
+                    Description = "Bread Bread Bread Bread Bread.",
+                    Price = 3.20m, ImageUrl = $"nqma{i}.png",
+                    Ingredients = ingredients,
+                    Category = category,
+                    CategoryId = category.Id };
 
                 products.Add(product);
 
@@ -56,7 +120,7 @@ namespace Bakery.Tests.Services
 
             for (int i = 11; i <= 15; i++)
             {
-                var product = new Product { Id = i, Name = $"Bread{i}", IsDelete = true, Description = "Bread Bread Bread Bread Bread.", Price = 3.20m, ImageUrl = $"nqma{i}.png", Ingredients = ingredients };
+                var product = new Product { Id = i, Name = $"Bread{i}", IsDelete = false, Description = "Bread Bread Bread Bread Bread.", Price = 3.20m, ImageUrl = $"nqma{i}.png", Ingredients = ingredients };
 
                 products.Add(product);
 
