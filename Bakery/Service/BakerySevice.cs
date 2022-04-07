@@ -51,7 +51,7 @@ namespace Bakery.Service
                     productQuery = productQuery.OrderByDescending(p => p.Id);
                 }
 
-                var totalProducts = productQuery.Count();
+                var totalProducts = productQuery.Where(p => p.IsDelete == false).Count();
 
                 var products = productQuery
                     .Where(p => p.IsDelete == false)
@@ -67,6 +67,8 @@ namespace Bakery.Service
                         Category = p.Category.Name
                     })
                     .ToList();
+
+                
 
                 query.Categories = AddCategories();
 
