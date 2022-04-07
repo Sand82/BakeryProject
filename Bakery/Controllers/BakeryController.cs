@@ -75,7 +75,7 @@ namespace Bakery.Controllers
 
             bakerySevice.CreateProduct(formProduct);
 
-            this.TempData[ProductAdded] = "Product added seccessfully."; 
+            this.TempData[SuccessOrder] = "Product added seccessfully."; 
 
             return RedirectToAction("Index", "Home");
         }

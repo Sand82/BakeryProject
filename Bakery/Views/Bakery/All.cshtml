@@ -12,6 +12,11 @@
     <div class="alert alert-danger" id="alert" style="text-align: center;">@this.TempData[EmptyOrder]</div>
 }
 
+@if (this.TempData.ContainsKey(SuccessOrder))
+{
+    <div class="alert alert-success" id="alert" style="text-align: center;">@this.TempData[SuccessOrder]</div>
+}
+
 <form method="get">
     <div class="row mb-5">
         <div class="form-group col-md-4">

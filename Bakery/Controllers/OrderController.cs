@@ -56,13 +56,7 @@ namespace Bakery.Controllers
         [Authorize]
         [HttpPost]
         public IActionResult Buy(CustomerFormModel formCustomerOrder)
-        {
-            if (formCustomerOrder.Order.items.Count() == 0)
-            {
-                this.TempData[EmptyOrder] = "Cannot complete empty order.";
-
-                return RedirectToAction("All", "Bakery");
-            }
+        {            
 
             var actualDate = DateTime.UtcNow;
 
@@ -86,6 +80,13 @@ namespace Bakery.Controllers
 
             var order = orderService.FindOrderByUserId(userId);
 
+            if (order.Items.Count() == 0)
+            {
+                this.TempData[EmptyOrder] = "Cannot complete empty order.";
+
+                return RedirectToAction("All", "Bakery");
+            }
+
             if (!ModelState.IsValid)
             {                
                 var orderModel = orderService.CreateOrderModel(order);
@@ -108,6 +109,8 @@ namespace Bakery.Controllers
             customer.Order = finishedOrder;
 
             customerService.AddCustomer(customer);
+
+            this.TempData[SuccessOrder] = "Order added seccessfully.";
 
             return RedirectToAction("All", "Bakery");
         }        

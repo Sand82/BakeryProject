@@ -8,7 +8,9 @@
 
         public const string ProductAdded = "Added";   
         
-        public const string EmptyOrder = "EmptyOrder";      
+        public const string EmptyOrder = "EmptyOrder"; 
+        
+        public const string SuccessOrder = "SuccessOrder";      
 
     }
 }
