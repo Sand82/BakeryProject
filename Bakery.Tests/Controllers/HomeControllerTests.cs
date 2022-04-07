@@ -3,11 +3,10 @@ using Bakery.Data.Models;
 using Bakery.Models.Home;
 using Bakery.Service;
 using Bakery.Tests.Mock;
+
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage;
 using System.Linq;
 using Xunit;
-
 
 namespace Bakery.Tests.Controllers
 {
@@ -52,7 +51,6 @@ namespace Bakery.Tests.Controllers
                         
             Assert.Equal(20, indexViewModel.IngredientCount);
             Assert.Equal(10, indexViewModel.ProductCount);
-        }
-            
+        }            
     }
 }

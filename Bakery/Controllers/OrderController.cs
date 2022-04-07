@@ -18,8 +18,7 @@ namespace Bakery.Controllers
         {
             this.orderService = orderService;           
             this.customerService = customerService;
-        }
-                       
+        }                       
 
         [Authorize]
         public IActionResult Buy()
@@ -108,7 +107,7 @@ namespace Bakery.Controllers
         private string GetUserId()
         {
             return User.GetId();
-        }         
+        }     
         
     }
 }

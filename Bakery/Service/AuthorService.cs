@@ -14,14 +14,14 @@ namespace Bakery.Service
         {
             this.data = data;
             this.webHostEnvironment = webHostEnvironment;
-        }        
+        }
 
         public Employee CreateEmployee(ApplyFormModel model, IFormFile cv, IFormFile image)
         {
-            Employee employee = null; 
+            Employee employee = null;
 
-            Task.Run(() => 
-            {               
+            Task.Run(() =>
+            {
                 employee = new Employee
                 {
                     FullName = model.FullName,
@@ -29,16 +29,16 @@ namespace Bakery.Service
                     Age = model.Age,
                     Email = model.Email,
                     Description = model.Description,
-                    Experience = model.Experience,                    
+                    Experience = model.Experience,
                 };
 
-            }).GetAwaiter().GetResult();   
-            
+            }).GetAwaiter().GetResult();
+
             employee.FileExtension = CreateFile(cv, employee.FileId);
             employee.ImageExtension = CreateFile(image, employee.ImageId);
-                       
+
             return employee;
-        }      
+        }
 
         public bool FileValidator(IFormFile cv, IFormFile image)
         {
@@ -49,11 +49,11 @@ namespace Bakery.Service
             var imageExstention = Path.GetExtension(image.FileName).ToLower().Trim('.');
 
             Task.Run(() =>
-            {               
+            {
 
-                var commonFileFormats = new List<string>() { "doc", "docx", "odt", "txt", "pdf"};
+                var commonFileFormats = new List<string>() { "doc", "docx", "odt", "txt", "pdf" };
 
-                var commonImageFormats = new List<string>() {"png", "img", "jpeg", "gif", "jpg" };
+                var commonImageFormats = new List<string>() { "png", "img", "jpeg", "gif", "jpg" };
 
                 if (!commonFileFormats.Contains(fileExstention) || !commonImageFormats.Contains(imageExstention) ||
                 cv.Length > 2 * 1024 * 1024 || image.Length > 6 * 1024 * 1024)
@@ -68,28 +68,28 @@ namespace Bakery.Service
 
         public AuthorViewModel GetAuthorInfo()
         {
-            var authorInfo = new Author();
+            AuthorViewModel? author = null;
 
             Task.Run(() =>
             {
-                 authorInfo = this.data.Authors.FirstOrDefault();                          
-                             
-            }).GetAwaiter().GetResult();
+                author = this.data.Authors
+               .Select(a => new AuthorViewModel
+               {
+                   Id = a.Id,
+                   FirstName = a.FirstName,
+                   LastName = a.LastName,
+                   Description = a.Description,
+                   ImageUrl = a.ImageUrl,
+               })
+               .FirstOrDefault();
 
-            var author = new AuthorViewModel
-            {
-                Id = authorInfo.Id,                
-                FirstName = authorInfo.FirstName,
-                LastName = authorInfo.LastName,
-                Description = authorInfo.Description,
-                ImageUrl = authorInfo.ImageUrl,
-            };
+            }).GetAwaiter().GetResult();
 
             return author;
         }
 
         public bool IsAuthor(string userId)
-        {     
+        {
             var isValidAuthor = true;
 
             Task.Run(() =>
@@ -105,13 +105,13 @@ namespace Bakery.Service
 
         public void AddEmployee(Employee employee)
         {
-            Task.Run(() => 
+            Task.Run(() =>
             {
                 this.data.Employees.Add(employee);
 
                 this.data.SaveChanges();
 
-            }).GetAwaiter().GetResult();            
+            }).GetAwaiter().GetResult();
         }
 
         private string CreateFile(IFormFile file, string id)
