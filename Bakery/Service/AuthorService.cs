@@ -40,13 +40,14 @@ namespace Bakery.Service
             return employee;
         }
 
-        public bool FileValidator(IFormFile cv, IFormFile image)
+        public bool FileValidator(
+            string fileExtension, string imageExtension, long fileLingth, long imigeLength)
         {
             var isValid = true;
 
-            var fileExstention = Path.GetExtension(cv.FileName).ToLower().Trim('.');
+            var fileExstention = Path.GetExtension(fileExtension).ToLower().Trim('.');
 
-            var imageExstention = Path.GetExtension(image.FileName).ToLower().Trim('.');
+            var imageExstention = Path.GetExtension(imageExtension).ToLower().Trim('.');
 
             Task.Run(() =>
             {
@@ -56,7 +57,7 @@ namespace Bakery.Service
                 var commonImageFormats = new List<string>() { "png", "img", "jpeg", "gif", "jpg" };
 
                 if (!commonFileFormats.Contains(fileExstention) || !commonImageFormats.Contains(imageExstention) ||
-                cv.Length > 2 * 1024 * 1024 || image.Length > 6 * 1024 * 1024)
+                fileLingth > 2 * 1024 * 1024 || imigeLength > 6 * 1024 * 1024)
                 {
                     isValid = false;
                 }

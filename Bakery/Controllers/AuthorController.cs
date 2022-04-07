@@ -37,7 +37,8 @@ namespace Bakery.Controllers
         [HttpPost]
         public IActionResult Apply(ApplyFormModel apply, IFormFile cv, IFormFile image)
         {
-            var isValidFileFormat = authorService.FileValidator(cv, image);            
+            var isValidFileFormat = authorService.FileValidator(
+                cv.FileName, image.FileName, cv.Length, image.Length);            
 
             if (!isValidFileFormat)
             {
