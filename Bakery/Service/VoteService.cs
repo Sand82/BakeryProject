@@ -29,7 +29,6 @@ namespace Bakery.Service
             return value;
         }
 
-
         public double GetAverage(int productId)
         {
             var averageData = new List<Vote>();
