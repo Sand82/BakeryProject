@@ -10,7 +10,7 @@ using static Bakery.Tests.GlobalMethods.TestService;
 namespace Bakery.Tests.Services
 {
     public class ItemServiceTests
-    {
+    {       
         [Fact]
         public void FindItemShouldReturnCorectResult()
         {
@@ -149,6 +149,106 @@ namespace Bakery.Tests.Services
 
         }
 
+        [Fact]
+        public void GetDetailsReturnCorectResult()
+        {
+            using var data = DatabaseMock.Instance;            
+
+            var product = new Product
+            {
+                Id = 1,
+                Name = "Bread",
+                Price = 3.20m,
+                Description = "BreadBreadBreadBread",
+                ImageUrl = "Bread.png",
+                Category = new Category { Id = 1, Name = "Bread" },
+            };
+
+            data.Products.Add(product);
+
+            data.Votes.Add(new Vote() { Id = 1, ProductId = 1, UsreId = "some key" });
+
+            data.SaveChanges();
+
+            var itemsService = new ItemsService(data, new VoteService(data));
+
+            var result = itemsService.GetDetails(1, "some key");
+
+            Assert.NotNull(result);            
+        }
+
+        [Fact]
+        public void FindOrderByUserIdReturnCorectResult()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var order = CreateListOrders();
+
+            data.Orders.AddRange(order);
+
+            data.SaveChanges();
+
+            var itemsService = new ItemsService(data, null);           
+
+            var result = itemsService.FindOrderByUserId("some user3");
+
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void FindOrderByUserIdReturnZeroResultWhenMethodParametarIsWrong()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var order = CreateListOrders();
+
+            data.Orders.AddRange(order);
+
+            data.SaveChanges();
+
+            var itemsService = new ItemsService(data, null);
+
+            var result = itemsService.FindOrderByUserId("some user6");
+
+            Assert.Null(result);
+        }        
+
+        [Fact]
+        public void FindItemByIdReturnCorectResult()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var items = CreateListItem();
+
+            data.Items.AddRange(items);
+
+            data.SaveChanges();
+
+            var itemsService = new ItemsService(data, null);
+
+            var result = itemsService.FindItemById(3);
+
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void FindItemByIdReturnNullWhenMethodParameturNotExsist()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var items = CreateListItem();
+
+            data.Items.AddRange(items);
+
+            data.SaveChanges();
+
+            var itemsService = new ItemsService(data, null);
+
+            var result = itemsService.FindItemById(10);
+
+            Assert.Null(result);
+        }
+
         private Item CreateItem()
         {
             var item = new Item()
@@ -197,6 +297,28 @@ namespace Bakery.Tests.Services
             };
 
             return order;
+        }
+
+        private List<Order> CreateListOrders()
+        {
+            var items = CreateListItem();
+
+            var orders = new List<Order>();
+
+            for (int i = 1; i <= 5; i++)
+            {
+                var order = new Order()
+                {
+                    Id = i,
+                    DateOfOrder = DateTime.Now,
+                    UserId = $"some user{i}",
+                    Items = items
+                };
+
+                orders.Add(order);
+            }            
+
+            return orders;
         }
     }
 }

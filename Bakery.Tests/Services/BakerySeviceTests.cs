@@ -270,7 +270,7 @@ namespace Bakery.Tests.Services
         }
 
 
-        private List<Product> ProductsCollection()
+        public List<Product> ProductsCollection()
         {
             var ingredients = GetIngredients();
 
