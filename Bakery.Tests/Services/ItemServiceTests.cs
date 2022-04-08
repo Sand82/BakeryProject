@@ -68,8 +68,8 @@ namespace Bakery.Tests.Services
 
             var itemsService = new ItemsService(data, null);
 
-            var result = itemsService.FindOrderById(1);                   
-           
+            var result = itemsService.FindOrderById(1);            
+                       
             Assert.NotNull(result);
         }
 
@@ -262,28 +262,7 @@ namespace Bakery.Tests.Services
 
             return item;
         }
-        private List<Item> CreateListItem()
-        {
-            var items = new List<Item>();
-
-            for (int i = 1; i <= 5; i++)
-            {
-                var item = new Item
-                {
-                    Id = i,
-                    ProductName = $"Bread{i}",
-                    ProductPrice = 3.20m + i,
-                    ProductId = i,
-                    Quantity = i,
-                };
-
-                items.Add(item);
-            }            
-
-            return items;
-        }
-
-
+      
         private Order CreateOrder()
         {
             var items = CreateListItem();
@@ -297,28 +276,6 @@ namespace Bakery.Tests.Services
             };
 
             return order;
-        }
-
-        private List<Order> CreateListOrders()
-        {
-            var items = CreateListItem();
-
-            var orders = new List<Order>();
-
-            for (int i = 1; i <= 5; i++)
-            {
-                var order = new Order()
-                {
-                    Id = i,
-                    DateOfOrder = DateTime.Now,
-                    UserId = $"some user{i}",
-                    Items = items
-                };
-
-                orders.Add(order);
-            }            
-
-            return orders;
-        }
+        }        
     }
 }

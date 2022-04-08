@@ -87,8 +87,8 @@ namespace Bakery.Service
 
                     modelItems.Add(model);
                 }
-            }).GetAwaiter().GetResult();
-                       
+
+            }).GetAwaiter().GetResult();                       
                       
             return modelItems;
         }
