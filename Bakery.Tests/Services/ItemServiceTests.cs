@@ -96,7 +96,7 @@ namespace Bakery.Tests.Services
         {
             using var data = DatabaseMock.Instance;
 
-            var order = CreateOrder();
+            var order = CreateOrder();            
 
             data.Orders.AddRange(order);
 
@@ -111,11 +111,13 @@ namespace Bakery.Tests.Services
         }
 
         [Fact]
-        public void GetAllItemsReturnZeroWithIncoredMethodparameter()
+        public void GetAllItemsReturnZeroWithEmptyOrder()
         {
             using var data = DatabaseMock.Instance;
 
             var order = CreateOrder();
+
+            order.Items = new List<Item>();
 
             data.Orders.AddRange(order);
 
@@ -123,10 +125,28 @@ namespace Bakery.Tests.Services
 
             var itemsService = new ItemsService(data, null);
 
-            var result = itemsService.GetAllItems(2);
+            var result = itemsService.GetAllItems(1);
 
-            Assert.Null(result);
-            
+            Assert.Empty(result);           
+        }
+
+        [Fact]
+        public void GetAllItemsReturnExeprionWithIncoredMethodparameter()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var order = CreateOrder();            
+
+            data.Orders.AddRange(order);
+
+            data.SaveChanges();
+
+            var itemsService = new ItemsService(data, null);            
+
+            var ex = Assert.Throws<System.NullReferenceException>(() => itemsService.GetAllItems(2));
+
+            Assert.Equal("Not found", ex.Message);
+
         }
 
         private Item CreateItem()
