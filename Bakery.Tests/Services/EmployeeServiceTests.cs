@@ -25,7 +25,7 @@ namespace Bakery.Tests.Services
 
             var result = employeeService.GetEmployeeById(1);
 
-            Assert.NotNull(result);            
+            Assert.NotNull(result);
         }
 
         [Fact]
@@ -68,7 +68,38 @@ namespace Bakery.Tests.Services
             var obj2 = ConvertToJason(model);
 
             Assert.NotNull(result);
-            Assert.Equal(obj2,obj1);
+            Assert.Equal(obj2, obj1);
+        }
+
+        [Fact]
+        public void GetExstentionShouldReturnCorectResult()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var employeeService = new EmployeeService(data);
+
+            var result = employeeService.GetExstention("1", "txt");
+
+            var expected = $"/files/1.txt";
+
+            Assert.NotNull(result);
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData("1", null)]
+        [InlineData(null, "txt")]
+        public void GetExstentionShouldReturnInCorectResultWithIncorectMethodParameters(string id, string exstension)
+        {
+            using var data = DatabaseMock.Instance;
+
+            var employeeService = new EmployeeService(data);
+
+            var result = employeeService.GetExstention(id, exstension);
+
+            var expected = $"/files/1.txt";
+
+            Assert.False(result.Equals(expected));
         }
 
         [Fact]
@@ -78,11 +109,43 @@ namespace Bakery.Tests.Services
 
             SaveEmployeeCollectionInDatabase(data);
 
-            var employeeService = new EmployeeService(data);            
+            var employeeService = new EmployeeService(data);
 
             var ex = Assert.Throws<System.NullReferenceException>(() => employeeService.GetModelById(10));
 
             Assert.Equal("Not Found", ex.Message);
+        }
+
+        [Theory]
+        [InlineData("/files/1.txt")]              
+        public void GetContentTypeShouldReturnCorectResultTest1(string path)
+        {
+            using var data = DatabaseMock.Instance;
+
+            var employeeService = new EmployeeService(data);
+
+            var result = employeeService.GetContentType(path);
+
+            var expected = "text/plain";            
+
+            Assert.NotNull(result);
+            Assert.Equal(expected, result);            
+        }
+
+        [Theory]
+        [InlineData("/files/1.pdf")]
+        public void GetContentTypeShouldReturnCorectResultTest2(string path)
+        {
+            using var data = DatabaseMock.Instance;
+
+            var employeeService = new EmployeeService(data);
+
+            var result = employeeService.GetContentType(path);
+
+            var expected = "application/pdf";
+
+            Assert.NotNull(result);
+            Assert.Equal(expected, result);
         }
 
         private void SaveEmployeeCollectionInDatabase(BakeryDbContext data)
@@ -92,7 +155,7 @@ namespace Bakery.Tests.Services
 
             data.Employees.AddRange(employess);
 
-            data.SaveChanges();            
+            data.SaveChanges();
         }
 
         private List<Employee> CreateListEmployees()
@@ -119,7 +182,7 @@ namespace Bakery.Tests.Services
                 };
 
                 employees.Add(employee);
-            }           
+            }
 
             return employees;
         }
