@@ -5,9 +5,11 @@ using Bakery.Models.Bakery;
 using Bakery.Models.Items;
 using Bakery.Service;
 using Bakery.Tests.Mock;
-using Newtonsoft.Json;
+
 using System.Collections.Generic;
 using Xunit;
+
+using static Bakery.Tests.GlobalMethods.TestService;
 
 namespace Bakery.Tests.Services
 {
@@ -133,8 +135,8 @@ namespace Bakery.Tests.Services
 
             var result = bakerySevice.EditProduct(1);
 
-            var obj1Str = JsonConvert.SerializeObject(result);
-            var obj2Str = JsonConvert.SerializeObject(currModel);
+            var obj1Str = ConvertToJason(result);
+            var obj2Str = ConvertToJason(currModel);
 
             Assert.Equal(obj1Str, obj2Str);           
         }
