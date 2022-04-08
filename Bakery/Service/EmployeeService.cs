@@ -6,13 +6,12 @@ namespace Bakery.Service
 {
     public class EmployeeService : IEmployeeService
     {
-        private readonly BakeryDbContext data;
-        private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly BakeryDbContext data;        
 
-        public EmployeeService(BakeryDbContext data, IWebHostEnvironment webHostEnvironment)
+        public EmployeeService(BakeryDbContext data)
         {
             this.data = data;
-            this.webHostEnvironment = webHostEnvironment;
+           
         }
 
         public IEnumerable<EmployeeViewModel> GetAllApplies()
@@ -72,6 +71,11 @@ namespace Bakery.Service
                .Where(e => e.Id == id)
                .FirstOrDefault();
 
+                if (employee == null)
+                {
+                    throw new NullReferenceException("Not Found");
+                }
+
                 model.Name = employee.FullName;
                 model.Description = employee.Description;
                 model.Age = employee.Age;
@@ -84,7 +88,7 @@ namespace Bakery.Service
             return model;
         } 
         
-         string GetExstention(string id, string exstension)
+        public string GetExstention(string id, string exstension)
         {
             var path = $"/files/" + id + '.' + exstension;
 

@@ -58,7 +58,16 @@ namespace Bakery.Areas.Job.Controllers
         [Authorize]
         public IActionResult Info(int id)
         {
-            var employee = employeeService.GetModelById(id);
+            EmployeeInfoViewModel employee = null;
+
+            try
+            {
+                employee = employeeService.GetModelById(id);
+            }
+            catch (NullReferenceException ex)
+            {
+                return NotFound(ex);
+            }            
 
             if (employee == null)
             {
