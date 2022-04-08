@@ -53,8 +53,7 @@ namespace Bakery.Tests.Services
             var result = itemsService.FindItem(name, quantity, currPrice);
             
             Assert.Null(result);
-        }
-        //GetAllItems
+        }        
 
         [Fact]
         public void FindOrderByIdReturnCorectResult()
@@ -92,6 +91,44 @@ namespace Bakery.Tests.Services
             Assert.Null(result);
         }
 
+        [Fact]
+        public void GetAllItemsReturnCorectResult()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var order = CreateOrder();
+
+            data.Orders.AddRange(order);
+
+            data.SaveChanges();
+
+            var itemsService = new ItemsService(data, null);
+
+            var result = itemsService.GetAllItems(1);
+
+            Assert.NotNull(result);
+            Assert.Equal(5, result.Count);
+        }
+
+        [Fact]
+        public void GetAllItemsReturnZeroWithIncoredMethodparameter()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var order = CreateOrder();
+
+            data.Orders.AddRange(order);
+
+            data.SaveChanges();
+
+            var itemsService = new ItemsService(data, null);
+
+            var result = itemsService.GetAllItems(2);
+
+            Assert.Null(result);
+            
+        }
+
         private Item CreateItem()
         {
             var item = new Item()
@@ -120,7 +157,6 @@ namespace Bakery.Tests.Services
                     Quantity = i,
                 };
 
-
                 items.Add(item);
             }            
 
@@ -132,15 +168,15 @@ namespace Bakery.Tests.Services
         {
             var items = CreateListItem();
 
-            var item = new Order()
+            var order = new Order()
             {
                 Id = 1,
                 DateOfOrder = DateTime.Now,
-                UserId = "some user",
-                
+                UserId = "some user",  
+                Items = items
             };
 
-            return item;
+            return order;
         }
     }
 }

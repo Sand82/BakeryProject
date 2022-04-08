@@ -1,4 +1,5 @@
-﻿using Bakery.Service;
+﻿using Bakery.Models.Items;
+using Bakery.Service;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -109,7 +110,17 @@ namespace Bakery.Controllers
         [Authorize]
         public IActionResult EditAll(int id)
         {
-            var items = itemsService.GetAllItems(id);
+            List<EditItemsFormModel>? items = null; 
+
+            try
+            {
+                items = itemsService.GetAllItems(id);
+            }
+            catch (NullReferenceException ex)
+            {
+
+                return NotFound(ex);
+            }            
                         
             return View(items);
         }

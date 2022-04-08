@@ -42,6 +42,11 @@ namespace Bakery.Service
             {
                 var order = FindOrderById(id);
 
+                if(order == null)
+                {
+                    throw new System.NullReferenceException("Not found");
+                }
+
                 items = order.Items.Select(x => new EditItemsFormModel
                 {
                     Id = x.Id,
