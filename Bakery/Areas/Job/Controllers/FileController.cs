@@ -16,7 +16,17 @@ namespace Bakery.Areas.Job.Controllers{
         [Authorize]      
         public IActionResult Download(string filePath)
         {
-            var contentType = employeeService.GetContentType(filePath);
+            string contentType = null;
+
+            try
+            {
+                contentType = employeeService.GetContentType(filePath);
+            }
+            catch (KeyNotFoundException ex)
+            {
+
+                return NotFound(ex);
+            }            
 
             return File(filePath, contentType);
         }

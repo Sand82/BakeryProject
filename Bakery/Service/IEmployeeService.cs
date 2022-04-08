@@ -5,7 +5,7 @@ namespace Bakery.Service
 {
     public interface IEmployeeService
     {
-        IEnumerable<EmployeeViewModel> GetAllApplies();
+        ICollection<EmployeeViewModel> GetAllApplies();
 
         Employee GetEmployeeById(int id);
 

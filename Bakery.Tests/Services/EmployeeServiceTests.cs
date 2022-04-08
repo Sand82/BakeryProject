@@ -117,7 +117,7 @@ namespace Bakery.Tests.Services
         }
 
         [Theory]
-        [InlineData("/files/1.txt")]              
+        [InlineData("/files/1.txt")]
         public void GetContentTypeShouldReturnCorectResultTest1(string path)
         {
             using var data = DatabaseMock.Instance;
@@ -126,10 +126,10 @@ namespace Bakery.Tests.Services
 
             var result = employeeService.GetContentType(path);
 
-            var expected = "text/plain";            
+            var expected = "text/plain";
 
             Assert.NotNull(result);
-            Assert.Equal(expected, result);            
+            Assert.Equal(expected, result);
         }
 
         [Theory]
@@ -148,9 +148,90 @@ namespace Bakery.Tests.Services
             Assert.Equal(expected, result);
         }
 
+        [Theory]
+        [InlineData("/files/1.doc")]
+        [InlineData("/files/1.docx")]
+        public void GetContentTypeShouldReturnCorectResultTest3(string path)
+        {
+            using var data = DatabaseMock.Instance;
+
+            var employeeService = new EmployeeService(data);
+
+            var result = employeeService.GetContentType(path);
+
+            var expected = "application/vnd.ms-word";
+
+            Assert.NotNull(result);
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData("/files/1.odt")]
+        public void GetContentTypeShouldReturnCorectResultTest4(string path)
+        {
+            using var data = DatabaseMock.Instance;
+
+            var employeeService = new EmployeeService(data);
+
+            var result = employeeService.GetContentType(path);
+
+            var expected = "application/vnd.oasis.opendocument.text";
+
+            Assert.NotNull(result);
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void GetContentTypeShouldReturnNullWithIncorectMethodParameters()
+        {
+            using var data = DatabaseMock.Instance;
+
+            SaveEmployeeCollectionInDatabase(data);
+
+            var employeeService = new EmployeeService(data);
+
+            var ex = Assert.Throws<KeyNotFoundException>(() => employeeService.GetContentType("/files/1.spa"));
+
+            Assert.Equal("Not supported file extension.", ex.Message);
+        }
+
+
+        [Fact]
+        public void GetAllAppliesShouldReturnCorectResult()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var employess = CreateListEmployees();
+
+            employess[0].IsApproved = true;
+            employess[1].IsApproved = false;
+
+            data.Employees.AddRange(employess);
+
+            data.SaveChanges();
+
+            var employeeService = new EmployeeService(data);
+
+            var result = employeeService.GetAllApplies();           
+
+            Assert.NotNull(result);
+            Assert.StrictEqual(3, result.Count);            
+        }
+
+        [Fact]
+        public void GetAllAppliesShouldReturnNullWhenDatabaseIsEmplty()
+        {
+            using var data = DatabaseMock.Instance;            
+
+            var employeeService = new EmployeeService(data);
+
+            var result = employeeService.GetAllApplies();
+            
+            Assert.StrictEqual(0, result.Count);
+        }
+
         private void SaveEmployeeCollectionInDatabase(BakeryDbContext data)
         {
-
             var employess = CreateListEmployees();
 
             data.Employees.AddRange(employess);

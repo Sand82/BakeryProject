@@ -14,7 +14,7 @@ namespace Bakery.Service
            
         }
 
-        public IEnumerable<EmployeeViewModel> GetAllApplies()
+        public ICollection<EmployeeViewModel> GetAllApplies()
         {
             var employees = new List<EmployeeViewModel>();
 
@@ -112,7 +112,16 @@ namespace Bakery.Service
 
             var extention = tokens[tokens.Length - 1];
 
-            var contentType = ContentTypeColection(extention);
+            string contentType = null;
+
+            try
+            {
+                contentType = ContentTypeColection(extention);
+            }
+            catch (Exception)
+            {
+                throw new KeyNotFoundException("Not supported file extension.");
+            }
 
             return contentType;
         }
@@ -128,7 +137,16 @@ namespace Bakery.Service
                 {"odt", "application/vnd.oasis.opendocument.text" },                
             };
 
-            var needetExtention = extentions[extention];
+            string needetExtention = null;
+
+            try
+            {
+                needetExtention = extentions[extention];
+            }
+            catch (Exception)
+            {
+                throw new KeyNotFoundException("Not Found");
+            }            
 
             return needetExtention;
         }
