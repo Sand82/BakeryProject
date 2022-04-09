@@ -56,13 +56,14 @@ namespace Bakery.Service
         
         public void SetVote(string userId, int productId, byte value)
         {
-            var vote = new Vote();
+           
+            var vote = new Vote();           
 
             Task.Run(() =>
             {
                  vote = this.data.Votes
                 .Where(v => v.ProductId == productId && v.UsreId == userId)
-                .FirstOrDefault();
+                .FirstOrDefault();                
 
             }).GetAwaiter().GetResult();            
 

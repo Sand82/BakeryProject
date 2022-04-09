@@ -89,8 +89,16 @@ namespace Bakery.Controllers
 
         [Authorize]
         public IActionResult Vote(int id, byte vote)
-        {
+        {           
+
             if (id == 0)
+            {
+                return BadRequest();
+            }
+
+            var product = bakerySevice.FindById(id);
+
+            if (product.Id == 0)
             {
                 return BadRequest();
             }
@@ -101,8 +109,8 @@ namespace Bakery.Controllers
             }
 
             var userId = User.GetId();
-
-            voteService.SetVote(userId, id, vote);         
+            
+            voteService.SetVote(userId, id, vote);            
             
             return RedirectToAction("Details", "Item",  new { id });
         }

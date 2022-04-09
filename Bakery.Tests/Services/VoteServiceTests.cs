@@ -86,6 +86,46 @@ namespace Bakery.Tests.Services
             Assert.Equal(0.0, result);
         }
 
+        [Fact]
+        public void SetVoteShouldReturnCorectResult()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var votes = CreateListVotes();            
+
+            data.Votes.Add(votes[1]);
+
+            data.SaveChanges();
+
+            var voteService = new VoteService(data);
+
+            voteService.SetVote("Another user", 1, 4);
+
+            var result = voteService.GetAverage(1);
+
+            Assert.Equal(3, result);
+        }
+
+        [Fact]
+        public void SetVoteShouldReturnCorectResultIfUserTryToVoteAgain()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var votes = CreateListVotes();           
+
+            data.Votes.Add(votes[0]);
+
+            data.SaveChanges();
+
+            var voteService = new VoteService(data);
+
+            voteService.SetVote("My id1", 1, 4);
+
+            var result = voteService.GetAverage(1);
+
+            Assert.Equal(1, result);
+        }        
+
         private List<Vote> CreateListVotes()
         {
             var votes = new List<Vote>();
