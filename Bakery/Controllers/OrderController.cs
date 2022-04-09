@@ -56,11 +56,12 @@ namespace Bakery.Controllers
         [Authorize]
         [HttpPost]
         public IActionResult Buy(CustomerFormModel formCustomerOrder)
-        {            
+        {           
 
             var actualDate = DateTime.UtcNow;
 
-            string? stringDate = formCustomerOrder.Order.DateOfDelivery == null ? "00.00.0000" : formCustomerOrder.Order.DateOfDelivery.ToString();
+            string? stringDate = formCustomerOrder.Order.DateOfDelivery == null ? "00.00.0000"
+                : formCustomerOrder.Order.DateOfDelivery.ToString();
 
             var (isValidDate, dateOfDelivery) = orderService.TryParceDate(stringDate);
 
