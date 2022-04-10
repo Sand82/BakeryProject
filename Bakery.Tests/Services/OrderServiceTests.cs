@@ -139,7 +139,6 @@ namespace Bakery.Tests.Services
             var result = data.Orders.FirstOrDefault(x => x.UserId == "User1");
 
             Assert.True(result.IsFinished);
-
         }
 
         [Fact]
