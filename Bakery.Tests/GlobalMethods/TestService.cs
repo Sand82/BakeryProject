@@ -1,7 +1,11 @@
 ﻿using Bakery.Data.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+
+using static Bakery.Infrastructure.ClaimsPrincipalExtensions;
 
 namespace Bakery.Tests.GlobalMethods
 {
@@ -12,7 +16,7 @@ namespace Bakery.Tests.GlobalMethods
             var result = JsonConvert.SerializeObject(obj);
 
             return result;
-        }        
+        }
 
         public static List<Order> CreateListOrders()
         {
@@ -57,5 +61,57 @@ namespace Bakery.Tests.GlobalMethods
 
             return items;
         }
+
+        public static List<Product> ProductsCollection()
+        {
+            var ingredients = GetIngredients();
+
+            var category = GetCategory();
+
+            var products = new List<Product>();
+
+            for (int i = 1; i <= 10; i++)
+            {
+                var product = new Product
+                {
+                    Id = i,
+                    Name = $"Bread{i}",
+                    IsDelete = false,
+                    Description = "Bread Bread Bread Bread Bread.",
+                    Price = 3.20m,
+                    ImageUrl = $"nqma{i}.png",
+                    Ingredients = ingredients,
+                    Category = category,
+                    CategoryId = category.Id
+                };
+
+                products.Add(product);
+
+            }
+
+            for (int i = 11; i <= 15; i++)
+            {
+                var product = new Product { Id = i, Name = $"Bread{i}", IsDelete = true, Description = "Bread Bread Bread Bread Bread.", Price = 3.20m, ImageUrl = $"nqma{i}.png", Ingredients = ingredients };
+
+                products.Add(product);
+            }
+
+            return products;
+        }
+
+        public static ICollection<Ingredient> GetIngredients()
+        {
+            var ingredients = new HashSet<Ingredient>(){new Ingredient { Id = 1, Name = "Ingredient1"  },
+                new Ingredient { Id = 2, Name = "Ingredient2" },
+                new Ingredient { Id = 3, Name = "Ingredient3" } };
+
+            return ingredients;
+        }
+
+        public static Category GetCategory()
+        {
+            return new Category { Id = 1, Name = "Bread" };
+        }
+
     }
 }

@@ -267,47 +267,7 @@ namespace Bakery.Tests.Services
             data.Products.AddRange(product);
 
             data.SaveChanges();
-        }
-
-
-        public List<Product> ProductsCollection()
-        {
-            var ingredients = GetIngredients();
-
-            var category = GetCategory();
-
-            var products = new List<Product>();
-
-            for (int i = 1; i <= 10; i++)
-            {
-                var product = new Product {
-                    Id = i,
-                    Name = $"Bread{i}",
-                    IsDelete = false,
-                    Description = "Bread Bread Bread Bread Bread.",
-                    Price = 3.20m, ImageUrl = $"nqma{i}.png",
-                    Ingredients = ingredients,
-                    Category = category,
-                    CategoryId = category.Id };
-
-                products.Add(product);
-
-            }
-
-            for (int i = 11; i <= 15; i++)
-            {
-                var product = new Product { Id = i, Name = $"Bread{i}", IsDelete = true, Description = "Bread Bread Bread Bread Bread.", Price = 3.20m, ImageUrl = $"nqma{i}.png", Ingredients = ingredients };
-
-                products.Add(product);
-            }
-
-            return products;
-        }
-
-        private Category GetCategory()
-        {
-            return new Category { Id = 1, Name = "Bread" };
-        }
+        }               
 
         private List<Category> GetListOfCategories()
         {
@@ -320,16 +280,7 @@ namespace Bakery.Tests.Services
 
             return categories;
         }
-
-        private ICollection<Ingredient> GetIngredients()
-        {
-            var ingredients = new HashSet<Ingredient>(){new Ingredient { Id = 1, Name = "Ingredient1"  },
-                new Ingredient { Id = 2, Name = "Ingredient2" },
-                new Ingredient { Id = 3, Name = "Ingredient3" } };
-
-            return ingredients;
-        }
-
+        
         private ICollection<IngredientAddFormModel> GetIngredientAddFormModel()
         {
             var ingredients = new HashSet<IngredientAddFormModel>(){new IngredientAddFormModel { Name = "Ingredient1"  },

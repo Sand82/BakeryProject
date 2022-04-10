@@ -28,6 +28,11 @@ namespace Bakery.Controllers
         {
             var userId = User.GetId();
 
+            if (userId == null)
+            {
+                return BadRequest();
+            }
+
             query.IsAuthor = authorService.IsAuthor(userId);
 
             query = bakerySevice.GetAllProducts(query);
