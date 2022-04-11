@@ -17,10 +17,11 @@ using Xunit;
 
 using static Bakery.Tests.GlobalMethods.TestService;
 
+
 namespace Bakery.Tests.Controllers
 {
     public class BakeryControllerTests
-    {        
+    {
 
         [Fact]
         public void AllActionShouldReturnCorectResult()
@@ -102,21 +103,13 @@ namespace Bakery.Tests.Controllers
         {
             using var data = DatabaseMock.Instance;
 
-            data.Authors.Add(new Author
-            {
-                Id = 1,
-                FirstName = "Sand",
-                LastName = "Stef",
-                Description = "Test test test",
-                ImageUrl = "nqma.png",
-                AuthorId = "vqra@abv.bg"
-            });
+            var author = CreateAuthor();
+
+            data.Authors.Add(author);
 
             var product = ProductsCollection();
 
             data.Products.AddRange(product);
-
-            var category = new Category { Id =1, Name = "Breads" };            
 
             data.SaveChanges();
 
@@ -132,6 +125,99 @@ namespace Bakery.Tests.Controllers
 
             var indexViewModel = Assert.IsType<ProductDetailsServiceModel>(model);
         }
+
+        [Fact]
+        public void EditPostActionShouldReturnCorectResult()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var author = CreateAuthor();
+
+            data.Authors.Add(author);
+
+            var product = ProductsCollection();
+
+            data.Products.AddRange(product);
+
+            data.SaveChanges();
+
+            var modelForm = new ProductDetailsServiceModel
+            {
+                Id = 1,
+                Name = "Bread",
+                Price = 3.00m,
+                Description = "Test test test",
+                ImageUrl = "noimages.png",
+                CategoryId = 1,
+                Categories = new List<BakryCategoryViewModel>() { new BakryCategoryViewModel { Id = 1, Name = "Bread" } },
+                Ingredients = new List<IngredientAddFormModel>()
+                {
+                    new IngredientAddFormModel { Name = "salt" },
+                    new IngredientAddFormModel { Name = "fluor"}
+                }
+            };
+
+            var controller = CreateClaimsPrincipal(data);
+
+            var result = controller.Edit(1, modelForm);
+
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
+
+            Assert.NotNull(result);
+
+            var model = data.Products.FirstOrDefault(p => p.Id == 1);
+
+            Assert.Equal(modelForm.Name, model.Name);
+            Assert.Equal(modelForm.Price, model.Price);
+            Assert.Equal(modelForm.Description, model.Description);
+            Assert.Equal(modelForm.ImageUrl, model.ImageUrl);
+        }
+
+        [Fact]
+        public void EditPostActionShouldReturnBadRequestResultIfModelIsNotValid()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var author = CreateAuthor();
+
+            data.Authors.Add(author);
+
+            var product = ProductsCollection();
+
+            data.Products.AddRange(product);
+
+            data.SaveChanges();
+
+            var modelForm = new ProductDetailsServiceModel
+            {
+                Id = 10,
+                Name = "",
+                Price = 3.00m,
+                Description = "Test test tes",
+                ImageUrl = "",
+                CategoryId = 1,
+                Categories = new List<BakryCategoryViewModel>() { new BakryCategoryViewModel { Id = 1, Name = "Bread" } },
+                Ingredients = new List<IngredientAddFormModel>()
+                {
+                    new IngredientAddFormModel { Name = "salt" },
+                    new IngredientAddFormModel { Name = "fluor"}
+                }
+            };
+
+            var controller = CreateClaimsPrincipal(data);
+
+            controller.ViewData.ModelState.AddModelError("Key", "ErrorMessage");
+
+            var result = controller.Edit(1, modelForm);
+
+            var viewResult = Assert.IsType<ViewResult>(result);
+
+            Assert.NotNull(result);
+
+            Assert.True(viewResult.ViewData.ModelState.Count > 0);
+
+        }
+
 
         //[Fact]
         //public void AddPostActionShouldReturnCorectResultWhenAuthorIsLoged()
@@ -207,5 +293,20 @@ namespace Bakery.Tests.Controllers
 
             return controller;
         }
-    }    
+
+        private Author CreateAuthor()
+        {
+            var author = new Author
+            {
+                Id = 1,
+                FirstName = "Sand",
+                LastName = "Stef",
+                Description = "Test test test",
+                ImageUrl = "nqma.png",
+                AuthorId = "vqra@abv.bg"
+            };
+
+            return author;
+        }
+    }
 }
