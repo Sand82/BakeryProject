@@ -9,12 +9,15 @@
             <div class="card-body">
                 <h4 class="card-title">@item.Name - @item.Price $</h4>
                 <p class="card-text">@item.Description.Substring(0, 40)...</p>
-                <a asp-controller="Item" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">View more</a>
+                <div style="">
+                    <a asp-controller="Item" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">View more</a>
                 @if (this.User.IsAdmin())
                 {
                     <a asp-controller="Bakery" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
                     <a asp-controller="Bakery" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
                 }
+                </div>
+                
             </div>
         </div>
     }

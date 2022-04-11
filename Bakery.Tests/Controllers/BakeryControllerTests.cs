@@ -4,14 +4,9 @@ using Bakery.Data.Models;
 using Bakery.Models.Bakeries;
 using Bakery.Models.Bakery;
 using Bakery.Service;
-using Bakery.Tests.Mock;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNetCore.Authorization;
+
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging.Abstractions;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using Xunit;
