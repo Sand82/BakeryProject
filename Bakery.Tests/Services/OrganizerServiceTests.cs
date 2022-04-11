@@ -60,7 +60,7 @@ namespace Bakery.Tests.Services
             Assert.NotNull(result);
             Assert.Equal(expected, result);
 
-        }//GetItems
+        }
 
         [Fact]
         public void GetItemsShouldReturnCorectResult()
