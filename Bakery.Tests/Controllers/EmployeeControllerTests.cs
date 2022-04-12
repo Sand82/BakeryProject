@@ -18,9 +18,7 @@ namespace Bakery.Tests.Controllers
         {
             using var data = DatabaseMock.Instance;
 
-            var employeeService = new EmployeeService(data);
-
-            var controller = new EmployeeController(employeeService);
+            var controller = CreateController(data);
 
             var result = controller.Approve();
 
@@ -36,9 +34,7 @@ namespace Bakery.Tests.Controllers
 
             AddEmployeesInDatabase(data);
 
-            var employeeService = new EmployeeService(data);
-
-            var controller = new EmployeeController(employeeService);
+            var controller = CreateController(data);
 
             var result = controller.Add(1);
 
@@ -57,9 +53,7 @@ namespace Bakery.Tests.Controllers
 
             AddEmployeesInDatabase(data);
 
-            var employeeService = new EmployeeService(data);
-
-            var controller = new EmployeeController(employeeService);
+            var controller = CreateController(data);
 
             var result = controller.Add(10);           
 
@@ -75,9 +69,7 @@ namespace Bakery.Tests.Controllers
 
             AddEmployeesInDatabase(data);
 
-            var employeeService = new EmployeeService(data);
-
-            var controller = new EmployeeController(employeeService);
+            var controller = CreateController(data);
 
             var result = controller.Reject(1);
 
@@ -96,15 +88,65 @@ namespace Bakery.Tests.Controllers
 
             AddEmployeesInDatabase(data);
 
-            var employeeService = new EmployeeService(data);
-
-            var controller = new EmployeeController(employeeService);
+            var controller = CreateController(data);
 
             var result = controller.Reject(10);
 
             var viewResult = Assert.IsType<BadRequestResult>(result);
 
             Assert.True(viewResult.StatusCode == 400);
+        }
+
+        [Fact]
+        public void InfoShouldReturnCorectResult()
+        {
+            var modelId = 1;
+
+            using var data = DatabaseMock.Instance;
+
+            AddEmployeesInDatabase(data);
+
+            var controller = CreateController(data);
+
+            var result = controller.Info(modelId);
+
+            Assert.NotNull(result);
+
+            var viewResult = Assert.IsType<ViewResult>(result);
+
+            var model  = viewResult.Model;
+
+           var modelResult = Assert.IsType<EmployeeInfoViewModel>(model);
+
+            Assert.Equal("Employee1", modelResult.Name);            
+            Assert.Equal(26, modelResult.Age);            
+        }
+
+        [Fact]
+        public void InfoShouldReturnBadRequest()
+        {
+            var modelId = 10;
+
+            using var data = DatabaseMock.Instance;
+
+            AddEmployeesInDatabase(data);
+
+            var controller = CreateController(data);
+
+            var result = controller.Info(modelId);
+
+            Assert.NotNull(result);
+
+            var viewResult = Assert.IsType<NotFoundObjectResult>(result);            
+        }
+
+        private EmployeeController CreateController(BakeryDbContext data)
+        {
+            var employeeService = new EmployeeService(data);
+
+            var controller = new EmployeeController(employeeService);
+
+            return controller;
         }
 
         private void AddEmployeesInDatabase(BakeryDbContext data)
