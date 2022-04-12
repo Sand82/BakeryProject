@@ -1,5 +1,6 @@
 ﻿using Bakery.Areas.Job.Controllers;
 using Bakery.Areas.Job.Models;
+using Bakery.Data;
 using Bakery.Data.Models;
 using Bakery.Service;
 using Bakery.Tests.Mock;
@@ -33,11 +34,7 @@ namespace Bakery.Tests.Controllers
         {
             using var data = DatabaseMock.Instance;
 
-            var employees = CreateEmployees();
-
-            data.Employees.AddRange(employees);
-
-            data.SaveChanges();
+            AddEmployeesInDatabase(data);
 
             var employeeService = new EmployeeService(data);
 
@@ -58,11 +55,7 @@ namespace Bakery.Tests.Controllers
         {
             using var data = DatabaseMock.Instance;
 
-            var employees = CreateEmployees();
-
-            data.Employees.AddRange(employees);
-
-            data.SaveChanges();
+            AddEmployeesInDatabase(data);
 
             var employeeService = new EmployeeService(data);
 
@@ -73,6 +66,54 @@ namespace Bakery.Tests.Controllers
             var viewResult = Assert.IsType<BadRequestResult>(result);
 
             Assert.True(viewResult.StatusCode == 400);
+        }
+
+        [Fact]
+        public void RejectShouldReturnCorectResult()
+        {
+            using var data = DatabaseMock.Instance;
+
+            AddEmployeesInDatabase(data);
+
+            var employeeService = new EmployeeService(data);
+
+            var controller = new EmployeeController(employeeService);
+
+            var result = controller.Reject(1);
+
+            Assert.NotNull(result);
+
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
+
+            Assert.Equal("Approve", viewResult.ActionName);
+            Assert.Equal("Employee", viewResult.ControllerName);
+        }
+
+        [Fact]
+        public void RejectShouldReturnBadRequestWhenEmployeeIsNotFound()
+        {
+            using var data = DatabaseMock.Instance;
+
+            AddEmployeesInDatabase(data);
+
+            var employeeService = new EmployeeService(data);
+
+            var controller = new EmployeeController(employeeService);
+
+            var result = controller.Reject(10);
+
+            var viewResult = Assert.IsType<BadRequestResult>(result);
+
+            Assert.True(viewResult.StatusCode == 400);
+        }
+
+        private void AddEmployeesInDatabase(BakeryDbContext data)
+        {
+            var employees = CreateEmployees();
+
+            data.Employees.AddRange(employees);
+
+            data.SaveChanges();
         }
 
         private List<Employee> CreateEmployees()
