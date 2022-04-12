@@ -1,11 +1,8 @@
 ﻿using Bakery.Data.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-
-using static Bakery.Infrastructure.ClaimsPrincipalExtensions;
 
 namespace Bakery.Tests.GlobalMethods
 {
