@@ -1,14 +1,10 @@
 ﻿using Bakery.Controllers;
 using Bakery.Data.Models;
-using Bakery.Models.Author;
 using Bakery.Models.Bakeries;
 using Bakery.Service;
 using Bakery.Tests.Mock;
-using System;
-using System.Linq;
-using Xunit;
 
-using static Bakery.Tests.Mock.FormFileMock;
+using Xunit;
 
 namespace Bakery.Tests.Controllers
 {

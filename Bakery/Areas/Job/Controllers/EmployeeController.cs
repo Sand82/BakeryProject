@@ -3,8 +3,6 @@ using Bakery.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using static Bakery.Areas.AdminConstants;
-
 namespace Bakery.Areas.Job.Controllers
 {    
     public class EmployeeController : AdminController

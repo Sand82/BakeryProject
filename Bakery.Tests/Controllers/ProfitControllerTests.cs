@@ -10,11 +10,14 @@ using Xunit;
 using static Bakery.Tests.GlobalMethods.TestService;
 
 namespace Bakery.Tests.Controllers
-{
+{    
     public class ProfitControllerTests
     {
+        private readonly string InvalidDataFormatMassage =
+            "Invalid data format or data period";
+
         [Fact]
-        public void ShouldReturnCorectResult()
+        public void CheckShouldReturnCorectResult()
         {
             using var data = DatabaseMock.Instance;            
 
@@ -34,7 +37,7 @@ namespace Bakery.Tests.Controllers
         }
 
         [Fact]
-        public void ShouldReturnInCorectResultWhenMethodDateIsIncorectFormat()
+        public void CheckShouldReturnInCorectResultWhenMethodDateIsIncorectFormat()
         {
             using var data = DatabaseMock.Instance;
 
@@ -50,11 +53,11 @@ namespace Bakery.Tests.Controllers
 
             var viewResult = Assert.IsType<String>(result);
 
-            Assert.Equal("Invalid data format or data period", viewResult);
+            Assert.Equal(InvalidDataFormatMassage, viewResult);
         }
 
         [Fact]
-        public void ShouldReturnInCorectResultWhenDateFormIsErlierThanDateTo()
+        public void CheckShouldReturnInCorectResultWhenDateFormIsErlierThanDateTo()
         {
             using var data = DatabaseMock.Instance;
 
@@ -70,7 +73,7 @@ namespace Bakery.Tests.Controllers
 
             var viewResult = Assert.IsType<String>(result);
 
-            Assert.Equal("Invalid data format or data period", viewResult);
+            Assert.Equal(InvalidDataFormatMassage, viewResult);
         }
 
         private ProfitController CreateController(BakeryDbContext data)
