@@ -38,7 +38,7 @@ namespace Bakery.Controllers
             {
                 return NotFound();
             }
-            
+
             return View(product);
         }
 
@@ -55,10 +55,10 @@ namespace Bakery.Controllers
 
             if (dataProduct == null)
             {
-                return BadRequest();            
-            }           
+                return BadRequest();
+            }
 
-            var ParsePrice = Decimal.TryParse(dataProduct.Price, out var currPrice);            
+            var ParsePrice = Decimal.TryParse(dataProduct.Price, out var currPrice);
 
             if (!ParsePrice)
             {
@@ -78,27 +78,20 @@ namespace Bakery.Controllers
             {
                 order = orderService.CreatOrder(userId);
             }
-            
-            var item = orderService.CreateItem(id, dataProduct.Name, currPrice, quantity, userId);            
+
+            var item = orderService.CreateItem(id, dataProduct.Name, currPrice, quantity, userId);
 
             orderService.AddItemInOrder(item, order);
 
             return RedirectToAction("All", "Bakery");
-            
+
         }
 
         [Authorize]
         public IActionResult Vote(int id, byte vote)
-        {           
+        {
 
-            if (id == 0)
-            {
-                return BadRequest();
-            }
-
-            var product = bakerySevice.FindById(id);
-
-            if (product.Id == 0)
+            if (id <= 0)
             {
                 return BadRequest();
             }
@@ -108,17 +101,24 @@ namespace Bakery.Controllers
                 return BadRequest();
             }
 
+            var product = bakerySevice.FindById(id);
+
+            if (product == null)
+            {
+                return BadRequest();
+            }
+
             var userId = User.GetId();
-            
-            voteService.SetVote(userId, id, vote);            
-            
-            return RedirectToAction("Details", "Item",  new { id });
+
+            voteService.SetVote(userId, id, vote);
+
+            return RedirectToAction("Details", "Item", new { id });
         }
 
         [Authorize]
         public IActionResult EditAll(int id)
         {
-            List<EditItemsFormModel>? items = null; 
+            List<EditItemsFormModel>? items = null;
 
             try
             {
@@ -126,19 +126,23 @@ namespace Bakery.Controllers
             }
             catch (NullReferenceException ex)
             {
-
                 return NotFound(ex);
-            }            
-                        
+            }
+
             return View(items);
         }
 
         [Authorize]
-        public IActionResult DeleteAll (int id)
+        public IActionResult DeleteAll(int id)
         {
-             var order = itemsService.FindOrderById(id);
+            var order = itemsService.FindOrderById(id);
 
-             itemsService.DeleteAllItems(order);
+            if (order == null)
+            {
+                return BadRequest();
+            }
+
+            itemsService.DeleteAllItems(order);
 
             return RedirectToAction("Buy", "Order");
         }
@@ -148,13 +152,13 @@ namespace Bakery.Controllers
         {
             var userId = User.GetId();
 
-            var order = itemsService.FindOrderByUserId(userId);   
-            
+            var order = itemsService.FindOrderByUserId(userId);
+
             var item = itemsService.FindItemById(id);
 
             itemsService.DeleteItem(item, order);
 
             return RedirectToAction("Buy", "Order");
-        }        
+        }
     }
 }

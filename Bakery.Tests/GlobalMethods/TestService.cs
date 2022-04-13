@@ -50,7 +50,7 @@ namespace Bakery.Tests.GlobalMethods
                     ProductName = $"Bread{i}",
                     ProductPrice = 3.20m + i,
                     ProductId = i,
-                    Quantity = i,
+                    Quantity = i,                    
                 };
 
                 items.Add(item);

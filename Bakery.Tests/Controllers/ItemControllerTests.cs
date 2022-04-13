@@ -1,11 +1,15 @@
 ﻿using Bakery.Controllers;
 using Bakery.Data;
+using Bakery.Data.Models;
 using Bakery.Models.Items;
 using Bakery.Service;
 using Bakery.Tests.Mock;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using Xunit;
@@ -182,7 +186,160 @@ namespace Bakery.Tests.Controllers
 
             Assert.Equal("Details", viewResult.ActionName);
             Assert.Equal("Item", viewResult.ControllerName);
+        }
 
+        [Theory]
+        [InlineData(0, 5)]
+        [InlineData(-1, 5)]
+        [InlineData(1, 10)]        
+        [InlineData(1, 6)]        
+        public void VoteActionShouldReturnBadRequestWhenIdIsZero(int id, byte vote)
+        {
+            using var data = DatabaseMock.Instance;
+
+            var products = ProductsCollection();
+
+            data.Products.AddRange(products);
+
+            data.SaveChanges();
+
+            var controller = CreateClaimsPrincipal(data);
+
+            var result = controller.Vote(id, vote);
+
+            Assert.NotNull(result);
+
+            var viewResult = Assert.IsType<BadRequestResult>(result);           
+
+        }
+
+        [Fact]
+        public void VoteActionShouldReturnBadRequestWhenProductIdNotExistDatabase()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var products = ProductsCollection();
+
+            data.Products.AddRange(products);
+
+            data.SaveChanges();
+
+            var controller = CreateClaimsPrincipal(data);
+
+            var result = controller.Vote(16, 5);
+
+            Assert.NotNull(result);
+
+            var viewResult = Assert.IsType<BadRequestResult>(result);          
+
+        }
+
+        [Fact]
+        public void EditAllActionShouldReturnCorectResult()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var items = CreateListItems();
+
+            var order = new Order
+            {
+                Id = 1,
+                DateOfOrder = DateTime.UtcNow,
+                DateOfDelivery = DateTime.UtcNow,
+                IsFinished = true,
+                Items = items,
+                UserId = "test",
+            };
+
+            order.DateOfOrder.AddDays(3);
+
+            data.Orders.AddRange(order);
+
+            data.SaveChanges();
+
+            var controller = CreateClaimsPrincipal(data);
+
+            var result = controller.EditAll(1);
+
+            Assert.NotNull(result);
+
+            var viewResult = Assert.IsType<ViewResult>(result);
+
+            var model = viewResult.Model;
+
+            var indexViewModel = Assert.IsType<List<EditItemsFormModel>>(model);
+
+            Assert.Equal(5, indexViewModel.Count);
+        }
+
+        [Fact]
+        public void EditAllActionShouldReturnNotFoundResultWhenItemNotExistInDatabase()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var controller = CreateClaimsPrincipal(data);
+
+            var result = controller.EditAll(1);
+
+            Assert.NotNull(result);
+
+            var viewResult = Assert.IsType<NotFoundObjectResult>(result);           
+        }
+
+        [Fact]
+        public void DeleteAllActionShouldReturnCorectResult()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var items = CreateListItems();
+
+            var order = new Order
+            {
+                Id = 1,
+                DateOfOrder = DateTime.UtcNow,
+                DateOfDelivery = DateTime.UtcNow,
+                IsFinished = true,
+                Items = items,
+                UserId = "test",
+            };
+
+            order.DateOfOrder.AddDays(3);
+
+            data.Orders.AddRange(order);
+
+            data.SaveChanges();
+
+            int orderId = 1;
+
+            var controller = CreateClaimsPrincipal(data);
+
+            var result = controller.DeleteAll(orderId);
+
+            Assert.NotNull(result);
+
+            var viewResult = Assert.IsType<RedirectToActionResult>(result); 
+            
+            var currItems = data.Orders
+                .Where(o => o.Id == orderId)
+                .Sum(i => i.Items.Count());
+
+            Assert.Equal("Buy", viewResult.ActionName);
+            Assert.Equal("Order", viewResult.ControllerName);
+            Assert.True(currItems == 0);
+        }
+
+        [Fact]
+        public void DeleteAllActionShouldReturnNotFoundResultWhenItemNotExistInDatabase()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var controller = CreateClaimsPrincipal(data);
+
+            var result = controller.DeleteAll(1);
+
+            Assert.NotNull(result);
+
+            var viewResult = Assert.IsType<BadRequestResult>(result);
         }
 
         private ItemController CreateClaimsPrincipal(BakeryDbContext data)
