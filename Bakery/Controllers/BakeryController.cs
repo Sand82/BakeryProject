@@ -108,7 +108,6 @@ namespace Bakery.Controllers
         [HttpPost]
         public IActionResult Edit(int id, ProductDetailsServiceModel productModel)
         {
-
             if (!ModelState.IsValid)
             {
                 productModel.Categories = bakerySevice.GetBakeryCategories();

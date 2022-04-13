@@ -136,8 +136,6 @@ namespace Bakery.Service
 
         public Item FindItemById(int id)
         {
-
-
             var item = new Item();
 
             Task.Run(() =>
@@ -178,7 +176,16 @@ namespace Bakery.Service
         {
             Task.Run(() =>
             {
-                var item = FindItemById(model.ItemId);
+                Item item = null;
+                
+                try
+                {
+                    item = FindItemById(model.ItemId);
+                }
+                catch (Exception)
+                {
+                    throw new NullReferenceException();
+                }               
 
                 item.Quantity = model.Quantity;
 

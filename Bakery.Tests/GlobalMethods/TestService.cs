@@ -17,7 +17,7 @@ namespace Bakery.Tests.GlobalMethods
 
         public static List<Order> CreateListOrders()
         {
-            var items = CreateListItem();
+            var items = CreateListItems();
 
             var orders = new List<Order>();
 
@@ -38,7 +38,7 @@ namespace Bakery.Tests.GlobalMethods
             return orders;
         }
 
-        public static List<Item> CreateListItem()
+        public static List<Item> CreateListItems()
         {
             var items = new List<Item>();
 

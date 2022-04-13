@@ -8,17 +8,12 @@ using Bakery.Tests.Mock;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Moq;
 using System.Collections.Generic;
 using System.Linq;
-
 using System.Security.Claims;
 using Xunit;
 
 using static Bakery.Tests.GlobalMethods.TestService;
-using static Bakery.WebConstants;
-
 
 namespace Bakery.Tests.Controllers
 {
@@ -30,9 +25,9 @@ namespace Bakery.Tests.Controllers
         {
             using var data = DatabaseMock.Instance;
 
-            var product = ProductsCollection();
+            var products = ProductsCollection();
 
-            data.Products.AddRange(product);
+            data.Products.AddRange(products);
 
             data.SaveChanges();
 
@@ -48,9 +43,9 @@ namespace Bakery.Tests.Controllers
 
             var indexViewModel = Assert.IsType<AllProductQueryModel>(model);
 
-            var expect = product.Where(x => x.IsDelete == false).ToList();
+            var expected = products.Where(x => x.IsDelete == false).ToList();
 
-            Assert.Equal(expect.Count, indexViewModel.TotalProduct);
+            Assert.Equal(expected.Count, indexViewModel.TotalProduct);
         }
 
         [Fact]

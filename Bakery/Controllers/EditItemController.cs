@@ -25,8 +25,14 @@ namespace Bakery.Controllers
         [Authorize]        
         public void Post(EditItemDataModel model) 
         {
-            itemsService.ChangeItemQuantity(model);         
-            
+            try
+            {
+                itemsService.ChangeItemQuantity(model);
+            }
+            catch (Exception)
+            {
+                throw new NullReferenceException("Not found");
+            }
         }        
     }
 }

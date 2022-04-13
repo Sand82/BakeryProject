@@ -218,7 +218,7 @@ namespace Bakery.Tests.Services
         {
             using var data = DatabaseMock.Instance;
 
-            var items = CreateListItem();
+            var items = CreateListItems();
 
             data.Items.AddRange(items);
 
@@ -236,7 +236,7 @@ namespace Bakery.Tests.Services
         {
             using var data = DatabaseMock.Instance;
 
-            var items = CreateListItem();
+            var items = CreateListItems();
 
             data.Items.AddRange(items);
 
@@ -265,7 +265,7 @@ namespace Bakery.Tests.Services
       
         private Order CreateOrder()
         {
-            var items = CreateListItem();
+            var items = CreateListItems();
 
             var order = new Order()
             {
