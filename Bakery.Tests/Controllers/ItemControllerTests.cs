@@ -19,7 +19,7 @@ namespace Bakery.Tests.Controllers
         [Fact]
         public void DetailsShouldReturnCorectResult()
         {
-            using var data = DatabaseMock.Instance;            
+            using var data = DatabaseMock.Instance;
 
             var products = ProductsCollection();
 
@@ -45,6 +45,74 @@ namespace Bakery.Tests.Controllers
 
             Assert.Equal(expected.Name, indexViewModel.Name);
             Assert.Equal(expected.Price.ToString("f2"), indexViewModel.Price);
+        }
+
+        [Fact]
+        public void DetailsShouldReturnNotFoundWithUncorectProductId()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var products = ProductsCollection();
+
+            data.Products.AddRange(products);
+
+            data.SaveChanges();
+
+            var controller = CreateClaimsPrincipal(data);
+
+            var productId = 20;
+
+            var result = controller.Details(productId);
+
+            var viewResult = Assert.IsType<NotFoundResult>(result);
+
+            Assert.True(viewResult.StatusCode == 404);
+        }
+
+        [Fact]
+        public void DetailsPostShouldWorkCorectly()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var products = ProductsCollection();
+
+            data.Products.AddRange(products);
+
+            data.SaveChanges();
+
+            var controller = CreateClaimsPrincipal(data);
+
+            var result = controller.Details(1, 3);
+
+            Assert.NotNull(result);
+
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
+
+            Assert.Equal("All", viewResult.ActionName);
+            Assert.Equal("Bakery", viewResult.ControllerName);
+        }
+
+        [Theory]
+        [InlineData(1, -1)]
+        [InlineData(1, 0)]
+        [InlineData(1, 2001)]
+        public void DetailsPostShouldRedirectWithUncorectProductCount(int productId, int quantity)
+        {
+            using var data = DatabaseMock.Instance;
+
+            var products = ProductsCollection();
+
+            data.Products.AddRange(products);
+
+            data.SaveChanges();
+
+            var controller = CreateClaimsPrincipal(data);
+
+            var result = controller.Details(productId, quantity);
+
+            Assert.NotNull(result);
+
+            var viewResult = Assert.IsType<RedirectResult>(result);
         }
 
         private ItemController CreateClaimsPrincipal(BakeryDbContext data)
