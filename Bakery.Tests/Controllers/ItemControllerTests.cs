@@ -115,6 +115,76 @@ namespace Bakery.Tests.Controllers
             var viewResult = Assert.IsType<RedirectResult>(result);
         }
 
+        [Theory]
+        [InlineData(16, 4)]
+        [InlineData(-1, 3)]             
+        public void DetailsPostShouldReturnBadRequestWithUncorectProductId(int productId, int quantity)
+        {
+            using var data = DatabaseMock.Instance;
+
+            var products = ProductsCollection();
+
+            data.Products.AddRange(products);
+
+            data.SaveChanges();
+
+            var controller = CreateClaimsPrincipal(data);
+
+            var result = controller.Details(productId, quantity);
+
+            Assert.NotNull(result);
+
+            var viewResult = Assert.IsType<BadRequestResult>(result);
+
+            Assert.True(viewResult.StatusCode == 400);
+        }
+
+        [Fact]
+        public void DetailsPostShouldReturnBadRequestWhenUseIdIsNull()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var voteService = new VoteService(data);
+
+            var itemsService = new ItemsService(data, voteService);
+
+            var orderService = new OrderService(data);
+
+            var bakerySevice = new BakerySevice(data);
+
+            var controller = new ItemController(
+                itemsService, voteService, orderService, bakerySevice);
+
+            var result = controller.Details(1, 3);            
+
+            var viewResult = Assert.IsType<BadRequestResult>(result);
+
+        }
+
+        [Fact]
+        public void VoteActionShouldReturnCorectResult()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var products = ProductsCollection();
+
+            data.Products.AddRange(products);
+
+            data.SaveChanges();
+
+            var controller = CreateClaimsPrincipal(data);
+
+            var result = controller.Vote(1, 5);
+
+            Assert.NotNull(result);
+
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
+
+            Assert.Equal("Details", viewResult.ActionName);
+            Assert.Equal("Item", viewResult.ControllerName);
+
+        }
+
         private ItemController CreateClaimsPrincipal(BakeryDbContext data)
         {
             var voteService = new VoteService(data);
