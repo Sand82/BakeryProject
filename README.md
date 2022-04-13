@@ -7,7 +7,7 @@ for job to. From the admin area you can manipulate products, hire personals, cal
 
 Database Diagram.
 ![Untitled](https://user-images.githubusercontent.com/75274983/162288032-a42bfe7e-7c48-4b51-b041-f3d2e4a153a4.jpg)
-View from Home page.
+View from Home page upper part.
 ![Home](https://user-images.githubusercontent.com/75274983/162289001-141c15ed-b09a-47d3-9109-898b948d92ce.jpg)
 View from All products page.
 ![All](https://user-images.githubusercontent.com/75274983/162289506-ff65cce6-444e-44a6-8f2d-7645bc743a89.jpg)
