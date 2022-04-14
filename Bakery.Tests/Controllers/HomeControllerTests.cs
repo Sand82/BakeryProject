@@ -1,5 +1,7 @@
 ﻿using Bakery.Controllers;
+using Bakery.Data;
 using Bakery.Data.Models;
+using Bakery.Models;
 using Bakery.Models.Home;
 using Bakery.Service;
 using Bakery.Tests.Mock;
@@ -13,7 +15,7 @@ namespace Bakery.Tests.Controllers
     public class HomeControllerTests
     {
         [Fact]
-        public void HomeControllerShouldReturnCorectResult()
+        public void HomeActionShouldReturnCorectResult()
         {
             using var data = DatabaseMock.Instance;
 
@@ -36,10 +38,9 @@ namespace Bakery.Tests.Controllers
 
             data.SaveChanges();
 
-            var homeService = new HomeService(data);
-            var homeController = new HomeController(homeService);
+            var controller = CreateController(data);
 
-            var result = homeController.Index();
+            var result = controller.Index();
 
             Assert.NotNull(result);
 
@@ -51,6 +52,33 @@ namespace Bakery.Tests.Controllers
                         
             Assert.Equal(20, indexViewModel.IngredientCount);
             Assert.Equal(10, indexViewModel.ProductCount);
-        }            
+        }
+
+        //[Fact]
+        //public void ErrorActionShouldReturnCorectResult()
+        //{
+        //    using var data = DatabaseMock.Instance;           
+            
+        //    var controller = CreateController(data);            
+
+        //    var result = controller.Error().ExecuteResultAsync;
+
+        //    Assert.NotNull(result);
+
+        //    var viewResult = Assert.IsType<ViewResult>(result);
+
+        //    var model = viewResult.Model;
+
+        //    var indexViewModel = Assert.IsType<ErrorViewModel>(model);
+        //}
+
+        public HomeController CreateController(BakeryDbContext data)
+        {
+            var homeService = new HomeService(data);
+
+            var controller = new HomeController(homeService);
+
+            return controller;
+        }
     }
 }

@@ -150,11 +150,21 @@ namespace Bakery.Controllers
         [Authorize]
         public IActionResult Delete(int id)
         {
-            var userId = User.GetId();
+            var userId = User.GetId();            
 
             var order = itemsService.FindOrderByUserId(userId);
 
+            if (order == null)
+            {
+                return BadRequest();
+            }
+
             var item = itemsService.FindItemById(id);
+
+            if (item == null)
+            {
+                return BadRequest();
+            }
 
             itemsService.DeleteItem(item, order);
 

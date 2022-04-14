@@ -8,7 +8,6 @@ using Bakery.Tests.Mock;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -239,17 +238,7 @@ namespace Bakery.Tests.Controllers
         {
             using var data = DatabaseMock.Instance;
 
-            var items = CreateListItems();
-
-            var order = new Order
-            {
-                Id = 1,
-                DateOfOrder = DateTime.UtcNow,
-                DateOfDelivery = DateTime.UtcNow,
-                IsFinished = true,
-                Items = items,
-                UserId = "test",
-            };
+            var order = CreateOrder();
 
             order.DateOfOrder.AddDays(3);
 
@@ -289,19 +278,9 @@ namespace Bakery.Tests.Controllers
         [Fact]
         public void DeleteAllActionShouldReturnCorectResult()
         {
-            using var data = DatabaseMock.Instance;
+            using var data = DatabaseMock.Instance;            
 
-            var items = CreateListItems();
-
-            var order = new Order
-            {
-                Id = 1,
-                DateOfOrder = DateTime.UtcNow,
-                DateOfDelivery = DateTime.UtcNow,
-                IsFinished = true,
-                Items = items,
-                UserId = "test",
-            };
+            var order = CreateOrder();
 
             order.DateOfOrder.AddDays(3);
 
@@ -342,6 +321,94 @@ namespace Bakery.Tests.Controllers
             var viewResult = Assert.IsType<BadRequestResult>(result);
         }
 
+        [Fact]
+        public void DeleteActionShouldReturnCorectResult()
+        {
+            using var data = DatabaseMock.Instance;            
+
+            var order = CreateOrder();
+
+            order.DateOfOrder.AddDays(3);
+
+            data.Orders.AddRange(order);
+
+            data.SaveChanges();
+
+            int orderId = 1;
+
+            var controller = CreateClaimsPrincipal(data);
+
+            var result = controller.DeleteAll(orderId);
+
+            Assert.NotNull(result);
+
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
+
+            var currItems = GetCount(data, orderId);
+
+            Assert.Equal("Buy", viewResult.ActionName);
+            Assert.Equal("Order", viewResult.ControllerName);
+            Assert.True(currItems == 0);
+        }
+
+        [Fact]
+        public void DeleteActionShouldReturnbedRequestIfOrderDontExsist()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var order = CreateOrder();
+
+            order.DateOfOrder.AddDays(3);
+
+            data.Orders.AddRange(order);
+
+            data.SaveChanges();
+
+            int orderId = 2;
+
+            var controller = CreateClaimsPrincipal(data);
+
+            var result = controller.Delete(orderId);
+
+            Assert.NotNull(result);
+
+            var viewResult = Assert.IsType<BadRequestResult>(result);
+        }
+
+        [Fact]
+        public void DeleteActionShouldReturnbedRequestIfItemDontExsist()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var order = CreateOrder();
+
+            order.DateOfOrder.AddDays(3);
+
+            order.Items = null;
+
+            order.IsFinished = false;
+
+            order.UserId = "vqra@abv.bg";
+
+            data.Orders.AddRange(order);
+
+            data.SaveChanges();
+
+            int orderId = 1;
+
+            var controller = CreateClaimsPrincipal(data);
+
+            var result = controller.Delete(orderId);
+
+            Assert.NotNull(result);
+
+            var viewResult = Assert.IsType<BadRequestResult>(result);
+
+            var currItems = GetCount(data, orderId);
+
+            Assert.True(currItems == 0);
+        }
+
         private ItemController CreateClaimsPrincipal(BakeryDbContext data)
         {
             var voteService = new VoteService(data);
@@ -367,6 +434,30 @@ namespace Bakery.Tests.Controllers
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
 
             return controller;
+        }
+
+        private Order CreateOrder()
+        {
+            var order = new Order
+            {
+                Id = 1,
+                DateOfOrder = DateTime.UtcNow,
+                DateOfDelivery = DateTime.UtcNow,
+                IsFinished = true,
+                Items = CreateListItems(),
+                UserId = "test",
+            };
+
+            return order;
+        }
+
+        private int GetCount(BakeryDbContext data, int orderId) 
+        {
+            var currItems = data.Orders
+                .Where(o => o.Id == orderId)
+                .Sum(i => i.Items.Count());
+
+            return currItems;
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Bakery.Controllers
         {
             var userId = GetUserId();
 
-            if (userId == null)
+            if (string.IsNullOrWhiteSpace(userId))
             {
                 return BadRequest();
             }
