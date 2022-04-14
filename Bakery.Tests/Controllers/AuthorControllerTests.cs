@@ -1,10 +1,14 @@
 ﻿using Bakery.Controllers;
+using Bakery.Data;
 using Bakery.Data.Models;
+using Bakery.Models.Author;
 using Bakery.Models.Bakeries;
 using Bakery.Service;
 using Bakery.Tests.Mock;
-
+using Microsoft.AspNetCore.Mvc;
 using Xunit;
+
+using static Bakery.Tests.Mock.FormFileMock;
 
 namespace Bakery.Tests.Controllers
 {
@@ -27,34 +31,61 @@ namespace Bakery.Tests.Controllers
 
             data.Authors.Add(author);
 
-            data.SaveChanges();
+            data.SaveChanges();     
 
-            var authorService = new AuthorService(data, null);
+            var controller = CreateController(data);
 
-            var authorController = new AuthorController(authorService);
-
-            var result = authorService.GetAuthorInfo();
+            var result = controller.About();
 
             Assert.NotNull(result);
 
-            var viewResult = Assert.IsType<AuthorViewModel>(result);
+            var viewResult = Assert.IsType<ViewResult>(result);
 
-            Assert.Equal("Sand", result.FirstName);
-            Assert.Equal("Stef", result.LastName);
+            var model = viewResult.Model;
+
+            var indexViewModel = Assert.IsType<AuthorViewModel>(model);
+
+            Assert.Equal("Sand", indexViewModel.FirstName);
+            Assert.Equal("Stef", indexViewModel.LastName);
+        }
+
+        [Fact]
+        public void ApplayActionShouldReturnCorectResult()
+        {
+            using var data = DatabaseMock.Instance;
+
+            var controller = CreateController(data);
+
+            var result = controller.Apply();            
+
+            Assert.NotNull(result);
+
+            var viewResult = Assert.IsType<ViewResult>(result);  
+            
+            var model = viewResult.Model;
+
+            Assert.IsType<ApplyFormModel>(model);
         }
 
         [Fact]
         public void AboutActionShouldReturnBadRequestViewWhitEmptyDatabase()
         {
-            using var data = DatabaseMock.Instance;
+            using var data = DatabaseMock.Instance;            
+          
+            var controller = CreateController(data);
 
+            var result = controller.About();
+
+            Assert.IsType<NotFoundResult>(result);
+        }    
+        
+        private AuthorController CreateController(BakeryDbContext data)
+        {
             var authorService = new AuthorService(data, null);
 
-            var authorController = new AuthorController(authorService);
+            var controller = new AuthorController(authorService);
 
-            var result = authorService.GetAuthorInfo();
-
-            Assert.Null(result);
-        }       
+            return controller;
+        }
     }
 }
