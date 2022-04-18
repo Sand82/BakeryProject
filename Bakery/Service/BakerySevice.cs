@@ -3,25 +3,34 @@ using Bakery.Data.Models;
 using Bakery.Models.Bakeries;
 using Bakery.Models.Bakery;
 using Bakery.Models.Items;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Bakery.Service
 {
     public class BakerySevice : IBakerySevice
     {
         private readonly BakeryDbContext data;
+        private readonly IWebHostEnvironment webHostEnvironment;      
 
-        public BakerySevice(BakeryDbContext data)
+        public BakerySevice(BakeryDbContext data, IWebHostEnvironment webHostEnvironment)
         {
             this.data = data;
-        }
+            this.webHostEnvironment = webHostEnvironment;
+        }        
 
         public AllProductQueryModel GetAllProducts(AllProductQueryModel query)
         {
+            string JsonFilePath = $"{webHostEnvironment.WebRootPath}/products.txt";
 
             Task.Run(() =>
             {
                 var productQuery = this.data.Products.AsQueryable();
 
+                if (!File.Exists(JsonFilePath))
+                {
+                    SeriazeToJason(data, JsonFilePath);
+                }
 
                 if (!string.IsNullOrWhiteSpace(query.Category))
                 {
@@ -73,7 +82,7 @@ namespace Bakery.Service
                 query.Products = products;
 
 
-            }).GetAwaiter().GetResult();
+            }).GetAwaiter().GetResult();           
 
             return query;
         }
@@ -181,7 +190,6 @@ namespace Bakery.Service
             return model;
         }
 
-
         public void Delete(Product product)
         {
             Task.Run(() =>
@@ -253,6 +261,46 @@ namespace Bakery.Service
             }).GetAwaiter().GetResult();
 
             return category;
-        }        
+        }
+
+        private void SeriazeToJason(BakeryDbContext data, string path)
+        {
+            
+            var products = data
+                .Products
+                .Include(p => p.Ingredients)
+                .Select(p => new Product
+                {
+                    Name = p.Name,
+                    Category = p.Category,
+                    Price = p.Price,
+                    Description = p.Description,
+                    IsDelete = false,
+                    ImageUrl = p.ImageUrl,
+                    CategoryId = p.CategoryId,
+                    Ingredients = p.Ingredients.Select( i => new Ingredient 
+                    { 
+                        Name = i.Name,                        
+                    })
+                    .ToList()                    
+                })
+                .ToList();
+
+            var result = JsonConvert.SerializeObject(products, Formatting.Indented);
+
+            CreateProduct(result, path);
+        }
+
+        private void CreateProduct(string json, string path)
+        {
+            JsonSerializer serializer = new JsonSerializer();            
+
+            using (StreamWriter sw = new StreamWriter(path))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, json);
+                
+            }
+        }
     }
 }
