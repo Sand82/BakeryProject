@@ -116,12 +116,9 @@ namespace Bakery.Service
                     product.Ingredients.Add(curredntIngredient);
                 }                
 
-            }).GetAwaiter().GetResult();
-
-            AddProductToJsonFile(product);
+            }).GetAwaiter().GetResult();            
 
             return product;
-
         }
         
         public ProductDetailsServiceModel EditProduct(int id)
@@ -241,6 +238,10 @@ namespace Bakery.Service
 
                 this.data.SaveChanges();
 
+                var path = GetJsonFilePath();
+
+                SerializeToJason(path);
+
             }).GetAwaiter().GetResult();
         }
 
@@ -297,34 +298,9 @@ namespace Bakery.Service
 
             var result = JsonConvert.SerializeObject(products, Formatting.Indented);
 
-            File.AppendAllText(path, result); 
+            File.WriteAllText(path, result); 
             
-        }
-
-        private void AddProductToJsonFile(Product? product)
-        {
-            string jsonFilePath = GetJsonFilePath();
-
-            var productModel = new
-            {
-                Name = product.Name,
-                Category = product.Category.Name,
-                Price = product.Price,
-                Description = product.Description,
-                IsDelete = false,
-                ImageUrl = product.ImageUrl,
-                CategoryId = product.CategoryId,
-                Ingredients = product.Ingredients.Select(i => new
-                {
-                    Name = i.Name,
-                })
-                .ToList()
-            };
-
-            var result = JsonConvert.SerializeObject(productModel, Formatting.Indented);
-
-            File.AppendAllText(jsonFilePath, result);
-        }
+        }        
 
         private string GetJsonFilePath()
         {

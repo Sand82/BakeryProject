@@ -777,5 +777,98 @@
         "Name": "fulor"
       }
     ]
+  },
+  {
+    "Name": "Walnut bread",
+    "Category": "Breds",
+    "Price": 3.20,
+    "Description": "This homemade nutty bread is the perfect dipping material for our wine and brandy infused cheese fondue.",
+    "IsDelete": false,
+    "ImageUrl": "https://img.taste.com.au/8ksDrM7z/w720-h480-cfill-q80/taste/2016/11/walnut-bread-50788-1.jpeg",
+    "CategoryId": 1,
+    "Ingredients": [
+      {
+        "Name": "fluor"
+      },
+      {
+        "Name": "salt"
+      },
+      {
+        "Name": "butter"
+      },
+      {
+        "Name": "milk"
+      },
+      {
+        "Name": "olive oil"
+      },
+      {
+        "Name": "water"
+      },
+      {
+        "Name": "houny"
+      },
+      {
+        "Name": "dried yeast"
+      }
+    ]
+  },
+  {
+    "Name": "Naan bread",
+    "Category": "Breds",
+    "Price": 2.50,
+    "Description": "Naan is an easy flatbread you can make at home.",
+    "IsDelete": false,
+    "ImageUrl": "https://img.taste.com.au/Ggyeq3hA/w720-h480-cfill-q80/taste/2016/11/naan-bread-98231-1.jpeg",
+    "CategoryId": 1,
+    "Ingredients": [
+      {
+        "Name": "fluor"
+      },
+      {
+        "Name": "sugar"
+      },
+      {
+        "Name": "salt"
+      },
+      {
+        "Name": "milk"
+      },
+      {
+        "Name": "yoghurt"
+      },
+      {
+        "Name": "dried yeast"
+      },
+      {
+        "Name": "vegetable oil"
+      }
+    ]
+  },
+  {
+    "Name": "Bread rolls",
+    "Category": "Breds",
+    "Price": 1.30,
+    "Description": "Found in almost every kitchen, milk can do so much more than soak into cereal or temper your tea.",
+    "IsDelete": false,
+    "ImageUrl": "https://img.taste.com.au/Sg6kKpMJ/w720-h480-cfill-q80/taste/2016/11/bread-rolls-80351-1.jpeg",
+    "CategoryId": 1,
+    "Ingredients": [
+      {
+        "Name": "fluor"
+      },
+      {
+        "Name": "sugar"
+      },
+      {
+        "Name": "salt"
+      },
+      {
+        "Name": "butter"
+      },
+      {
+        "Name": "milk"
+      }
+    ]
   }
 ]
