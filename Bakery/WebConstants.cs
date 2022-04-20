@@ -10,7 +10,6 @@
         
         public const string EmptyOrder = "EmptyOrder"; 
         
-        public const string SuccessOrder = "SuccessOrder";      
-
+        public const string SuccessOrder = "SuccessOrder";         
     }
 }

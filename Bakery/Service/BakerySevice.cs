@@ -20,17 +20,14 @@ namespace Bakery.Service
         }        
 
         public AllProductQueryModel GetAllProducts(AllProductQueryModel query)
-        {
-            string JsonFilePath = $"{webHostEnvironment.WebRootPath}/products.txt";
+        {          
 
             Task.Run(() =>
-            {
+            {               
+
                 var productQuery = this.data.Products.AsQueryable();
 
-                if (!File.Exists(JsonFilePath))
-                {
-                    SeriazeToJason(data, JsonFilePath);
-                }
+                CreateSerilizationFile();
 
                 if (!string.IsNullOrWhiteSpace(query.Category))
                 {
@@ -85,7 +82,7 @@ namespace Bakery.Service
             }).GetAwaiter().GetResult();           
 
             return query;
-        }
+        }       
 
         public Product CreateProduct(BakeryFormModel formProduct)
         {
@@ -121,10 +118,12 @@ namespace Bakery.Service
 
             }).GetAwaiter().GetResult();
 
+            AddProductToJsonFile(product);
+
             return product;
 
         }
-
+        
         public ProductDetailsServiceModel EditProduct(int id)
         {
             ProductDetailsServiceModel? product = null;
@@ -263,22 +262,32 @@ namespace Bakery.Service
             return category;
         }
 
-        private void SeriazeToJason(BakeryDbContext data, string path)
+        private void CreateSerilizationFile()
+        {
+            string jsonFilePath = GetJsonFilePath();
+
+            if (!File.Exists(jsonFilePath))
+            {
+                SerializeToJason(jsonFilePath);
+            }
+        }
+
+        private void SerializeToJason(string path)
         {
             
             var products = data
                 .Products
                 .Include(p => p.Ingredients)
-                .Select(p => new Product
+                .Select(p => new 
                 {
                     Name = p.Name,
-                    Category = p.Category,
+                    Category = p.Category.Name,
                     Price = p.Price,
                     Description = p.Description,
                     IsDelete = false,
                     ImageUrl = p.ImageUrl,
                     CategoryId = p.CategoryId,
-                    Ingredients = p.Ingredients.Select( i => new Ingredient 
+                    Ingredients = p.Ingredients.Select( i => new  
                     { 
                         Name = i.Name,                        
                     })
@@ -288,19 +297,38 @@ namespace Bakery.Service
 
             var result = JsonConvert.SerializeObject(products, Formatting.Indented);
 
-            CreateProduct(result, path);
+            File.AppendAllText(path, result); 
+            
         }
 
-        private void CreateProduct(string json, string path)
+        private void AddProductToJsonFile(Product? product)
         {
-            JsonSerializer serializer = new JsonSerializer();            
+            string jsonFilePath = GetJsonFilePath();
 
-            using (StreamWriter sw = new StreamWriter(path))
-            using (JsonWriter writer = new JsonTextWriter(sw))
+            var productModel = new
             {
-                serializer.Serialize(writer, json);
-                
-            }
+                Name = product.Name,
+                Category = product.Category.Name,
+                Price = product.Price,
+                Description = product.Description,
+                IsDelete = false,
+                ImageUrl = product.ImageUrl,
+                CategoryId = product.CategoryId,
+                Ingredients = product.Ingredients.Select(i => new
+                {
+                    Name = i.Name,
+                })
+                .ToList()
+            };
+
+            var result = JsonConvert.SerializeObject(productModel, Formatting.Indented);
+
+            File.AppendAllText(jsonFilePath, result);
+        }
+
+        private string GetJsonFilePath()
+        {
+            return $"{webHostEnvironment.WebRootPath}/products.json";
         }
     }
 }
