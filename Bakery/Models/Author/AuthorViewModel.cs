@@ -1,4 +1,6 @@
-﻿namespace Bakery.Models.Bakeries
+﻿using Bakery.Models.Author;
+
+namespace Bakery.Models.Bakeries
 {
     public class AuthorViewModel
     {
@@ -13,5 +15,7 @@
         public string Description { get; set; }
         
         public string ImageUrl { get; set; }
+
+        public ICollection<EmployeeDetailsViewModel> Employees { get; set; }
     }
 }

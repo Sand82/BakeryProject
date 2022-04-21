@@ -9,11 +9,13 @@ namespace Bakery.Service
     {
         private readonly BakeryDbContext data;
         private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly IEmployeeService employeeService;
 
-        public AuthorService(BakeryDbContext data, IWebHostEnvironment webHostEnvironment)
+        public AuthorService(BakeryDbContext data, IWebHostEnvironment webHostEnvironment, IEmployeeService employeeService)
         {
             this.data = data;
             this.webHostEnvironment = webHostEnvironment;
+            this.employeeService = employeeService;
         }
 
         public Employee CreateEmployee(ApplyFormModel model, IFormFile cv, IFormFile image)
@@ -65,6 +67,29 @@ namespace Bakery.Service
             }).GetAwaiter().GetResult();
 
             return isValid;
+        }
+
+        public List<EmployeeDetailsViewModel> GetModels()
+        {
+            List<EmployeeDetailsViewModel> models = null;
+
+            Task.Run(() => 
+            {
+                models = this.data
+                .Employees
+                .Where(e => e.IsApproved == true)
+                .Select(e => new EmployeeDetailsViewModel
+                {
+                    FullName = e.FullName,
+                    Description = e.Description,
+                    Experience = e.Experience,
+                    Image = employeeService.GetExstention(e.ImageId, e.ImageExtension)
+                })
+                .ToList();
+
+            }).GetAwaiter().GetResult();
+
+            return models;
         }
 
         public AuthorViewModel GetAuthorInfo()
@@ -129,6 +154,6 @@ namespace Bakery.Service
             };
 
             return extension;
-        }
+        }        
     }
 }

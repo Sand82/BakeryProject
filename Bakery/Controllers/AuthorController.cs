@@ -17,14 +17,18 @@ namespace Bakery.Controllers
         [Authorize]
         public IActionResult About()
         {
-            var author = authorService.GetAuthorInfo();
+            var authorModel = authorService.GetAuthorInfo();
 
-            if (author == null)
+            if (authorModel == null)
             {
                 return NotFound();
             }
 
-            return View(author);
+            var modelEmployes = authorService.GetModels();
+
+            authorModel.Employees = modelEmployes;
+
+            return View(authorModel);
         }
 
         [Authorize]

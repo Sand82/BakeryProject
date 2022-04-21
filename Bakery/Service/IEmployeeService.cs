@@ -14,5 +14,7 @@ namespace Bakery.Service
         void SetEmployee(Employee employee, bool isApprove);
 
         string GetContentType(string path);
+
+        string GetExstention(string id, string exstension);
     }
 }

@@ -15,6 +15,8 @@ namespace Bakery.Service
 
         Employee CreateEmployee(ApplyFormModel model, IFormFile cv, IFormFile image);
 
+        List<EmployeeDetailsViewModel> GetModels();
+
         void AddEmployee(Employee employee);
     }
 }
