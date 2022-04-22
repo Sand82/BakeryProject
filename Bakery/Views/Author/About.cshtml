@@ -45,9 +45,13 @@
             </div>
             @if (Model.Employees != null)
             {
-                @foreach (var employee in @Model.Employees)
+                @for (var i = 0; i < @Model.Employees.Count; i++)                
                 {
-                    <div class="col-md-6 offset-md-6" style="padding:50px;">
+                    var employee = @Model.Employees[i];
+
+                    if(i % 2 == 0)
+                    {
+                        <div class="col-md-6 offset-md-6" style="padding:30px;">
                         <div class="card mb-4" style="max-width: 600px;">
                             <div class="row g-0">
                                 <div class="col-md-4">
@@ -62,7 +66,27 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        </div>
+                    }
+                    else
+                    {                        
+                      <div style="padding:30px;">
+                        <div class="card mb-4" style="max-width: 600px;">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="@employee.Image" class="img-fluid rounded-start" alt="...">
+                                </div>
+                                <div class="col-md-11">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@employee.FullName </h5>
+                                        <p class="card-text"><small class="text-muted">@employee.Experience</small></p>
+                                        <p class="card-text">@employee.Description</p>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                     </div>                        
+                    }                    
                 }
             }
 

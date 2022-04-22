@@ -16,6 +16,6 @@ namespace Bakery.Models.Bakeries
         
         public string ImageUrl { get; set; }
 
-        public ICollection<EmployeeDetailsViewModel> Employees { get; set; }
+        public IList<EmployeeDetailsViewModel> Employees { get; set; }
     }
 }
