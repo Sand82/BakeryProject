@@ -1,7 +1,9 @@
 using Bakery.Data;
 using Bakery.Infrastructure;
+using Bakery.Infrastructure.Models;
 using Bakery.Service;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,6 +41,17 @@ builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddTransient<ICustomerService, CustomerService>();
 builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 builder.Services.AddTransient<IOrganizerService, OrganizerService>();
+
+builder.Services.AddTransient<IEmailSender, MailKitEmailSender>();
+builder.Services.Configure<MailKitEmailSenderOptions>(options =>
+{
+    options.Host_Address = "smtp-relay.sendinblue.com";
+    options.Host_Port = 587;
+    options.Host_Username = "my-smtp-username";
+    options.Host_Password = "my-smtp-password";
+    options.Sender_EMail = "noreply@mydomain.com";
+    options.Sender_Name = "My Bakery Place";
+});
 
 var app = builder.Build();
 

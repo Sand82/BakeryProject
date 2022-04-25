@@ -19,7 +19,7 @@ namespace Bakery.Tests.Services
 
             data.SaveChanges();
 
-            var authorService = new AuthorService(data, null);
+            var authorService = new AuthorService(data, null, null);
 
             var result = authorService.GetAuthorInfo();                            
 
@@ -31,7 +31,7 @@ namespace Bakery.Tests.Services
         {
             using var data = DatabaseMock.Instance;            
 
-            var authorService = new AuthorService(data, null);
+            var authorService = new AuthorService(data, null, null);
 
             var result = authorService.GetAuthorInfo();
 
@@ -53,7 +53,7 @@ namespace Bakery.Tests.Services
 
             data.SaveChanges();
 
-            var authorService = new AuthorService(data, null);
+            var authorService = new AuthorService(data, null, null);
 
             var result = authorService.IsAuthor(authorId);            
 
@@ -75,7 +75,7 @@ namespace Bakery.Tests.Services
 
             data.SaveChanges();
 
-            var authorService = new AuthorService(data, null);
+            var authorService = new AuthorService(data, null, null);
 
             var result = authorService.IsAuthor(authorId);
 
@@ -87,7 +87,7 @@ namespace Bakery.Tests.Services
         {
             using var data = DatabaseMock.Instance;          
           
-            var authorService = new AuthorService(data, null);
+            var authorService = new AuthorService(data, null, null);
 
             var result = authorService.FileValidator("fail.doc", "snimka.png", 123456, 123456);
 
@@ -105,7 +105,7 @@ namespace Bakery.Tests.Services
         {
             using var data = DatabaseMock.Instance;
 
-            var authorService = new AuthorService(data, null);
+            var authorService = new AuthorService(data, null, null);
 
             var result = authorService.FileValidator(fileExtension, imageExtention, fileLength, imageLength);
 

@@ -9,7 +9,9 @@ using Bakery.Tests.Mock;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Claims;
 using Xunit;
 
@@ -31,8 +33,8 @@ namespace Bakery.Tests.Controllers
 
             data.SaveChanges();
 
-            var controller = CreateClaimsPrincipal(data);
-
+            var controller = CreateClaimsPrincipal(data);          
+                        
             var result = controller.All(new AllProductQueryModel());
 
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -325,9 +327,9 @@ namespace Bakery.Tests.Controllers
 
         private BakeryController CreateClaimsPrincipal(BakeryDbContext data)
         {
-            var bakeryService = new BakerySevice(data);
+            var bakeryService = new BakerySevice(data, null);
 
-            var authorService = new AuthorService(data, null);
+            var authorService = new AuthorService(data, null, null);
 
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
            {

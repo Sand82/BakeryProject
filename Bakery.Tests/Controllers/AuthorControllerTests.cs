@@ -81,7 +81,7 @@ namespace Bakery.Tests.Controllers
         
         private AuthorController CreateController(BakeryDbContext data)
         {
-            var authorService = new AuthorService(data, null);
+            var authorService = new AuthorService(data, null, null);
 
             var controller = new AuthorController(authorService);
 

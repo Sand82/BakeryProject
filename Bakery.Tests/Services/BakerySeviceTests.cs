@@ -23,7 +23,7 @@ namespace Bakery.Tests.Services
 
             AddProductsInDatabase(data);
 
-            var bakerySevice = new BakerySevice(data);
+            var bakerySevice = new BakerySevice(data, null);
 
             var categoryList = new List<string> { "Bread", "Cookies" };
 
@@ -46,7 +46,7 @@ namespace Bakery.Tests.Services
 
             AddProductsInDatabase(data);
 
-            var bakerySevice = new BakerySevice(data);
+            var bakerySevice = new BakerySevice(data, null);
 
             var categoryList = new List<string> { "Bread", "Cookies" };
 
@@ -69,7 +69,7 @@ namespace Bakery.Tests.Services
 
             AddProductsInDatabase(data);
 
-            var bakerySevice = new BakerySevice(data);
+            var bakerySevice = new BakerySevice(data, null);
 
             var categoryList = new List<string> { "Bread", "Cookies" };
 
@@ -91,7 +91,7 @@ namespace Bakery.Tests.Services
         {
             using var data = DatabaseMock.Instance;            
 
-            var bakerySevice = new BakerySevice(data);
+            var bakerySevice = new BakerySevice(data, null);
 
             var model = new BakeryFormModel();
 
@@ -118,7 +118,7 @@ namespace Bakery.Tests.Services
 
             AddProductsInDatabase(data);
 
-            var bakerySevice = new BakerySevice(data);
+            var bakerySevice = new BakerySevice(data, null);
             
             var category = GetCategory();
 
@@ -148,7 +148,7 @@ namespace Bakery.Tests.Services
 
             AddProductsInDatabase(data);
 
-            var bakerySevice = new BakerySevice(data);
+            var bakerySevice = new BakerySevice(data, null);
 
             var model = new BakeryFormModel();            
 
@@ -162,7 +162,7 @@ namespace Bakery.Tests.Services
         {
             using var data = DatabaseMock.Instance;            
 
-            var bakerySevice = new BakerySevice(data);
+            var bakerySevice = new BakerySevice(data, null);
 
             var model = new BakeryFormModel();
 
@@ -183,7 +183,7 @@ namespace Bakery.Tests.Services
 
             data.SaveChanges();
 
-            var bakerySevice = new BakerySevice(data);
+            var bakerySevice = new BakerySevice(data, null);
 
             var result = bakerySevice.GetBakeryCategories();
 
@@ -195,7 +195,7 @@ namespace Bakery.Tests.Services
         {
             using var data = DatabaseMock.Instance;            
 
-            var bakerySevice = new BakerySevice(data);
+            var bakerySevice = new BakerySevice(data, null);
 
             var result = bakerySevice.GetBakeryCategories();
 
@@ -209,7 +209,7 @@ namespace Bakery.Tests.Services
 
             AddProductsInDatabase(data);          
             
-            var bakerySevice = new BakerySevice(data);
+            var bakerySevice = new BakerySevice(data, null);
 
             var product = bakerySevice.FindById(10);
 
@@ -243,7 +243,7 @@ namespace Bakery.Tests.Services
 
             AddProductsInDatabase(data);
 
-            var bakerySevice = new BakerySevice(data);
+            var bakerySevice = new BakerySevice(data, null);
 
             var product = bakerySevice.CreateNamePriceModel(1);
 
