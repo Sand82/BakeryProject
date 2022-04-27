@@ -1,7 +1,8 @@
 ﻿using Bakery.Areas.Task.Controllers;
 using Bakery.Areas.Task.Models;
 using Bakery.Data;
-using Bakery.Service;
+using Bakery.Service.Orders;
+using Bakery.Service.Organizers;
 using Bakery.Tests.Mock;
 
 using System;

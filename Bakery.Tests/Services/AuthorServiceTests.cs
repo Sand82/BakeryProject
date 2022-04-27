@@ -1,5 +1,5 @@
 ﻿using Bakery.Data.Models;
-using Bakery.Service;
+using Bakery.Service.Authors;
 using Bakery.Tests.Mock;
 
 using Xunit;

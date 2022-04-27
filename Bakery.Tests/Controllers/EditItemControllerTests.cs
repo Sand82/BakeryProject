@@ -3,6 +3,7 @@ using Bakery.Data;
 using Bakery.Data.Models;
 using Bakery.Models.EditItem;
 using Bakery.Service;
+using Bakery.Service.Items;
 using Bakery.Tests.Mock;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace Bakery.Tests.Controllers
                 Quantity = 3,
             };
 
-            var itemsService = new ItemsService(data, null);
+            var itemsService = new ItemService(data, null);
 
             var controler = new EditItemController(itemsService);
 
@@ -59,7 +60,7 @@ namespace Bakery.Tests.Controllers
                 Quantity = 3,
             };
 
-            var itemsService = new ItemsService(data, null);
+            var itemsService = new ItemService(data, null);
 
             var controler = new EditItemController(itemsService);          
 

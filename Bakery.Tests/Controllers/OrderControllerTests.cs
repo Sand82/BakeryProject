@@ -1,21 +1,16 @@
 ﻿using Bakery.Controllers;
 using Bakery.Data;
-using Bakery.Models;
 using Bakery.Models.Customer;
-using Bakery.Models.Orders;
-using Bakery.Service;
+using Bakery.Service.Customers;
+using Bakery.Service.Orders;
 using Bakery.Tests.Mock;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using Xunit;
 
 using static Bakery.Tests.GlobalMethods.TestService;
-using static Bakery.WebConstants;
 
 namespace Bakery.Tests.Controllers
 {

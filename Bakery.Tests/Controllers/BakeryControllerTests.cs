@@ -4,6 +4,8 @@ using Bakery.Data.Models;
 using Bakery.Models.Bakeries;
 using Bakery.Models.Bakery;
 using Bakery.Service;
+using Bakery.Service.Authors;
+using Bakery.Service.Bakeries;
 using Bakery.Tests.Mock;
 
 using Microsoft.AspNetCore.Http;

@@ -5,7 +5,11 @@ using static Bakery.Data.Constants;
 namespace Bakery.Data.Models
 {
     public class Customer
-    {       
+    {
+        public Customer()
+        {
+            this.Mails = new HashSet<MailInfo>();
+        } 
 
         [Key]
         public int Id { get; set; }        
@@ -38,5 +42,7 @@ namespace Bakery.Data.Models
         public Order Order { get; set; }
 
         public int OrderId { get; set; }
+
+        public ICollection<MailInfo>? Mails { get; set; }
     }
 }

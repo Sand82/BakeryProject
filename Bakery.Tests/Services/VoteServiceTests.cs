@@ -1,6 +1,7 @@
 ﻿using Bakery.Data.Models;
-using Bakery.Service;
+using Bakery.Service.Votes;
 using Bakery.Tests.Mock;
+
 using System.Collections.Generic;
 using Xunit;
 

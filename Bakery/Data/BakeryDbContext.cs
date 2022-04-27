@@ -30,6 +30,8 @@ namespace Bakery.Data
         
         public DbSet<Employee> Employees { get; set; }  
 
+        public DbSet<MailInfo> MailInfos { get; set; }  
+
                        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {           

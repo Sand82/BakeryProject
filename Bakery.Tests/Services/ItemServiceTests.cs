@@ -1,6 +1,8 @@
 ﻿using Bakery.Data.Models;
-using Bakery.Service;
+using Bakery.Service.Items;
+using Bakery.Service.Votes;
 using Bakery.Tests.Mock;
+
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -22,7 +24,7 @@ namespace Bakery.Tests.Services
 
             data.SaveChanges();
 
-            var itemsService = new ItemsService(data, null);
+            var itemsService = new ItemService(data, null);
 
             var result =  itemsService.FindItem("Bread", 3, 3.20m);
 
@@ -48,7 +50,7 @@ namespace Bakery.Tests.Services
 
             data.SaveChanges();
 
-            var itemsService = new ItemsService(data, null);
+            var itemsService = new ItemService(data, null);
 
             var result = itemsService.FindItem(name, quantity, currPrice);
             
@@ -66,7 +68,7 @@ namespace Bakery.Tests.Services
 
             data.SaveChanges();
 
-            var itemsService = new ItemsService(data, null);
+            var itemsService = new ItemService(data, null);
 
             var result = itemsService.FindOrderById(1);            
                        
@@ -84,7 +86,7 @@ namespace Bakery.Tests.Services
 
             data.SaveChanges();
 
-            var itemsService = new ItemsService(data, null);
+            var itemsService = new ItemService(data, null);
 
             var result = itemsService.FindOrderById(2);
 
@@ -102,7 +104,7 @@ namespace Bakery.Tests.Services
 
             data.SaveChanges();
 
-            var itemsService = new ItemsService(data, null);
+            var itemsService = new ItemService(data, null);
 
             var result = itemsService.GetAllItems(1);
 
@@ -123,7 +125,7 @@ namespace Bakery.Tests.Services
 
             data.SaveChanges();
 
-            var itemsService = new ItemsService(data, null);
+            var itemsService = new ItemService(data, null);
 
             var result = itemsService.GetAllItems(1);
 
@@ -141,7 +143,7 @@ namespace Bakery.Tests.Services
 
             data.SaveChanges();
 
-            var itemsService = new ItemsService(data, null);            
+            var itemsService = new ItemService(data, null);            
 
             var ex = Assert.Throws<System.NullReferenceException>(() => itemsService.GetAllItems(2));
 
@@ -170,7 +172,7 @@ namespace Bakery.Tests.Services
 
             data.SaveChanges();
 
-            var itemsService = new ItemsService(data, new VoteService(data));
+            var itemsService = new ItemService(data, new VoteService(data));
 
             var result = itemsService.GetDetails(1, "some key");
 
@@ -188,7 +190,7 @@ namespace Bakery.Tests.Services
 
             data.SaveChanges();
 
-            var itemsService = new ItemsService(data, null);           
+            var itemsService = new ItemService(data, null);           
 
             var result = itemsService.FindOrderByUserId("some user3");
 
@@ -206,7 +208,7 @@ namespace Bakery.Tests.Services
 
             data.SaveChanges();
 
-            var itemsService = new ItemsService(data, null);
+            var itemsService = new ItemService(data, null);
 
             var result = itemsService.FindOrderByUserId("some user6");
 
@@ -224,7 +226,7 @@ namespace Bakery.Tests.Services
 
             data.SaveChanges();
 
-            var itemsService = new ItemsService(data, null);
+            var itemsService = new ItemService(data, null);
 
             var result = itemsService.FindItemById(3);
 
@@ -242,7 +244,7 @@ namespace Bakery.Tests.Services
 
             data.SaveChanges();
 
-            var itemsService = new ItemsService(data, null);
+            var itemsService = new ItemService(data, null);
 
             var result = itemsService.FindItemById(10);
 

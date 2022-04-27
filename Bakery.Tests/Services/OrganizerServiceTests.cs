@@ -1,4 +1,4 @@
-﻿using Bakery.Service;
+﻿using Bakery.Service.Organizers;
 using Bakery.Tests.Mock;
 using System;
 using Xunit;

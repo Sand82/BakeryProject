@@ -1,6 +1,6 @@
 ﻿using Bakery.Data.Models;
 using Bakery.Models.Customer;
-using Bakery.Service;
+using Bakery.Service.Customers;
 using Bakery.Tests.Mock;
 
 using Xunit;

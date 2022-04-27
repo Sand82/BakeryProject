@@ -1,9 +1,8 @@
 ﻿using Bakery.Controllers;
 using Bakery.Data;
 using Bakery.Data.Models;
-using Bakery.Models;
 using Bakery.Models.Home;
-using Bakery.Service;
+using Bakery.Service.Home;
 using Bakery.Tests.Mock;
 
 using Microsoft.AspNetCore.Mvc;

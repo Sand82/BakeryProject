@@ -2,7 +2,10 @@
 using Bakery.Data;
 using Bakery.Data.Models;
 using Bakery.Models.Items;
-using Bakery.Service;
+using Bakery.Service.Bakeries;
+using Bakery.Service.Items;
+using Bakery.Service.Orders;
+using Bakery.Service.Votes;
 using Bakery.Tests.Mock;
 
 using Microsoft.AspNetCore.Http;
@@ -149,7 +152,7 @@ namespace Bakery.Tests.Controllers
 
             var voteService = new VoteService(data);
 
-            var itemsService = new ItemsService(data, voteService);
+            var itemsService = new ItemService(data, voteService);
 
             var orderService = new OrderService(data);
 
@@ -413,7 +416,7 @@ namespace Bakery.Tests.Controllers
         {
             var voteService = new VoteService(data);
 
-            var itemsService = new ItemsService(data, voteService);
+            var itemsService = new ItemService(data, voteService);
 
             var orderService = new OrderService(data);
 

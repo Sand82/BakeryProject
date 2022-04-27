@@ -3,7 +3,7 @@ using Bakery.Data;
 using Bakery.Data.Models;
 using Bakery.Models.Author;
 using Bakery.Models.Bakeries;
-using Bakery.Service;
+using Bakery.Service.Authors;
 using Bakery.Tests.Mock;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
