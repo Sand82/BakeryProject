@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Bakery.Models.Contacts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bakery.Controllers
@@ -8,6 +9,20 @@ namespace Bakery.Controllers
         [Authorize]
         public IActionResult Location()
         {
+            var model = new ContactFormModel();
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Location(ContactFormModel contactModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(contactModel);
+            }
+
             return View();
         }
     }

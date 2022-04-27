@@ -33,6 +33,6 @@
         public const int AgeMaxValue = 65;
         public const int AgeMinValue = 18;
 
-
+        public const int MassageMinValue = 10;
     }
 }
