@@ -6,7 +6,7 @@ In this project you can choose and rate products and order baked products for ne
 for job to. From the admin area you can manipulate products, hire personals, calcolate profit for period of time and see ordered items for five days ahead.
 
 Database Diagram.
-![Untitled](https://user-images.githubusercontent.com/75274983/162288032-a42bfe7e-7c48-4b51-b041-f3d2e4a153a4.jpg)
+![Untitled](https://user-images.githubusercontent.com/75274983/165591576-8d7d4365-23d7-4d73-beda-8488b7fca5fd.png)
 View from Home page upper part.
 ![Home](https://user-images.githubusercontent.com/75274983/162289001-141c15ed-b09a-47d3-9109-898b948d92ce.jpg)
 View from All products page.
