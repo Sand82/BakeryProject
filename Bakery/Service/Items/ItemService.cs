@@ -3,16 +3,18 @@ using Bakery.Data.Models;
 using Bakery.Models.Bakeries;
 using Bakery.Models.EditItem;
 using Bakery.Models.Items;
+using Bakery.Service.Votes;
+
 using Microsoft.EntityFrameworkCore;
 
-namespace Bakery.Service
+namespace Bakery.Service.Items
 {
-    public class ItemsService : IItemsService
+    public class ItemService : IItemService
     {
         private readonly BakeryDbContext data;
         private readonly IVoteService voteService;
 
-        public ItemsService(BakeryDbContext data, IVoteService voteService)
+        public ItemService(BakeryDbContext data, IVoteService voteService)
         {
             this.data = data;
             this.voteService = voteService;

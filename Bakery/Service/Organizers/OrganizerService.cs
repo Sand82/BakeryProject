@@ -2,7 +2,7 @@
 using Bakery.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bakery.Service
+namespace Bakery.Service.Organizers
 {
     public class OrganizerService : IOrganizerService
     {

@@ -2,9 +2,9 @@
 using Bakery.Models.EditItem;
 using Bakery.Models.Items;
 
-namespace Bakery.Service
+namespace Bakery.Service.Items
 {
-    public interface IItemsService
+    public interface IItemService
     {
         DetailsViewModel GetDetails(int id, string userId);
 

@@ -1,9 +1,11 @@
 ﻿using Bakery.Models.Items;
-using Bakery.Service;
-
+using Bakery.Service.Bakeries;
+using Bakery.Service.Items;
+using Bakery.Service.Orders;
+using Bakery.Service.Votes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Globalization;
+
 
 using static Bakery.Infrastructure.ClaimsPrincipalExtensions;
 
@@ -11,12 +13,12 @@ namespace Bakery.Controllers
 {
     public class ItemController : Controller
     {
-        private readonly IItemsService itemsService;
+        private readonly IItemService itemsService;
         private readonly IVoteService voteService;
         private readonly IOrderService orderService;
         private readonly IBakerySevice bakerySevice;
 
-        public ItemController(IItemsService itemsService,
+        public ItemController(IItemService itemsService,
             IVoteService voteService,
             IOrderService orderService,
             IBakerySevice bakerySevice)

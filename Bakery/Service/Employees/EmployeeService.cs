@@ -2,7 +2,7 @@
 using Bakery.Data;
 using Bakery.Data.Models;
 
-namespace Bakery.Service
+namespace Bakery.Service.Employees
 {
     public class EmployeeService : IEmployeeService
     {

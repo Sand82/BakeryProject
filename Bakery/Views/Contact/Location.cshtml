@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Contact Location";
 }
 
@@ -17,31 +18,32 @@
             </div>
             <div class="col-md-6">
                 <h2 class="text-uppercase mt-3 font-weight-bold text-white">Contact AS</h2>
-                <form action="">
+                <form action="Post">
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <input type="text" class="form-control mt-2" placeholder="First name" required>
+                                <input asp-for="FirstName" class="form-control mt-2" placeholder="First name">
+                                <span asp-validation-for="FirstName"></span>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <input type="text" class="form-control mt-2" placeholder="Last name" required>
+                                <input type="text" class="form-control mt-2" placeholder="Last name">
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <input type="email" class="form-control mt-2" placeholder="Email" required>
+                                <input type="email" class="form-control mt-2" placeholder="Email">
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <input type="number" class="form-control mt-2" placeholder="+359888112233" required>
+                                <input type="number" class="form-control mt-2" placeholder="+359888112233">
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Write a message" rows="3" required></textarea>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Write a message" rows="3"></textarea>
                             </div>
                         </div>
                         @*<div class="col-12">

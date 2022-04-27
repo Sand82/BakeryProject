@@ -3,7 +3,7 @@ using Bakery.Models.Bakeries;
 using Bakery.Models.Bakery;
 using Bakery.Models.Items;
 
-namespace Bakery.Service
+namespace Bakery.Service.Bakeries
 {
     public interface IBakerySevice
     {

@@ -1,7 +1,9 @@
 ﻿using Bakery.Data;
 using Bakery.Models.Bakeries;
 using Bakery.Models.Bakery;
-using Bakery.Service;
+using Bakery.Service.Bakeries;
+using Bakery.Service.Authors;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

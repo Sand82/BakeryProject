@@ -1,13 +1,21 @@
 using Bakery.Data;
 using Bakery.Infrastructure;
-using Bakery.Infrastructure.Models;
-using Bakery.Service;
+using Bakery.Service.Authors;
+using Bakery.Service.Bakeries;
+using Bakery.Service.Contacts;
+using Bakery.Service.Customers;
+using Bakery.Service.Employees;
+using Bakery.Service.Home;
+using Bakery.Service.Items;
+using Bakery.Service.Orders;
+using Bakery.Service.Organizers;
+using Bakery.Service.Votes;
+
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder(args);
 
+var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<BakeryDbContext>(options => options.UseSqlServer(connectionString));
@@ -34,24 +42,14 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IBakerySevice, BakerySevice>();
 builder.Services.AddTransient<IHomeService, HomeService>();
-builder.Services.AddTransient<IItemsService, ItemsService>();
+builder.Services.AddTransient<IItemService, ItemService>();
 builder.Services.AddTransient<IAuthorService, AuthorService>();
 builder.Services.AddTransient<IVoteService, VoteService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddTransient<ICustomerService, CustomerService>();
 builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 builder.Services.AddTransient<IOrganizerService, OrganizerService>();
-
-builder.Services.AddTransient<IEmailSender, MailKitEmailSender>();
-builder.Services.Configure<MailKitEmailSenderOptions>(options =>
-{
-    options.Host_Address = "smtp-relay.sendinblue.com";
-    options.Host_Port = 587;
-    options.Host_Username = "my-smtp-username";
-    options.Host_Password = "my-smtp-password";
-    options.Sender_EMail = "noreply@mydomain.com";
-    options.Sender_Name = "My Bakery Place";
-});
+builder.Services.AddTransient<IContactService, ContactService>();
 
 var app = builder.Build();
 

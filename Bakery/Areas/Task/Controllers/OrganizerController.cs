@@ -1,4 +1,5 @@
-﻿using Bakery.Service;
+﻿using Bakery.Service.Organizers;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

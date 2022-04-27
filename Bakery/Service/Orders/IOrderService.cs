@@ -2,7 +2,7 @@
 using Bakery.Models.Customer;
 using Bakery.Models.Orders;
 
-namespace Bakery.Service
+namespace Bakery.Service.Orders
 {
     public interface IOrderService
     {

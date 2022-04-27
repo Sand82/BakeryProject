@@ -1,11 +1,8 @@
-﻿using Bakery.Data;
-using Bakery.Models.EditItem;
-using Bakery.Service;
+﻿using Bakery.Models.EditItem;
+using Bakery.Service.Items;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-using static Bakery.Infrastructure.ClaimsPrincipalExtensions;
 
 namespace Bakery.Controllers
 {
@@ -14,9 +11,9 @@ namespace Bakery.Controllers
     [Route("api/[controller]")]
     public class EditItemController : Controller
     {
-        private readonly IItemsService itemsService;
+        private readonly IItemService itemsService;
 
-        public EditItemController(IItemsService itemsService)
+        public EditItemController(IItemService itemsService)
         {
             this.itemsService = itemsService;
         }

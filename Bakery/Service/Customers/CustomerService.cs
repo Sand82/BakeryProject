@@ -2,7 +2,7 @@
 using Bakery.Data.Models;
 using Bakery.Models.Customer;
 
-namespace Bakery.Service
+namespace Bakery.Service.Customers
 {
     public class CustomerService : ICustomerService
     {

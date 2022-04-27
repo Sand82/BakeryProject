@@ -1,6 +1,6 @@
 ﻿using Bakery.Areas.Task.Models;
 
-namespace Bakery.Service
+namespace Bakery.Service.Organizers
 {
     public interface IOrganizerService
     {

@@ -6,7 +6,7 @@ using Bakery.Models.Items;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
-namespace Bakery.Service
+namespace Bakery.Service.Bakeries
 {
     public class BakerySevice : IBakerySevice
     {

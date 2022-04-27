@@ -2,7 +2,7 @@
 using Bakery.Models.Author;
 using Bakery.Models.Bakeries;
 
-namespace Bakery.Service
+namespace Bakery.Service.Authors
 {
     public interface IAuthorService
     {

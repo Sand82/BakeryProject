@@ -1,7 +1,5 @@
-﻿using Bakery.Data;
-using Bakery.Models;
-using Bakery.Models.Home;
-using Bakery.Service;
+﻿using Bakery.Models;
+using Bakery.Service.Home;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

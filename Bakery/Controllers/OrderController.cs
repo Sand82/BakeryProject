@@ -1,5 +1,6 @@
-﻿using Bakery.Service;
+﻿using Bakery.Service.Orders;
 using Bakery.Models.Customer;
+using Bakery.Service.Customers;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

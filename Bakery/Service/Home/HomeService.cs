@@ -2,7 +2,7 @@
 using Bakery.Models.Bakeries;
 using Bakery.Models.Home;
 
-namespace Bakery.Service
+namespace Bakery.Service.Home
 {
     public class HomeService : IHomeService
     {

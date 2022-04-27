@@ -2,7 +2,7 @@
 using Bakery.Data.Models;
 using System;
 
-namespace Bakery.Service
+namespace Bakery.Service.Votes
 {
     public class VoteService : IVoteService
     {

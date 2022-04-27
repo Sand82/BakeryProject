@@ -2,8 +2,9 @@
 using Bakery.Data.Models;
 using Bakery.Models.Author;
 using Bakery.Models.Bakeries;
+using Bakery.Service.Employees;
 
-namespace Bakery.Service
+namespace Bakery.Service.Authors
 {
     public class AuthorService : IAuthorService
     {

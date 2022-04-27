@@ -6,7 +6,7 @@ using Bakery.Models.Orders;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
-namespace Bakery.Service
+namespace Bakery.Service.Orders
 {
     public class OrderService : IOrderService
     {

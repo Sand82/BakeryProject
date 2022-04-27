@@ -1,4 +1,4 @@
-﻿namespace Bakery.Service
+﻿namespace Bakery.Service.Votes
 {
     public interface IVoteService
     {
