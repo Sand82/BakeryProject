@@ -35,5 +35,7 @@ namespace Bakery.Models.Contacts
         [MinLength(MassageMinValue)]
         public string Massage { get; set; }
 
+        public int CustomerId { get; set; }
+
     }
 }

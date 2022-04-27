@@ -22,6 +22,10 @@ namespace Bakery.Data.Models
         public string? Email { get; set; }
 
         [Required]
+        [StringLength(PhoneLength)]
+        public string? Phone { get; set; }
+
+        [Required]
         [StringLength(int.MaxValue)]
         public string? Massage { get; set; }
         

@@ -61,7 +61,7 @@
                             </div>
                         </div>*@
                         <div class="col-12">
-                            <button asp-controller="Contact" asp-action="Location" class="btn btn-light" type="submit">Send</button>
+                            <button asp-controller="Contact" asp-action="Location" asp-route-customerId="@Model.CustomerId"  class="btn btn-light" type="submit">Send</button>
                         </div>
                     </div>
                 </form>

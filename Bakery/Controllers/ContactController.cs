@@ -1,15 +1,34 @@
-﻿using Bakery.Models.Contacts;
+﻿using Bakery.Infrastructure;
+using Bakery.Models.Contacts;
+using Bakery.Service.Contacts;
+using Bakery.Service.Customers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bakery.Controllers
 {
+   
     public class ContactController : Controller
     {
+        private readonly IContactService contactService;
+
+        public ContactController(IContactService contactService)
+        {
+            this.contactService = contactService;
+        }
+
         [Authorize]
         public IActionResult Location()
-        {
-            var model = new ContactFormModel();
+        {          
+
+            var userId = User.GetId();
+
+            if (userId == null)
+            {
+                return BadRequest();
+            }
+
+            var model = contactService.FindModel(userId);
 
             return View(model);
         }
@@ -23,7 +42,9 @@ namespace Bakery.Controllers
                 return View(contactModel);
             }
 
-            return View();
+            contactService.CreateMail(contactModel);
+
+            return RedirectToAction("All", "Bakery");
         }
     }
 }
