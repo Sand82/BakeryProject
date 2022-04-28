@@ -3,9 +3,9 @@ using Bakery.Service.Bakeries;
 using Bakery.Service.Items;
 using Bakery.Service.Orders;
 using Bakery.Service.Votes;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 
 using static Bakery.Infrastructure.ClaimsPrincipalExtensions;
 

@@ -83,10 +83,9 @@ namespace Bakery.Controllers
             var order = orderService.FindOrderByUserId(userId);
 
             if (order.Items.Count() == 0)
-            {
-                this.TempData[EmptyOrder] = "Cannot complete empty order.";
+            {           
 
-                return RedirectToAction("All", "Bakery");
+                ModelState.AddModelError("Items","Cannot complete empty order.");                               
             }
 
             if (!ModelState.IsValid)
@@ -102,8 +101,8 @@ namespace Bakery.Controllers
                 };               
 
                 return View(formCustomerOrder);
-            }          
-                   
+            }            
+
             var finishedOrder = orderService.FinishOrder(order, dateOfDelivery);            
             
             var customer = customerService.CreateCustomer(userId, formCustomerOrder);           

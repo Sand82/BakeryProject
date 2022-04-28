@@ -4,9 +4,9 @@
 }
 
 @section Styles {
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
-    <link rel="stylesheet" href="~/css/location.css" asp-append-version="true" />
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+<link rel="stylesheet" href="~/css/location.css" asp-append-version="true" />
 }
 
 <div class="row" id="contatti">
@@ -48,20 +48,20 @@
                             <div class="form-group">
                                 <textarea asp-for="Massage" id="exampleFormControlTextarea1" placeholder="Write a message" rows="5"></textarea>
                                 <span asp-validation-for="Massage" class="small text-danger"></span>
-                            </div>                            
+                            </div>
                         </div>
                         @*<div class="col-12">
                             <div class="form-group">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
-                                    <label class="form-check-label" for="invalidCheck2">
-                                        Accetta le condizioni
-                                    </label>
-                                </div>
+                            <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
+                            <label class="form-check-label" for="invalidCheck2">
+                            Accetta le condizioni
+                            </label>
                             </div>
-                        </div>*@
+                            </div>
+                            </div>*@
                         <div class="col-12">
-                            <button asp-controller="Contact" asp-action="Location" asp-route-customerId="@Model.CustomerId"  class="btn btn-light" type="submit">Send</button>
+                            <button asp-controller="Contact" asp-action="Location" asp-route-customerId="@Model.CustomerId" class="btn btn-light" type="submit">Send</button>
                         </div>
                     </div>
                 </form>
@@ -86,14 +86,19 @@
 
 @*<div class="row text-center bg-success text-white" id="author">
     <div class="col-12 mt-4 h3 ">
-        <a href="#">by P. Fattoruso</a>
+    <a href="#">by P. Fattoruso</a>
     </div>
     <div class="col-12 my-2">
-        <a href="https://www.linkedin.com/in/paolofattoruso/" target="_blank"><i class="fab fa-linkedin fa-3x"></i></a>
+    <a href="https://www.linkedin.com/in/paolofattoruso/" target="_blank"><i class="fab fa-linkedin fa-3x"></i></a>
     </div>
-</div>*@
+    </div>*@
 
 @section Scripts{
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+    <partial name="_ValidationScriptsPartial" />
+</script>
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 }

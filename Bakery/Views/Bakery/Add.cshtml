@@ -31,7 +31,7 @@
                             <option value="@category.Id">@category.Name</option>
                         }
                     </select>
-                </div>               
+                </div>
                 <div class="form-group">
                     <label asp-for="Description"></label>
                     <textarea asp-for="Description" rows="3" class="form-control" placeholder="Deliciously baked bread etc..."></textarea>
@@ -39,7 +39,7 @@
                 </div>
                 <div id="IngredientType">
                     <label asp-for="Ingredients"></label>
-                    <button type="button" class="btn btn-success mt-4" onclick="AddMoreIngrediants()">Add Ingredient</button>
+                    <button type="button" class="btn btn-success mt-4" onclick="AddMoreIngrediants()">Add Ingredient</button>                    
                 </div>
                 <button type="submit" class="btn btn-primary mt-4">Save Product</button>
             </form>
@@ -55,6 +55,10 @@
           "<div class='form-type'> Name: <input type='text' name='Ingredients["+ ingredientsIndex +"].Name' id='' /></div>");
       ingredientsIndex ++;
     }
+</script>
+
+<script>
+    <partial name="_ValidationScriptsPartial" />
 </script>
 }
 
