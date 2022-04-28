@@ -20,9 +20,9 @@ namespace Bakery.Models.Orders
         public string? DateOfOrder { get; set; }
 
         [Required]
-        [Display(Name = "Preparation day")]
-        [StringLength(DateLength, MinimumLength = DateLength)]
-        public string DateOfDelivery { get; set; }
+        [DataType(DataType.Date)]
+        [Display(Name = "Preparation day")]        
+        public DateTime DateOfDelivery { get; set; }
 
         public int? ItemsCount { get; set; }
 

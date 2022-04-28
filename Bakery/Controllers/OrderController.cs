@@ -45,12 +45,13 @@ namespace Bakery.Controllers
 
             if (formCustomerOrder == null)
             {
-                formCustomerOrder = new CustomerFormModel();
+                formCustomerOrder = new CustomerFormModel();                
             }
 
             formCustomerOrder.Order = orderModel;
-            formCustomerOrder.OrderId = orderModel.Id;           
-                       
+            formCustomerOrder.OrderId = orderModel.Id;
+            formCustomerOrder.Order.DateOfDelivery = DateTime.UtcNow.AddDays(1);
+
             return View(formCustomerOrder);
         }
 
@@ -59,21 +60,11 @@ namespace Bakery.Controllers
         public IActionResult Buy(CustomerFormModel formCustomerOrder)
         {           
 
-            var actualDate = DateTime.UtcNow;
+            var actualDate = DateTime.UtcNow;           
 
-            string? stringDate = formCustomerOrder.Order.DateOfDelivery == null ? "00.00.0000"
-                : formCustomerOrder.Order.DateOfDelivery.ToString();
-
-            var (isValidDate, dateOfDelivery) = orderService.TryParceDate(stringDate);
-
-            if (dateOfDelivery < actualDate)
+            if (formCustomerOrder.Order.DateOfDelivery < actualDate)
             {
-                ModelState.AddModelError(WebConstants.DateOfDelivery, "The date cannot be older than the current one.");
-            }
-
-            if (!isValidDate)
-            {
-                ModelState.AddModelError(WebConstants.DateOfDelivery, "Invalid date format.");
+                ModelState.AddModelError(WebConstants.DateOfDelivery, $"The date cannot be past than the {actualDate.AddDays(1).ToString("dd/MM/yyyy")}.");
             }
 
             var userId = GetUserId();
@@ -83,7 +74,7 @@ namespace Bakery.Controllers
             var order = orderService.FindOrderByUserId(userId);
 
             if (order.Items.Count() == 0)
-            {           
+            {         
 
                 ModelState.AddModelError("Items","Cannot complete empty order.");                               
             }
@@ -103,7 +94,7 @@ namespace Bakery.Controllers
                 return View(formCustomerOrder);
             }            
 
-            var finishedOrder = orderService.FinishOrder(order, dateOfDelivery);            
+            var finishedOrder = orderService.FinishOrder(order, formCustomerOrder.Order.DateOfDelivery);            
             
             var customer = customerService.CreateCustomer(userId, formCustomerOrder);           
 
