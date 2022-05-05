@@ -19,7 +19,7 @@ for job to. From the admin area you can manipulate products, hire personals, cal
   <li>Responsive Design</li>
   <li>Bootstrap</li>
   <li>jQuery</li>
-  <li>Web API</li>  
+  <li>AJAX</li>  
 </ul>
 <h2>Screen Shots and diagrams</h2>
 
