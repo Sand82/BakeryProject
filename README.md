@@ -23,7 +23,7 @@ for job to. From the admin area you can manipulate products, hire personals, cal
   <li>Unit tests</li> 
   <li>Integration tests</li> 
 </ul>
-<h2>Screen Shots and diagrams</h2>
+<h2>Data base Diagram and screen shots of some views</h2>
 
 Database Diagram.
 ![Data](https://user-images.githubusercontent.com/75274983/165591576-8d7d4365-23d7-4d73-beda-8488b7fca5fd.png)
