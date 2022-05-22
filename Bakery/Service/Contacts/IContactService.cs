@@ -10,5 +10,7 @@ namespace Bakery.Service.Contacts
         void CreateMail(ContactFormModel model);
 
         void SaveMail(MailInfo model);
+
+        void AddMailToSendGrid(string senderMailAddres, string senderName, string subject, string message);
     }
 }

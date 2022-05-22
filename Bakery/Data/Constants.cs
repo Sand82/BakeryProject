@@ -34,5 +34,8 @@
         public const int AgeMinValue = 18;
 
         public const int MassageMinValue = 10;
+        public const int SubjectMaxValue = 50;
+        public const int SubjectMinValue = 3;      
+
     }
 }

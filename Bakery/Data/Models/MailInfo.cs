@@ -26,6 +26,10 @@ namespace Bakery.Data.Models
         public string? Phone { get; set; }
 
         [Required]
+        [StringLength(SubjectMaxValue)]
+        public string? Subject { get; set; }
+
+        [Required]
         [StringLength(int.MaxValue)]
         public string? Massage { get; set; }
         

@@ -2,16 +2,20 @@
 using Bakery.Data.Models;
 using Bakery.Models.Contacts;
 using Bakery.Service.Customers;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace Bakery.Service.Contacts
 {
     public class ContactService : IContactService
     {        
         private readonly BakeryDbContext data;
+        private readonly IConfiguration configuration;
 
-        public ContactService( BakeryDbContext data)
+        public ContactService( BakeryDbContext data, IConfiguration configuration)
         {           
             this.data = data;
+            this.configuration = configuration;
         }
 
         public ContactFormModel FindModel(string userId)
@@ -30,7 +34,7 @@ namespace Bakery.Service.Contacts
                     LastName = c.LastName,
                     Email = c.Email,
                     Phone = c.PhoneNumber,
-                    CustomerId = c.Id
+                    CustomerId = c.Id                    
                 })
                 .FirstOrDefault();
 
@@ -48,7 +52,9 @@ namespace Bakery.Service.Contacts
                 Phone = model.Phone,
                 Massage = model.Massage,
                 Email = model.Email,
-                CustomerId = model.CustomerId
+                CustomerId = model.CustomerId,
+                Subject = model.Subject,             
+               
             };
 
             SaveMail(mail);
@@ -61,6 +67,26 @@ namespace Bakery.Service.Contacts
                 this.data.MailInfos.Add(model);
 
                 this.data.SaveChanges();
+
+            }).GetAwaiter().GetResult();
+        }
+
+        public void AddMailToSendGrid(string senderMailAddres, string senderName, string currentSubject, string message)
+        {
+            string apiKey = null;
+            SendGridClient client = null;
+            EmailAddress from = null;
+
+            Task.Run(() =>
+            {             
+                apiKey = configuration["SendGrid:ApiKey"];
+                client = new SendGridClient(apiKey);
+                from = new EmailAddress(senderMailAddres, senderName);
+                var subject = currentSubject;
+                var to = new EmailAddress(configuration["BakeryMailAddres"], "Vqra Hristova");
+                var plainTextContent = message;              
+                var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, plainTextContent);
+                var response = client.SendEmailAsync(msg).ConfigureAwait(false);
 
             }).GetAwaiter().GetResult();
         }

@@ -18,6 +18,11 @@ namespace Bakery.Models.Contacts
             ErrorMessage = "The field {0} is not valid! Must be between of {2} and {1} symbols.")]
         public string LastName { get; set; }
 
+        [Required]       
+        [StringLength(SubjectMaxValue, MinimumLength = SubjectMinValue,
+            ErrorMessage = "The field {0} is not valid! Must be between of {2} and {1} symbols.")]
+        public string Subject { get; set; }
+
         [Required]
         [Display(Name = "Email address")]
         [StringLength(EmailMaxLength, MinimumLength = EmailMinLength,
