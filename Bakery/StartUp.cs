@@ -19,6 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<BakeryDbContext>(options => options.UseSqlServer(connectionString));
+//var sengridKey = builder.Configuration[""];
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddAntiforgery(options => 

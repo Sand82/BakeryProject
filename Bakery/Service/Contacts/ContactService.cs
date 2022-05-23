@@ -76,14 +76,15 @@ namespace Bakery.Service.Contacts
             string apiKey = null;
             SendGridClient client = null;
             EmailAddress from = null;
+            EmailAddress to = null;
 
             Task.Run(() =>
             {             
-                apiKey = configuration["SendGrid:ApiKey"];
+                apiKey = configuration["ApiKey"];
                 client = new SendGridClient(apiKey);
                 from = new EmailAddress(senderMailAddres, senderName);
                 var subject = currentSubject;
-                var to = new EmailAddress(configuration["BakeryMailAddres"], "Vqra Hristova");
+                to = new EmailAddress(configuration["BakeryMailAddres"], "Vqra Hristova");
                 var plainTextContent = message;              
                 var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, plainTextContent);
                 var response = client.SendEmailAsync(msg).ConfigureAwait(false);
