@@ -1,9 +1,9 @@
 # BakeryProject
 
 <div>Asp.Net Core app for the course C# MVC Frameworks-ASP.NET Core February 2022 @SoftUni.</div>
-<p>Hi Guys this is my first MVC ASP.NET Core app. It is writen on ASP.NET Core and Entity Framework Core, both on version 6.0. Im using MSSQL Ralation Database whit code first approach. For this project I am inspired by a really good baker, Vqra Hristova and I hope one day to contribute for her development.
+<p>Hi Guys this is my first MVC ASP.NET Core app. It is writen on ASP.NET Core and Entity Framework Core, both on version 6.0. I'm using MSSQL Ralation Database with code first approach. For this project I'm inspired by a really good baker, Vqra Hristova and I hope one day to contribute for her development.
 In Bakery project you can choose and rate products and order baked products for next days. You can apply 
-for job to. From the admin area you can manipulate products, hire personals, calcolate profit for period of time and see ordered items for five days ahead.</p>
+for job too. From the admin area you can manipulate products, hire personals, calculate profit for period of time and see ordered items for five days ahead.</p>
 
 <h2>Build in</h2>
 <ul>
