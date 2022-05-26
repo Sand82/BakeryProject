@@ -45,48 +45,70 @@
             </div>
             @if (Model.Employees != null)
             {
-                @for (var i = 0; i < @Model.Employees.Count; i++)                
+                @for (var i = 0; i < @Model.Employees.Count; i++)
                 {
                     var employee = @Model.Employees[i];
 
-                    if(i % 2 == 0)
+                    if (i % 2 == 0)
                     {
-                        <div class="col-md-6 offset-md-6" style="padding:30px;">
-                        <div class="card mb-4" style="max-width: 600px;">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="@employee.Image" class="img-fluid rounded-start" alt="...">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6" style="padding-top:50px;">
+                                    <h2>Article Title</h2>
+                                    <span>
+                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                                    </span>
                                 </div>
-                                <div class="col-md-11">
-                                    <div class="card-body">
-                                        <h5 class="card-title">@employee.FullName </h5>
-                                        <p class="card-text"><small class="text-muted">@employee.Experience</small></p>
-                                        <p class="card-text">@employee.Description</p>                                        
+                                <div class="col-md-6" style="padding:30px;">
+                                    <div class="card mb-4" style="max-width: 600px;">
+                                        <div class="row g-0">
+                                            <div class="col-md-4">
+                                                <img src="@employee.Image" class="img-fluid rounded-start" alt="...">
+                                            </div>
+                                            <div class="col-md-11">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">@employee.FullName </h5>
+                                                    <p class="card-text"><small class="text-muted">@employee.Experience</small></p>
+                                                    <p class="card-text">@employee.Description</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+
                         </div>
                     }
                     else
-                    {                        
-                      <div style="padding:30px;">
-                        <div class="card mb-4" style="max-width: 600px;">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="@employee.Image" class="img-fluid rounded-start" alt="...">
-                                </div>
-                                <div class="col-md-11">
-                                    <div class="card-body">
-                                        <h5 class="card-title">@employee.FullName </h5>
-                                        <p class="card-text"><small class="text-muted">@employee.Experience</small></p>
-                                        <p class="card-text">@employee.Description</p>                                        
+                    {
+                         <div class="container">
+                            <div class="row">                                
+                                <div class="col-md-6" style="padding:30px;">
+                                    <div class="card mb-4" style="max-width: 600px;">
+                                        <div class="row g-0">
+                                            <div class="col-md-4">
+                                                <img src="@employee.Image" class="img-fluid rounded-start" alt="...">
+                                            </div>
+                                            <div class="col-md-11">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">@employee.FullName </h5>
+                                                    <p class="card-text"><small class="text-muted">@employee.Experience</small></p>
+                                                    <p class="card-text">@employee.Description</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="col-md-6" style="padding-top:50px;">
+                                    <h2>Article Title</h2>
+                                    <span>
+                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                                    </span>
+                                </div>
                             </div>
+
                         </div>
-                     </div>                        
-                    }                    
+                    }
                 }
             }
 
