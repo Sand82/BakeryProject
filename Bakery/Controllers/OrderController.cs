@@ -23,7 +23,7 @@ namespace Bakery.Controllers
         }                       
 
         [Authorize]
-        public IActionResult Buy()
+        public async Task<IActionResult> Buy()
         {
             var userId = GetUserId();
 
@@ -32,16 +32,16 @@ namespace Bakery.Controllers
                 return BadRequest();
             }
 
-            var order = orderService.FindOrderByUserId(userId);
+            var order = await orderService.FindOrderByUserId(userId);
 
             if (order == null)
             {
-                order = orderService.CreatOrder(userId);
+                order = await orderService.CreatOrder(userId);
             }
 
             var orderModel = orderService.CreateOrderModel(order);
 
-            var formCustomerOrder = orderService.GetCustomer(userId);
+            var formCustomerOrder = await orderService.GetCustomer(userId);
 
             if (formCustomerOrder == null)
             {
@@ -57,7 +57,7 @@ namespace Bakery.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult Buy(CustomerFormModel formCustomerOrder)
+        public async Task<IActionResult> Buy(CustomerFormModel formCustomerOrder)
         {           
 
             var actualDate = DateTime.UtcNow;           
@@ -71,11 +71,10 @@ namespace Bakery.Controllers
 
             formCustomerOrder.UserId = userId;
 
-            var order = orderService.FindOrderByUserId(userId);
+            var order = await orderService.FindOrderByUserId(userId);
 
             if (order.Items.Count() == 0)
-            {         
-
+            { 
                 ModelState.AddModelError("Items","Cannot complete empty order.");                               
             }
 
@@ -94,13 +93,13 @@ namespace Bakery.Controllers
                 return View(formCustomerOrder);
             }            
 
-            var finishedOrder = orderService.FinishOrder(order, formCustomerOrder.Order.DateOfDelivery);            
+            var finishedOrder = await orderService.FinishOrder(order, formCustomerOrder.Order.DateOfDelivery);            
             
             var customer = customerService.CreateCustomer(userId, formCustomerOrder);           
 
             customer.Order = finishedOrder;
 
-            customerService.AddCustomer(customer);
+            await customerService.AddCustomer(customer);
 
             this.TempData[SuccessOrder] = "Order added seccessfully.";
 

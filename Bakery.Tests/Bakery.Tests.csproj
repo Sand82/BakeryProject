@@ -20,6 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BakeryData\BakeryData.csproj" />
+    <ProjectReference Include="..\BakeryServices\BakeryServices.csproj" />
     <ProjectReference Include="..\Bakery\Bakery.csproj" />
   </ItemGroup>
 

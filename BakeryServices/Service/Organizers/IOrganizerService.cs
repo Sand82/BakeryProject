@@ -4,8 +4,8 @@ namespace Bakery.Service.Organizers
 {
     public interface IOrganizerService
     {
-        List<OrganizeViewModel> GetItems(DateTime date);
+        Task<List<OrganizeViewModel>> GetItems(DateTime date);
 
-        string GetCustomProfit(DateTime fromDate, DateTime toDate);
+        Task<string> GetCustomProfit(DateTime fromDate, DateTime toDate);
     }
 }

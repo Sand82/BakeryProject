@@ -31,7 +31,7 @@ namespace Bakery.Controllers
         }
 
         [Authorize]
-        public IActionResult All([FromQuery] AllProductQueryModel query)
+        public async Task<IActionResult> All([FromQuery] AllProductQueryModel query)
         {
             var userId = User.GetId();
 
@@ -40,58 +40,62 @@ namespace Bakery.Controllers
                 return BadRequest();
             }
 
-            query.IsAuthor = authorService.IsAuthor(userId);
+            query.IsAuthor = await authorService.IsAuthor(userId);
 
             var path = GetJsonFilePath();
 
-            query = bakerySevice.GetAllProducts(query, path);
+            query = await bakerySevice.GetAllProducts(query, path);
 
             return View(query);
         }
 
         [Authorize]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
-            var author = AuthorValidation();
+            var author = await AuthorValidation();
 
             if (!author)
             {
                 return BadRequest();
             }            
-            var formProduct = new BakeryFormModel{ Categories = bakerySevice.GetBakeryCategories()};
+            var formProduct = new BakeryFormModel{ Categories = await bakerySevice.GetBakeryCategories()};
 
             return View(formProduct);
         }
 
         [HttpPost]
         [Authorize]
-        public IActionResult Add(BakeryFormModel formProduct)
+        public async Task<IActionResult> Add(BakeryFormModel formProduct)
         {
-            
-            if (!this.data.Categories.Any(c => c.Id == formProduct.CategoryId))
+
+            var categoryId = formProduct.CategoryId;
+
+            bool isValidCategory = await bakerySevice.CheckCategory(categoryId);
+
+            if (!isValidCategory)
             {
-                this.ModelState.AddModelError(nameof(formProduct.CategoryId), "Category does not exist.");
+                this.ModelState.AddModelError(nameof(categoryId), "Category does not exist.");
             }
 
             if (!ModelState.IsValid)
             {
-                formProduct.Categories = bakerySevice.GetBakeryCategories();
+                formProduct.Categories = await bakerySevice.GetBakeryCategories();
 
                 return View(formProduct);
             }           
 
-            var author = AuthorValidation();
+            var author = await AuthorValidation();
 
             if (!author)
             {
                 return BadRequest();
             }
 
-           var product = bakerySevice.CreateProduct(formProduct);
+            var product = bakerySevice.CreateProduct(formProduct);
 
             var path = GetJsonFilePath();
 
-            bakerySevice.AddProduct(product, path);
+            await bakerySevice.AddProduct(product, path);
 
             this.TempData[SuccessOrder] = "Product added seccessfully.";
 
@@ -99,76 +103,76 @@ namespace Bakery.Controllers
         }
 
         [Authorize]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var author = AuthorValidation();
+            var author = await AuthorValidation();
 
             if (!author)
             {
                 return BadRequest();
             }
 
-            var product = bakerySevice.EditProduct(id);
+            var product = await bakerySevice.EditProduct(id);
 
-            product.Categories = bakerySevice.GetBakeryCategories();            
+            product.Categories = await bakerySevice.GetBakeryCategories();            
 
             return View(product);
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult Edit(int id, ProductDetailsServiceModel productModel)
+        public async Task<IActionResult> Edit(int id, ProductDetailsServiceModel productModel)
         {
             if (!ModelState.IsValid)
             {
-                productModel.Categories = bakerySevice.GetBakeryCategories();
+                productModel.Categories = await bakerySevice.GetBakeryCategories();
 
                 return View(productModel);
             }
 
-            var author = AuthorValidation();
+            var author = await AuthorValidation();
 
             if (!author)
             {
                 return BadRequest();
             }
 
-            var product = bakerySevice.FindById(id);
+            var product = await bakerySevice.FindById(id);
 
-            bakerySevice.Edit(productModel, product);
+            await bakerySevice.Edit(productModel, product);
 
             return RedirectToAction("All", "Bakery");
         }
 
         [Authorize]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var author = AuthorValidation();
+            var author = await AuthorValidation();
 
             if (!author)
             {
                 return BadRequest();
             }
 
-            var product = bakerySevice.FindById(id);
+            var product = await bakerySevice.FindById(id);
 
             if (product == null )
             {
                 return BadRequest();
             }
 
-            bakerySevice.Delete(product);
+            await bakerySevice.Delete(product);
 
             return RedirectToAction("All", "Bakery");
         }
 
-        private bool AuthorValidation()
+        private async Task<bool> AuthorValidation()
         {
             bool isAuthor = false;
 
             var userId = User.GetId();
 
-            var author = authorService.IsAuthor(userId);
+            var author = await authorService.IsAuthor(userId);
 
             var admin = User.IsAdmin();
 

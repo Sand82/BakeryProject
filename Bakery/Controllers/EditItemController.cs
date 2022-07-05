@@ -20,11 +20,11 @@ namespace Bakery.Controllers
 
         [HttpPost]
         [Authorize]        
-        public void Post(EditItemDataModel model) 
+        public async Task Post(EditItemDataModel model) 
         {
             try
             {
-                itemsService.ChangeItemQuantity(model);
+               await itemsService.ChangeItemQuantity(model);
             }
             catch (Exception)
             {

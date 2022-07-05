@@ -11,77 +11,70 @@ namespace Bakery.Service.Bakeries
     public class BakerySevice : IBakerySevice
     {
         private readonly BakeryDbContext data;
-         
 
         public BakerySevice(BakeryDbContext data)
         {
-            this.data = data;            
-        }        
+            this.data = data;
+        }
 
-        public AllProductQueryModel GetAllProducts(AllProductQueryModel query, string path)
-        {          
+        public async Task<AllProductQueryModel> GetAllProducts(AllProductQueryModel query, string path)
+        {
 
-            Task.Run(() =>
-            {               
+            var productQuery = this.data.Products.AsQueryable();
 
-                var productQuery = this.data.Products.AsQueryable();
+            CreateSerilizationFile(path);
 
-                CreateSerilizationFile(path);
+            if (!string.IsNullOrWhiteSpace(query.Category))
+            {
+                productQuery = productQuery
+                    .Where(p => p.Category.Name == query.Category);
+            }
 
-                if (!string.IsNullOrWhiteSpace(query.Category))
+            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+            {
+                productQuery = productQuery
+                    .Where(p =>
+                    p.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
+                    p.Description.Contains(query.SearchTerm.ToLower()));
+            }
+
+            if (query.Sorting == BakiesSorting.Name)
+            {
+                productQuery = productQuery.OrderBy(p => p.Name);
+            }
+            else if (query.Sorting == BakiesSorting.Price)
+            {
+                productQuery = productQuery.OrderByDescending(p => p.Price);
+            }
+            else
+            {
+                productQuery = productQuery.OrderByDescending(p => p.Id);
+            }
+
+            var totalProducts = productQuery.Where(p => p.IsDelete == false).Count();
+
+            var products = await productQuery
+                .Where(p => p.IsDelete == false)
+                .Skip((query.CurrentPage - 1) * AllProductQueryModel.ProductPerPage)
+                .Take(AllProductQueryModel.ProductPerPage)
+                .Select(p => new AllProductViewModel
                 {
-                    productQuery = productQuery
-                        .Where(p => p.Category.Name == query.Category);
-                }
+                    Id = p.Id,
+                    Name = p.Name,
+                    Price = p.Price.ToString("f2"),
+                    ImageUrl = p.ImageUrl,
+                    Description = p.Description,
+                    Category = p.Category.Name
+                })
+                .ToListAsync();
 
-                if (!string.IsNullOrWhiteSpace(query.SearchTerm))
-                {
-                    productQuery = productQuery
-                        .Where(p =>
-                        p.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
-                        p.Description.Contains(query.SearchTerm.ToLower()));
-                }
+            query.Categories = await AddCategories();
 
-                if (query.Sorting == BakiesSorting.Name)
-                {
-                    productQuery = productQuery.OrderBy(p => p.Name);
-                }
-                else if (query.Sorting == BakiesSorting.Price)
-                {
-                    productQuery = productQuery.OrderByDescending(p => p.Price);
-                }
-                else
-                {
-                    productQuery = productQuery.OrderByDescending(p => p.Id);
-                }
-
-                var totalProducts = productQuery.Where(p => p.IsDelete == false).Count();
-
-                var products = productQuery
-                    .Where(p => p.IsDelete == false)
-                    .Skip((query.CurrentPage - 1) * AllProductQueryModel.ProductPerPage)
-                    .Take(AllProductQueryModel.ProductPerPage)
-                    .Select(p => new AllProductViewModel
-                    {
-                        Id = p.Id,
-                        Name = p.Name,
-                        Price = p.Price.ToString("f2"),
-                        ImageUrl = p.ImageUrl,
-                        Description = p.Description,
-                        Category = p.Category.Name
-                    })
-                    .ToList();                
-
-                query.Categories = AddCategories();
-
-                query.TotalProduct = totalProducts;
-                query.Products = products;
-
-
-            }).GetAwaiter().GetResult();           
+            query.TotalProduct = totalProducts;
+            query.Products = products;
 
             return query;
-        }       
+        }
 
         public Product CreateProduct(BakeryFormModel formProduct)
         {
@@ -113,169 +106,134 @@ namespace Bakery.Service.Bakeries
                     }
 
                     product.Ingredients.Add(curredntIngredient);
-                }                
-
-            }).GetAwaiter().GetResult();            
-
-            return product;
-        }
-        
-        public ProductDetailsServiceModel EditProduct(int id)
-        {
-            ProductDetailsServiceModel? product = null;
-
-            Task.Run(() =>
-            {
-                product = this.data
-               .Products
-               .Where(p => p.Id == id)
-               .Select(p => new ProductDetailsServiceModel
-               {
-                   Id = p.Id,
-                   Name = p.Name,
-                   Description = p.Description,
-                   Price = p.Price,
-                   ImageUrl = p.ImageUrl,
-                   CategoryId = p.CategoryId,
-                   Ingredients = p.Ingredients.Select(i => new IngredientAddFormModel
-                   {
-                       Name = i.Name
-                   })
-                   .ToList()
-               })
-               .FirstOrDefault();
+                }
 
             }).GetAwaiter().GetResult();
 
             return product;
         }
 
-        public void Edit( ProductDetailsServiceModel product, Product productDate)
+        public async Task<ProductDetailsServiceModel> EditProduct(int id)
         {
-            Task.Run(() =>
-            {             
-                productDate.Name = product.Name;
-                productDate.Description = product.Description;
-                productDate.Price = product.Price;
-                productDate.ImageUrl = product.ImageUrl;
-                productDate.CategoryId = product.CategoryId;
-
-                this.data.SaveChanges();
-
-            }).GetAwaiter().GetResult();
-        }
-
-        public NamePriceDataModel CreateNamePriceModel(int id)
-        {
-            NamePriceDataModel? model = null;
-
-            Task.Run(() =>
+            var product = await this.data
+            .Products
+            .Where(p => p.Id == id)
+            .Select(p => new ProductDetailsServiceModel
             {
-                model = this.data.Products
-                .Where(x => x.Id == id)
-                .Select(p => new NamePriceDataModel
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                Price = p.Price,
+                ImageUrl = p.ImageUrl,
+                CategoryId = p.CategoryId,
+                Ingredients = p.Ingredients.Select(i => new IngredientAddFormModel
                 {
-                    Name = p.Name,
-                    Price = p.Price.ToString()
+                    Name = i.Name
                 })
-                .FirstOrDefault();               
+                .ToList()
+            })
+            .FirstOrDefaultAsync();
 
-            }).GetAwaiter().GetResult();
+            return product;
+        }
+
+        public async Task Edit(ProductDetailsServiceModel product, Product productDate)
+        {
+            productDate.Name = product.Name;
+            productDate.Description = product.Description;
+            productDate.Price = product.Price;
+            productDate.ImageUrl = product.ImageUrl;
+            productDate.CategoryId = product.CategoryId;
+
+            await this.data.SaveChangesAsync();
+        }
+
+        public async Task<NamePriceDataModel> CreateNamePriceModel(int id)
+        {
+            var model = await this.data.Products
+            .Where(x => x.Id == id)
+            .Select(p => new NamePriceDataModel
+            {
+                Name = p.Name,
+                Price = p.Price.ToString()
+            })
+            .FirstOrDefaultAsync();
 
             return model;
         }
 
-        public void Delete(Product product)
+        public async Task Delete(Product product)
         {
-            Task.Run(() =>
-            {
-                product.IsDelete = true;
+            product.IsDelete = true;
 
-                this.data.SaveChanges();
-
-            }).GetAwaiter().GetResult();
+            await this.data.SaveChangesAsync();
         }
 
-        public IEnumerable<BakryCategoryViewModel> GetBakeryCategories()
+        public async Task<IEnumerable<BakryCategoryViewModel>> GetBakeryCategories()
         {
-            IEnumerable<BakryCategoryViewModel>? categories = null;
-
-            Task.Run(() =>
+            var categories = await this.data.
+            Categories.
+            Select(c => new BakryCategoryViewModel
             {
-                 categories = this.data.
-                 Categories.
-                 Select(c => new BakryCategoryViewModel
-                 {
-                     Id = c.Id,
-                     Name = c.Name,
-                 })
-                 .ToList();
-
-            }).GetAwaiter().GetResult();
+                Id = c.Id,
+                Name = c.Name,
+            })
+            .ToListAsync();
 
             return categories;
         }
 
-        public Product FindById(int id)
+        public async Task<Product> FindById(int id)
         {
-            var product = new Product();
-
-            Task.Run(() =>
-            {
-                product = this.data.Products.Find(id);
-
-            }).GetAwaiter().GetResult();
+            var product = await this.data.Products.FindAsync(id);
 
             return product;
         }
 
-        public void AddProduct(Product product, string path)
+        public async Task AddProduct(Product product, string path)
         {
-            Task.Run(() =>
-            {
-                this.data.Products.Add(product);
+            await this.data.Products.AddAsync(product);
 
-                this.data.SaveChanges();               
+            await this.data.SaveChangesAsync();
 
-                SerializeToJason(path);
-
-            }).GetAwaiter().GetResult();
+            await SerializeToJason(path);
         }
 
-        private List<string> AddCategories()
+        public async Task<bool> CheckCategory(int categoryId)
         {
-            var category = new List<string>();
+            var isExist = await this.data.Categories
+                .AnyAsync(c => c.Id == categoryId);
 
-            Task.Run(() =>
-            {
-                category = this.data
-               .Categories
-               .Select(p => p.Name)
-               .Distinct()
-               .OrderBy(c => c)
-               .ToList();
+            return isExist;
+        }
 
-            }).GetAwaiter().GetResult();
+        private async Task<List<string>> AddCategories()
+        {
+            var category = await this.data
+            .Categories
+            .Select(p => p.Name)
+            .Distinct()
+            .OrderBy(c => c)
+            .ToListAsync();
 
             return category;
         }
 
-        private void CreateSerilizationFile(string path)
-        {           
+        private async Task CreateSerilizationFile(string path)
+        {
 
             if (!File.Exists(path))
             {
-                SerializeToJason(path);
+                await SerializeToJason(path);
             }
         }
 
-        private void SerializeToJason(string path)
+        private async Task SerializeToJason(string path)
         {
-            
-            var products = data
+            var products = await data
                 .Products
                 .Include(p => p.Ingredients)
-                .Select(p => new 
+                .Select(p => new
                 {
                     Name = p.Name,
                     Category = p.Category.Name,
@@ -284,19 +242,18 @@ namespace Bakery.Service.Bakeries
                     IsDelete = false,
                     ImageUrl = p.ImageUrl,
                     CategoryId = p.CategoryId,
-                    Ingredients = p.Ingredients.Select( i => new  
-                    { 
-                        Name = i.Name,                        
+                    Ingredients = p.Ingredients.Select(i => new
+                    {
+                        Name = i.Name,
                     })
-                    .ToList()                    
+                    .ToList()
                 })
-                .ToList();
+                .ToListAsync();
 
             var result = JsonConvert.SerializeObject(products, Formatting.Indented);
 
-            File.WriteAllText(path, result); 
-            
-        }        
-        
+            await File.WriteAllTextAsync(path, result);
+
+        }
     }
 }

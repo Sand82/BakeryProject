@@ -6,17 +6,17 @@ namespace Bakery.Service.Authors
 {
     public interface IAuthorService
     {
-        AuthorViewModel GetAuthorInfo();
+        Task<AuthorViewModel> GetAuthorInfo();
 
-        bool IsAuthor(string userId);
+        Task<bool> IsAuthor(string userId);
 
         bool FileValidator(
             string fileExtension, string imageExtension, long fileLingth, long imigeLength);
 
         Employee CreateEmployee(ApplyFormModel model);
 
-        List<EmployeeDetailsViewModel> GetModels();
+        Task<List<EmployeeDetailsViewModel>> GetModels();
 
-        void AddEmployee(Employee employee);
+        Task AddEmployee(Employee employee);
     }
 }

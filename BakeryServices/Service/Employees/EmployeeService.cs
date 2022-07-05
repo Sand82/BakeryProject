@@ -1,93 +1,75 @@
 ﻿using Bakery.Areas.Job.Models;
 using Bakery.Data;
 using Bakery.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bakery.Service.Employees
 {
     public class EmployeeService : IEmployeeService
     {
-        private readonly BakeryDbContext data;        
+        private readonly BakeryDbContext data;
 
         public EmployeeService(BakeryDbContext data)
         {
             this.data = data;
-           
         }
 
-        public ICollection<EmployeeViewModel> GetAllApplies()
+        public async Task<ICollection<EmployeeViewModel>> GetAllApplies()
         {
-            var employees = new List<EmployeeViewModel>();
-
-            Task.Run(() =>
+            var employees = await this.data
+            .Employees
+            .Where(e => e.IsApproved == null)
+            .OrderByDescending(e => e.ApplayDate)
+            .Select(x => new EmployeeViewModel
             {
-                employees = this.data
-                .Employees
-                .Where(e => e.IsApproved == null)
-                .OrderByDescending(e => e.ApplayDate)
-                .Select(x => new EmployeeViewModel
-                {
-                    Id = x.Id,
-                    Age = x.Age,
-                    FullName = x.FullName,
-                    Phone = x.Phone,
-                    Email = x.Email,                    
-                    Experience = x.Experience,                    
-                    ApplayDate = x.ApplayDate.ToString("dd.MM.yyyy"),                    
-                    IsApproved = true,
-                })
-                .ToList();
-
-            }).GetAwaiter().GetResult();
+                Id = x.Id,
+                Age = x.Age,
+                FullName = x.FullName,
+                Phone = x.Phone,
+                Email = x.Email,
+                Experience = x.Experience,
+                ApplayDate = x.ApplayDate.ToString("dd.MM.yyyy"),
+                IsApproved = true,
+            })
+            .ToListAsync();
 
             return employees;
         }
 
-        public Employee GetEmployeeById(int id)
+        public async Task<Employee> GetEmployeeById(int id)
         {
-            var employee = new Employee();
-
-            Task.Run(() =>
-            {
-                employee = this.data
-               .Employees
-               .Where(e => e.Id == id)
-               .FirstOrDefault();
-
-            }).GetAwaiter().GetResult();
+            var employee = await this.data
+            .Employees
+            .Where(e => e.Id == id)
+            .FirstOrDefaultAsync();
 
             return employee;
         }
 
-        public EmployeeInfoViewModel GetModelById(int id)
+        public async Task<EmployeeInfoViewModel> GetModelById(int id)
         {
-            var model = new EmployeeInfoViewModel();            
+            var model = new EmployeeInfoViewModel();
 
-            var employee = new Employee();
+            var employee = await this.data
+            .Employees
+            .Where(e => e.Id == id)
+            .FirstOrDefaultAsync();
 
-            Task.Run(() =>
+            if (employee == null)
             {
-                employee = this.data
-               .Employees
-               .Where(e => e.Id == id)
-               .FirstOrDefault();
+                throw new NullReferenceException("Not Found");
+            }
 
-                if (employee == null)
-                {
-                    throw new NullReferenceException("Not Found");
-                }
-
-                model.Name = employee.FullName;
-                model.Description = employee.Description;
-                model.Age = employee.Age;
-                model.Experience = employee.Experience;
-                model.FilePath = GetExstention(employee.FileId, employee.FileExtension);
-                model.Image = GetExstention(employee.ImageId, employee.ImageExtension);
-
-            }).GetAwaiter().GetResult();                
+            model.Name = employee.FullName;
+            model.Description = employee.Description;
+            model.Age = employee.Age;
+            model.Experience = employee.Experience;
+            model.FilePath = GetExstention(employee.FileId, employee.FileExtension);
+            model.Image = GetExstention(employee.ImageId, employee.ImageExtension);
 
             return model;
-        } 
-        
+        }
+
         public string GetExstention(string id, string exstension)
         {
             var path = $"/files/" + id + '.' + exstension;
@@ -95,15 +77,11 @@ namespace Bakery.Service.Employees
             return path;
         }
 
-        public void SetEmployee(Employee employee, bool isApprove)
+        public async Task SetEmployee(Employee employee, bool isApprove)
         {
-            Task.Run(() =>
-            {
-                employee.IsApproved = isApprove;
+            employee.IsApproved = isApprove;
 
-                this.data.SaveChanges();
-
-            }).GetAwaiter().GetResult();
+            await this.data.SaveChangesAsync();
         }
 
         public string GetContentType(string path)
@@ -134,7 +112,7 @@ namespace Bakery.Service.Employees
                 {"pdf", "application/pdf"},
                 {"doc", "application/vnd.ms-word"},
                 {"docx", "application/vnd.ms-word" },
-                {"odt", "application/vnd.oasis.opendocument.text" },                
+                {"odt", "application/vnd.oasis.opendocument.text" },
             };
 
             string needetExtention = null;
@@ -146,7 +124,7 @@ namespace Bakery.Service.Employees
             catch (Exception)
             {
                 throw new KeyNotFoundException("Not Found");
-            }            
+            }
 
             return needetExtention;
         }

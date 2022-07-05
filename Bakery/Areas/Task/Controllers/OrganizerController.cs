@@ -18,11 +18,11 @@ namespace Bakery.Areas.Task.Controllers
 
         [Authorize(Roles = WebConstants.AdministratorRoleName)]
         [Area(AreaNameTask)]        
-        public IActionResult Request() 
+        public async Task<IActionResult> Request() 
         {
             var date = DateTime.UtcNow;            
 
-            var items = organizerService.GetItems(date);
+            var items = await organizerService.GetItems(date);
 
             return View(items); 
         }

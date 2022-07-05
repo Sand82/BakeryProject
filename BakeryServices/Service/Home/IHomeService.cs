@@ -4,6 +4,6 @@ namespace Bakery.Service.Home
 {
     public interface IHomeService
     {
-        CountViewModel GetIndex();
+        Task<CountViewModel> GetIndex();
     }
 }

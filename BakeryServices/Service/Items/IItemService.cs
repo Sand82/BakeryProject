@@ -6,22 +6,22 @@ namespace Bakery.Service.Items
 {
     public interface IItemService
     {
-        DetailsViewModel GetDetails(int id, string userId);
+        Task<DetailsViewModel> GetDetails(int id, string userId);
 
-        Item FindItem(string name, int quantity, decimal currPrice);
+        Task<Item> FindItem(string name, int quantity, decimal currPrice);
 
-        List<EditItemsFormModel> GetAllItems(int id);
+        Task<List<EditItemsFormModel>> GetAllItems(int id);
 
-        Order FindOrderById(int id);
+        Task<Order> FindOrderById(int id);
 
-        Order FindOrderByUserId(string userId);
+        Task<Order> FindOrderByUserId(string userId);
 
-        Item FindItemById(int id);
+        Task<Item> FindItemById(int id);
 
-        void ChangeItemQuantity(EditItemDataModel model);
+        Task ChangeItemQuantity(EditItemDataModel model);
 
-        void DeleteItem(Item item, Order order);
+        Task DeleteItem(Item item, Order order);
 
-        void DeleteAllItems(Order order);        
+        Task DeleteAllItems(Order order);        
     }
 }

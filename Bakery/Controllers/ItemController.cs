@@ -30,11 +30,11 @@ namespace Bakery.Controllers
         }
 
         [Authorize]
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
             var userId = User.GetId();
 
-            var product = itemsService.GetDetails(id, userId);
+            var product = await itemsService.GetDetails(id, userId);
 
             if (product == null)
             {
@@ -46,14 +46,14 @@ namespace Bakery.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult Details(int id, int quantity)
+        public async Task<IActionResult> Details(int id, int quantity)
         {
             if (quantity < 1 || quantity > 2000)
             {
                 return Redirect("/Item/Details/" + id);
             }
 
-            var dataProduct = bakerySevice.CreateNamePriceModel(id);
+            var dataProduct =await bakerySevice.CreateNamePriceModel(id);
 
             if (dataProduct == null)
             {
@@ -74,23 +74,23 @@ namespace Bakery.Controllers
                 return BadRequest();
             }
 
-            var order = orderService.FindOrderByUserId(userId);
+            var order = await orderService.FindOrderByUserId(userId);
 
             if (order == null)
             {
-                order = orderService.CreatOrder(userId);
+                order = await orderService.CreatOrder(userId);
             }
 
-            var item = orderService.CreateItem(id, dataProduct.Name, currPrice, quantity, userId);
+            var item = await orderService.CreateItem(id, dataProduct.Name, currPrice, quantity, userId);
 
-            orderService.AddItemInOrder(item, order);
+            await orderService.AddItemInOrder(item, order);
 
             return RedirectToAction("All", "Bakery");
 
         }
 
         [Authorize]
-        public IActionResult Vote(int id, byte vote)
+        public async Task<IActionResult> Vote(int id, byte vote)
         {
 
             if (id <= 0)
@@ -103,7 +103,7 @@ namespace Bakery.Controllers
                 return BadRequest();
             }
 
-            var product = bakerySevice.FindById(id);
+            var product = await bakerySevice.FindById(id);
 
             if (product == null)
             {
@@ -112,19 +112,19 @@ namespace Bakery.Controllers
 
             var userId = User.GetId();
 
-            voteService.SetVote(userId, id, vote);
+            await voteService.SetVote(userId, id, vote);
 
             return RedirectToAction("Details", "Item", new { id });
         }
 
         [Authorize]
-        public IActionResult EditAll(int id)
+        public async Task<IActionResult> EditAll(int id)
         {
             List<EditItemsFormModel>? items = null;
 
             try
             {
-                items = itemsService.GetAllItems(id);
+                items = await itemsService.GetAllItems(id);
             }
             catch (NullReferenceException ex)
             {
@@ -135,40 +135,40 @@ namespace Bakery.Controllers
         }
 
         [Authorize]
-        public IActionResult DeleteAll(int id)
+        public async Task<IActionResult> DeleteAll(int id)
         {
-            var order = itemsService.FindOrderById(id);
+            var order = await itemsService.FindOrderById(id);
 
             if (order == null)
             {
                 return BadRequest();
             }
 
-            itemsService.DeleteAllItems(order);
+            await itemsService.DeleteAllItems(order);
 
             return RedirectToAction("Buy", "Order");
         }
 
         [Authorize]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var userId = User.GetId();            
 
-            var order = itemsService.FindOrderByUserId(userId);
+            var order = await itemsService.FindOrderByUserId(userId);
 
             if (order == null)
             {
                 return BadRequest();
             }
 
-            var item = itemsService.FindItemById(id);
+            var item = await itemsService.FindItemById(id);
 
             if (item == null)
             {
                 return BadRequest();
             }
 
-            itemsService.DeleteItem(item, order);
+            await itemsService.DeleteItem(item, order);
 
             return RedirectToAction("Buy", "Order");
         }

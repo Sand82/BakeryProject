@@ -2,18 +2,20 @@
 using Bakery.Data.Models;
 using Bakery.Models.Author;
 using Bakery.Models.Bakeries;
+
 using Bakery.Service.Employees;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bakery.Service.Authors
 {
     public class AuthorService : IAuthorService
     {
-        private readonly BakeryDbContext data;        
+        private readonly BakeryDbContext data;
         private readonly IEmployeeService employeeService;
 
         public AuthorService(BakeryDbContext data, IEmployeeService employeeService)
         {
-            this.data = data;           
+            this.data = data;
             this.employeeService = employeeService;
         }
 
@@ -35,7 +37,7 @@ namespace Bakery.Service.Authors
                     ImageId = model.ImageId,
                 };
 
-            }).GetAwaiter().GetResult();            
+            }).GetAwaiter().GetResult();
 
             return employee;
         }
@@ -67,36 +69,26 @@ namespace Bakery.Service.Authors
             return isValid;
         }
 
-        public List<EmployeeDetailsViewModel> GetModels()
+        public async Task<List<EmployeeDetailsViewModel>> GetModels()
         {
-            List<EmployeeDetailsViewModel> models = null;
-
-            Task.Run(() => 
-            {
-                models = this.data
-                .Employees
-                .Where(e => e.IsApproved == true)
-                .Select(e => new EmployeeDetailsViewModel
-                {
-                    FullName = e.FullName,
-                    Description = e.Description,
-                    Experience = e.Experience,
-                    Image = employeeService.GetExstention(e.ImageId, e.ImageExtension)
-                })
-                .ToList();
-
-            }).GetAwaiter().GetResult();
+            var models = await this.data
+             .Employees
+             .Where(e => e.IsApproved == true)
+             .Select(e => new EmployeeDetailsViewModel
+             {
+                 FullName = e.FullName,
+                 Description = e.Description,
+                 Experience = e.Experience,
+                 Image = employeeService.GetExstention(e.ImageId, e.ImageExtension)
+             })
+             .ToListAsync();
 
             return models;
         }
 
-        public AuthorViewModel GetAuthorInfo()
+        public async Task<AuthorViewModel> GetAuthorInfo()
         {
-            AuthorViewModel? author = null;
-
-            Task.Run(() =>
-            {
-                author = this.data.Authors
+            var author = await this.data.Authors
                .Select(a => new AuthorViewModel
                {
                    Id = a.Id,
@@ -105,37 +97,24 @@ namespace Bakery.Service.Authors
                    Description = a.Description,
                    ImageUrl = a.ImageUrl,
                })
-               .FirstOrDefault();
-
-            }).GetAwaiter().GetResult();
+               .FirstOrDefaultAsync();
 
             return author;
         }
 
-        public bool IsAuthor(string userId)
+        public async Task<bool> IsAuthor(string userId)
         {
-            var isValidAuthor = true;
-
-            Task.Run(() =>
-            {
-                isValidAuthor = this.data
-                .Authors
-                .Any(a => a.AuthorId == userId);
-
-            }).GetAwaiter().GetResult();
+            var isValidAuthor = await this.data.Authors
+                .AnyAsync(a => a.AuthorId == userId);
 
             return isValidAuthor;
         }
 
-        public void AddEmployee(Employee employee)
+        public async Task AddEmployee(Employee employee)
         {
-            Task.Run(() =>
-            {
-                this.data.Employees.Add(employee);
+            await this.data.Employees.AddAsync(employee);
 
-                this.data.SaveChanges();
-
-            }).GetAwaiter().GetResult();
-        }       
+            await this.data.SaveChangesAsync();
+        }
     }
 }

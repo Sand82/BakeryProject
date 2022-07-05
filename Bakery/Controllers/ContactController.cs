@@ -4,8 +4,6 @@ using Bakery.Service.Contacts;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 
 namespace Bakery.Controllers
 {   
@@ -19,7 +17,7 @@ namespace Bakery.Controllers
         }
 
         [Authorize]
-        public IActionResult Location()
+        public async Task<IActionResult> Location()
         {          
 
             var userId = User.GetId();
@@ -29,14 +27,14 @@ namespace Bakery.Controllers
                 return BadRequest();
             }
 
-            var model = contactService.FindModel(userId);
+            var model = await contactService.FindModel(userId);
 
             return View(model);
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult Location(ContactFormModel contactModel)
+        public async Task<IActionResult> Location(ContactFormModel contactModel)
         {
             if (!ModelState.IsValid)
             {
@@ -45,9 +43,9 @@ namespace Bakery.Controllers
 
             var fullName = CreateFullName(contactModel.FirstName, contactModel.LastName);
 
-            contactService.AddMailToSendGrid(contactModel.Email, fullName, contactModel.Subject, contactModel.Massage);
+            await contactService.AddMailToSendGrid(contactModel.Email, fullName, contactModel.Subject, contactModel.Massage);
 
-            contactService.CreateMail(contactModel);
+            await contactService.CreateMail(contactModel);
 
             return RedirectToAction("All", "Bakery");
         }

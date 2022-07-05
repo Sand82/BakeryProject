@@ -1,21 +1,21 @@
 ﻿using Bakery.Data;
 using Bakery.Data.Models;
 using Bakery.Models.Customer;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bakery.Service.Customers
 {
     public class CustomerService : ICustomerService
     {
-        private readonly BakeryDbContext data;      
+        private readonly BakeryDbContext data;
 
         public CustomerService(BakeryDbContext data)
         {
-            this.data = data;            
-        }       
+            this.data = data;
+        }
 
         public Customer CreateCustomer(string userId, CustomerFormModel form)
-        {                      
-
+        {
             var customer = new Customer
             {
                 UserId = userId,
@@ -29,36 +29,26 @@ namespace Bakery.Service.Customers
             return customer;
         }
 
-        public Customer FindCustomer(string userId, CustomerFormModel form)
+        public async Task<Customer> FindCustomer(string userId, CustomerFormModel form)
         {
-            var customer = new Customer();
+            var customer = await this.data
+            .Customers
+            .Where(x => x.UserId == userId &&
+                x.FirstName == form.FirstName &&
+                x.LastName == form.LastName &&
+                x.PhoneNumber == form.PhoneNumber &&
+                x.Email == form.Email &&
+                x.Adress == form.Address)
+            .FirstOrDefaultAsync();
 
-            Task.Run(() => 
-            {
-                customer = this.data
-                .Customers
-                .Where(x => x.UserId == userId &&
-                    x.FirstName == form.FirstName &&
-                    x.LastName == form.LastName &&
-                    x.PhoneNumber == form.PhoneNumber &&
-                    x.Email == form.Email &&
-                    x.Adress == form.Address)
-                .FirstOrDefault();
-
-            }).GetAwaiter().GetResult();
-                        
             return customer;
         }
 
-        public void AddCustomer(Customer customer)
+        public async Task AddCustomer(Customer customer)
         {
-            Task.Run(() =>
-            {
-                this.data.Customers.Add(customer);
+            await this.data.Customers.AddAsync(customer);
 
-                this.data.SaveChanges();
-
-            }).GetAwaiter().GetResult();            
-        }        
+            await this.data.SaveChangesAsync();
+        }
     }
 }

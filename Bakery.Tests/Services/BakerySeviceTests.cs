@@ -7,6 +7,7 @@ using Bakery.Service.Bakeries;
 using Bakery.Tests.Mock;
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 
 using static Bakery.Tests.GlobalMethods.TestService;
@@ -191,7 +192,7 @@ namespace Bakery.Tests.Services
         }
 
         [Fact]
-        public void GetBakeryCategoriesShouldReturnEmptyResultIfNoDataOnDatabase()
+        public async Task GetBakeryCategoriesShouldReturnEmptyResultIfNoDataOnDatabase()
         {
             using var data = DatabaseMock.Instance;            
 

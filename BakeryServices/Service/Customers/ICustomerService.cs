@@ -5,12 +5,10 @@ namespace Bakery.Service.Customers
 {
     public interface ICustomerService
     {
-        Customer FindCustomer(string userId, CustomerFormModel formCustomerOrder);
+        Task<Customer> FindCustomer(string userId, CustomerFormModel formCustomerOrder);
 
         Customer CreateCustomer(string userId, CustomerFormModel formCustomerOrder);
 
-        void AddCustomer(Customer customer);
-
-
+        Task AddCustomer(Customer customer);
     }
 }

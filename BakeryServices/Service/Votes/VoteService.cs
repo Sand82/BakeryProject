@@ -1,5 +1,6 @@
 ﻿using Bakery.Data;
 using Bakery.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace Bakery.Service.Votes
@@ -15,31 +16,19 @@ namespace Bakery.Service.Votes
 
         public int GetValue(string userId, int productId)
         {
-            var value = new Byte();
+            var value = this.data.Votes
+            .Where(p => p.ProductId == productId && p.UsreId == userId)
+            .Select(p => p.Value)
+            .FirstOrDefault();
 
-            Task.Run(() =>
-            {
-                 value = this.data.Votes
-                .Where(p => p.ProductId == productId && p.UsreId == userId)
-                .Select(p => p.Value)
-                .FirstOrDefault();
-
-            }).GetAwaiter().GetResult();
-                                 
             return value;
         }
 
         public double GetAverage(int productId)
         {
-            var averageData = new List<Vote>();
-
-            Task.Run(() =>
-            {
-                 averageData = this.data.Votes
-                .Where(p => p.ProductId == productId)
-                .ToList();
-
-            }).GetAwaiter().GetResult();           
+            var averageData = this.data.Votes
+            .Where(p => p.ProductId == productId)
+            .ToList();
 
             double averageVote;
 
@@ -49,23 +38,16 @@ namespace Bakery.Service.Votes
             };
 
             averageVote = averageData.Average(v => v.Value);
-                        
+
             return Math.Ceiling(averageVote);
         }
 
-        
-        public void SetVote(string userId, int productId, byte value)
+        public async Task SetVote(string userId, int productId, byte value)
         {
-           
-            var vote = new Vote();           
 
-            Task.Run(() =>
-            {
-                 vote = this.data.Votes
-                .Where(v => v.ProductId == productId && v.UsreId == userId)
-                .FirstOrDefault();                
-
-            }).GetAwaiter().GetResult();            
+            var vote = await this.data.Votes
+            .Where(v => v.ProductId == productId && v.UsreId == userId)
+            .FirstOrDefaultAsync();
 
             if (vote == null)
             {
@@ -75,23 +57,19 @@ namespace Bakery.Service.Votes
                     UsreId = userId,
                 };
 
-                this.data.Votes.Add(vote);
+                await this.data.Votes.AddAsync(vote);
 
                 vote.Value = value;
 
-                Save(vote);
-            }            
-        } 
-        
-        private void Save(Vote vote)
+                await Save(vote);
+            }
+        }
+
+        private async Task Save(Vote vote)
         {
-            Task.Run(() =>
-            {
-                this.data.Votes.Add(vote);
+            await this.data.Votes.AddAsync(vote);
 
-                this.data.SaveChanges();
-
-            }).GetAwaiter().GetResult();            
+            await this.data.SaveChangesAsync();
         }
     }
 }

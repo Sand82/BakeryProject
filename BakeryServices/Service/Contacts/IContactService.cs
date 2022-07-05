@@ -5,12 +5,12 @@ namespace Bakery.Service.Contacts
 {
     public interface IContactService 
     {
-        ContactFormModel FindModel(string userId);
+        Task<ContactFormModel> FindModel(string userId);
 
-        void CreateMail(ContactFormModel model);
+        Task CreateMail(ContactFormModel model);
 
-        void SaveMail(MailInfo model);
+        Task SaveMail(MailInfo model);
 
-        void AddMailToSendGrid(string senderMailAddres, string senderName, string subject, string message);
+        Task AddMailToSendGrid(string senderMailAddres, string senderName, string subject, string message);
     }
 }

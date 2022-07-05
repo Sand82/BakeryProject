@@ -5,13 +5,13 @@ namespace Bakery.Service.Employees
 {
     public interface IEmployeeService
     {
-        ICollection<EmployeeViewModel> GetAllApplies();
+        Task<ICollection<EmployeeViewModel>> GetAllApplies();
 
-        Employee GetEmployeeById(int id);
+        Task<Employee> GetEmployeeById(int id);
 
-        EmployeeInfoViewModel GetModelById(int id);
+        Task<EmployeeInfoViewModel> GetModelById(int id);
 
-        void SetEmployee(Employee employee, bool isApprove);
+        Task SetEmployee(Employee employee, bool isApprove);
 
         string GetContentType(string path);
 

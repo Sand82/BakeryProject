@@ -13,83 +13,76 @@ namespace Bakery.Service.Organizers
             this.data = data;
         }
 
-        public string GetCustomProfit(DateTime fromDate, DateTime toDate)
+        public async Task<string> GetCustomProfit(DateTime fromDate, DateTime toDate)
         {
 
             decimal totallProfit = 0.0M;
 
-            Task.Run(() => 
+
+            var models = await this.data
+            .Items
+            .Include(o => o.Orders)
+            .Where(o => o.Orders.Any(o => o.DateOfDelivery >= fromDate &&
+            o.DateOfDelivery <= toDate &&
+            o.IsFinished == true))
+            .Select(i => new ProfitDataModel
             {
-                var models = this.data
-                   .Items
-                   .Include(o => o.Orders)
-                   .Where(o => o.Orders.Any(o => o.DateOfDelivery >= fromDate &&
-                   o.DateOfDelivery <= toDate &&
-                   o.IsFinished == true))
-                   .Select(i => new ProfitDataModel
-                   {
-                       Price = i.ProductPrice,
-                       Quantity = i.Quantity,
-                   })
-                   .ToList();
+                Price = i.ProductPrice,
+                Quantity = i.Quantity,
+            })
+            .ToListAsync();
 
-                foreach (var model in models)
-                {
-                    totallProfit += model.Price * model.Quantity;
-                }
+            foreach (var model in models)
+            {
+                totallProfit += model.Price * model.Quantity;
+            }
 
-            }).GetAwaiter().GetResult();
-                      
             return totallProfit.ToString("f2") + '$';
         }
 
-        public List<OrganizeViewModel> GetItems(DateTime date)
+        public async Task<List<OrganizeViewModel>> GetItems(DateTime date)
         {
             List<OrganizeViewModel> modelItems = new List<OrganizeViewModel>();
 
-            Task.Run(() => 
+            for (int i = 1; i <= 5; i++)
             {
-                for (int i = 1; i <= 5; i++)
+
+                date = date.AddDays(1);
+
+                var items = await this.data
+                .Items
+                .Include(o => o.Orders)
+                .Where(i => i.Orders.Any(o =>
+                                         o.DateOfDelivery.Year == date.Year &&
+                                         o.DateOfDelivery.Month == date.Month &&
+                                         o.DateOfDelivery.Day == date.Day && o.IsFinished == true))
+                .ToListAsync();
+
+                OrganizeViewModel model = new OrganizeViewModel();
+
+                model.DayOfOrder = date;
+
+                foreach (var item in items)
                 {
-
-                    date = date.AddDays(1);
-
-                    var items = this.data
-                    .Items
-                    .Include(o => o.Orders)
-                    .Where(i => i.Orders.Any(o =>
-                                             o.DateOfDelivery.Year == date.Year &&
-                                             o.DateOfDelivery.Month == date.Month &&
-                                             o.DateOfDelivery.Day == date.Day && o.IsFinished == true))
-                    .ToList();
-
-                    OrganizeViewModel model = new OrganizeViewModel();
-
-                    model.DayOfOrder = date;
-
-                    foreach (var item in items)
+                    if (!model.Items.ContainsKey(item.ProductName))
                     {
-                        if (!model.Items.ContainsKey(item.ProductName))
-                        {
-                            model.Items.Add(item.ProductName, new Dictionary<decimal, int>());
-                        }
-                        if (!model.Items[item.ProductName].ContainsKey(item.ProductPrice))
-                        {
-                            model.Items[item.ProductName].Add(item.ProductPrice, 0);
-                        }
-
-                        model.Items[item.ProductName][item.ProductPrice] += item.Quantity;
-
-                        model.TottalPrice += item.Quantity * item.ProductPrice;
+                        model.Items.Add(item.ProductName, new Dictionary<decimal, int>());
+                    }
+                    if (!model.Items[item.ProductName].ContainsKey(item.ProductPrice))
+                    {
+                        model.Items[item.ProductName].Add(item.ProductPrice, 0);
                     }
 
-                    model.ColapsValue = GetColapsValue(i);
+                    model.Items[item.ProductName][item.ProductPrice] += item.Quantity;
 
-                    modelItems.Add(model);
+                    model.TottalPrice += item.Quantity * item.ProductPrice;
                 }
 
-            }).GetAwaiter().GetResult();                       
-                      
+                model.ColapsValue = GetColapsValue(i);
+
+                modelItems.Add(model);
+            }
+
             return modelItems;
         }
 

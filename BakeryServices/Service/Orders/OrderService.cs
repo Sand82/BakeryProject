@@ -17,25 +17,19 @@ namespace Bakery.Service.Orders
             this.data = data;
         }
 
-        public Order CreatOrder(string userId)
+        public async Task<Order> CreatOrder(string userId)
         {
-            var order = new Order();
-
-            Task.Run(() =>
+            var order = new Order
             {
-                order = new Order
-                {
-                    UserId = userId,
-                };
+                UserId = userId,
+            };
 
-                AddOrder(order);
-
-            }).GetAwaiter().GetResult();
+            await AddOrder(order);
 
             return order;
         }
 
-        public Item CreateItem(int id, string name, decimal price, int quantity, string userId)
+        public async Task<Item> CreateItem(int id, string name, decimal price, int quantity, string userId)
         {
             var item = new Item
             {
@@ -45,39 +39,25 @@ namespace Bakery.Service.Orders
                 Quantity = quantity,
             };
 
-            Task.Run(() =>
-            {               
-                AddItem(item);
-
-            }).GetAwaiter().GetResult();
+            await AddItem(item);
 
             return item;
         }
 
-        public void AddItemInOrder(Item item, Order order)
+        public async Task AddItemInOrder(Item item, Order order)
         {
-            Task.Run(() =>
-            {
-                order.Items.Add(item);
+            order.Items.Add(item);
 
-                this.data.SaveChanges();
-
-            }).GetAwaiter().GetResult();            
+            await this.data.SaveChangesAsync();
         }
 
-        public Order FindOrderByUserId(string userId)
+        public async Task<Order> FindOrderByUserId(string userId)
         {
-            var order = new Order();
-
-            Task.Run(() =>
-            {
-                  order = this.data
-                 .Orders
-                 .Include(i => i.Items)
-                 .Where(o => o.UserId == userId && o.IsFinished == false)
-                 .FirstOrDefault();
-
-            }).GetAwaiter().GetResult();            
+            var order = await this.data
+            .Orders
+            .Include(i => i.Items)
+            .Where(o => o.UserId == userId && o.IsFinished == false)
+            .FirstOrDefaultAsync();
 
             return order;
         }
@@ -114,38 +94,32 @@ namespace Bakery.Service.Orders
             return orderModel;
         }
 
-        public Order FinishOrder(Order order, DateTime dateOfDelivery)
+        public async Task<Order> FinishOrder(Order order, DateTime dateOfDelivery)
         {
             order.DateOfDelivery = dateOfDelivery;
 
             order.IsFinished = true;
 
-            this.data.SaveChanges();
+            await this.data.SaveChangesAsync();
 
             return order;
         }
 
-        public CustomerFormModel GetCustomer(string userId)
+        public async Task<CustomerFormModel> GetCustomer(string userId)
         {
-            CustomerFormModel? customer = null;
-
-            Task.Run(() => 
+            var customer = await this.data.Customers
+            .OrderByDescending(x => x.Id)
+            .Where(c => c.UserId == userId)
+            .Select(c => new CustomerFormModel
             {
-                customer = this.data.Customers
-                .OrderByDescending(x => x.Id)
-                .Where(c => c.UserId == userId)
-                .Select(c => new CustomerFormModel 
-                {
-                    FirstName = c.FirstName,
-                    LastName = c.LastName,
-                    Email = c.Email,
-                    Address = c.Adress,
-                    UserId = userId,
-                    PhoneNumber = c.PhoneNumber,
-                })
-                .FirstOrDefault();
-
-            }).GetAwaiter().GetResult();
+                FirstName = c.FirstName,
+                LastName = c.LastName,
+                Email = c.Email,
+                Address = c.Adress,
+                UserId = userId,
+                PhoneNumber = c.PhoneNumber,
+            })
+            .FirstOrDefaultAsync();
 
             return customer;
         }
@@ -163,26 +137,18 @@ namespace Bakery.Service.Orders
             return (isValidDate, dateOfOrder);
         }
 
-        private void AddItem(Item item)
+        private async Task AddItem(Item item)
         {
-            Task.Run(() =>
-            {
-                this.data.Items.Add(item);
+            await this.data.Items.AddAsync(item);
 
-                this.data.SaveChanges();
-
-            }).GetAwaiter().GetResult();           
+            await this.data.SaveChangesAsync();
         }
 
-        private void AddOrder(Order order)
+        private async Task AddOrder(Order order)
         {
-            Task.Run(() =>
-            {
-                this.data.Orders.Add(order);
+            await this.data.Orders.AddAsync(order);
 
-                this.data.SaveChanges();
-
-            }).GetAwaiter().GetResult();           
-        }       
+            await this.data.SaveChangesAsync();
+        }
     }
 }

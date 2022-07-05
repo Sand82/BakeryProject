@@ -21,7 +21,7 @@ namespace Bakery.Areas.Task.Controllers
 
         [Authorize]
         [HttpPost]        
-        public string Check(CheckFormModel model)
+        public async Task<string> Check(CheckFormModel model)
         {
            
            var (IsValidFromDate, fromDate) = orderService.TryParceDate(model.ValueFrom);
@@ -33,7 +33,7 @@ namespace Bakery.Areas.Task.Controllers
                 return $"Invalid data format or data period";
             }
 
-            var totallProfit = organizerService.GetCustomProfit(fromDate, toDate);            
+            var totallProfit = await organizerService.GetCustomProfit(fromDate, toDate);            
 
             return totallProfit;
         }

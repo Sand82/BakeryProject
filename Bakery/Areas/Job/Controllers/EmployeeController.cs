@@ -16,52 +16,52 @@ namespace Bakery.Areas.Job.Controllers
         }
 
         [Authorize]
-        public IActionResult Approve()
+        public async Task<IActionResult> Approve()
         {
-            var employees = employeeService.GetAllApplies();
+            var employees = await employeeService.GetAllApplies();
 
             return View(employees);
         }
 
         [Authorize]
-        public IActionResult Add(int id)
+        public async Task<IActionResult> Add(int id)
         {
-            var employee = employeeService.GetEmployeeById(id);
+            var employee = await employeeService.GetEmployeeById(id);
 
             if (employee == null)
             {
                 return BadRequest();
             }
 
-            employeeService.SetEmployee(employee, true);
+           await employeeService.SetEmployee(employee, true);
 
             return RedirectToAction("Approve", "Employee");
         }
 
 
         [Authorize]
-        public IActionResult Reject(int id)
+        public async Task<IActionResult> Reject(int id)
         {
-            var employee = employeeService.GetEmployeeById(id);
+            var employee = await employeeService.GetEmployeeById(id);
 
             if (employee == null)
             {
                 return BadRequest();
             }
 
-            employeeService.SetEmployee(employee, false);
+            await employeeService.SetEmployee(employee, false);
 
             return RedirectToAction("Approve", "Employee");
         }
 
         [Authorize]
-        public IActionResult Info(int id)
+        public async Task<IActionResult> Info(int id)
         {
             EmployeeInfoViewModel employee = null;
 
             try
             {
-                employee = employeeService.GetModelById(id);
+                employee = await employeeService.GetModelById(id);
             }
             catch (NullReferenceException ex)
             {

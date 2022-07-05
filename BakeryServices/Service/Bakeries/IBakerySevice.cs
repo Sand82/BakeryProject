@@ -7,22 +7,24 @@ namespace Bakery.Service.Bakeries
 {
     public interface IBakerySevice
     {
-        AllProductQueryModel GetAllProducts(AllProductQueryModel query, string path);
+        Task<AllProductQueryModel> GetAllProducts(AllProductQueryModel query, string path);
 
         Product CreateProduct(BakeryFormModel formProduct);
 
-        ProductDetailsServiceModel EditProduct(int id);        
+        Task<ProductDetailsServiceModel> EditProduct(int id);
 
-        IEnumerable<BakryCategoryViewModel> GetBakeryCategories();
+        Task<IEnumerable<BakryCategoryViewModel>> GetBakeryCategories();
 
-        Product FindById(int id);
+        Task<Product> FindById(int id);
 
-        NamePriceDataModel CreateNamePriceModel(int id);
+        Task<NamePriceDataModel> CreateNamePriceModel(int id);
 
-        void Edit(ProductDetailsServiceModel productModel, Product dataProdcuct);
+        Task Edit(ProductDetailsServiceModel productModel, Product dataProdcuct);
 
-        void Delete(Product product);
+        Task<bool> CheckCategory(int categoryId);
 
-        void AddProduct(Product product, string path);
+        Task Delete(Product product);
+
+        Task AddProduct(Product product, string path);
     }
 }

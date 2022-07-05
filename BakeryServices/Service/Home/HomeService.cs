@@ -1,6 +1,7 @@
 ﻿using Bakery.Data;
 using Bakery.Models.Bakeries;
 using Bakery.Models.Home;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bakery.Service.Home
 {
@@ -14,36 +15,32 @@ namespace Bakery.Service.Home
             this.data = data;
         }
 
-        public CountViewModel GetIndex()
+        public async Task<CountViewModel> GetIndex()
         {
             CountViewModel countPlusProductModel = new CountViewModel();
 
-            Task.Run(() =>
+            var products = await data
+            .Products
+            .Where(p => p.IsDelete == false)
+            .OrderByDescending(x => x.Id)
+            .Select(p => new AllProductViewModel
             {
-                var products = data
-                .Products
-                .Where(p => p.IsDelete == false)
-                .OrderByDescending(x => x.Id)
-                .Select(p => new AllProductViewModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Price = p.Price.ToString("f2"),
-                    ImageUrl = p.ImageUrl,
-                    Description = p.Description,
-                    Category = p.Category.Name
-                })
-                .Take(4)
-                .ToList();               
+                Id = p.Id,
+                Name = p.Name,
+                Price = p.Price.ToString("f2"),
+                ImageUrl = p.ImageUrl,
+                Description = p.Description,
+                Category = p.Category.Name
+            })
+            .Take(4)
+            .ToListAsync();
 
-                countPlusProductModel = new CountViewModel
-                {
-                    AllProductViewModel = products,
-                    ProductCount = data.Products.Where(p => p.IsDelete == false).Count(),
-                    IngredientCount = data.Ingredients.Distinct().Count()
-                };
-
-            }).GetAwaiter().GetResult();           
+            countPlusProductModel = new CountViewModel
+            {
+                AllProductViewModel = products,
+                ProductCount = data.Products.Where(p => p.IsDelete == false).Count(),
+                IngredientCount = data.Ingredients.Distinct().Count()
+            };
 
             return countPlusProductModel;
         }

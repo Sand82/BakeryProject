@@ -18,16 +18,16 @@ namespace Bakery.Controllers
         }
 
         [Authorize]
-        public IActionResult About()
+        public async Task<IActionResult> About()
         {
-            var authorModel = authorService.GetAuthorInfo();
+            var authorModel = await authorService.GetAuthorInfo();
 
             if (authorModel == null)
             {
                 return NotFound();
             }
 
-            var modelEmployes = authorService.GetModels();
+            var modelEmployes = await authorService.GetModels();
 
             authorModel.Employees = modelEmployes;
 
@@ -42,7 +42,7 @@ namespace Bakery.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult Apply(ApplyFormModel apply, IFormFile cv, IFormFile image)
+        public async Task<IActionResult> Apply(ApplyFormModel apply, IFormFile cv, IFormFile image)
         {
             var isValidFileFormat = authorService.FileValidator(
                 cv.FileName, image.FileName, cv.Length, image.Length);            
@@ -57,12 +57,12 @@ namespace Bakery.Controllers
                 return View(apply);
             }            
 
-            var employee = authorService.CreateEmployee(apply);
+            var employee =  authorService.CreateEmployee(apply);
 
             employee.FileExtension = CreateFile(cv, employee.FileId);
             employee.ImageExtension = CreateFile(image, employee.ImageId);
 
-            authorService.AddEmployee(employee);
+            await authorService.AddEmployee(employee);
 
             return RedirectToAction("About", "Author");
         }

@@ -20,180 +20,133 @@ namespace Bakery.Service.Items
             this.voteService = voteService;
         }
 
-        public Item FindItem(string name, int quantity, decimal currPrice)
+        public async Task<Item> FindItem(string name, int quantity, decimal currPrice)
         {
-            var item = new Item();
-
-            Task.Run(() =>
-            {
-                item = this.data
-                .Items
-                .FirstOrDefault(
-                i => i.ProductName == name && i.Quantity == quantity && i.ProductPrice == currPrice);
-
-            }).GetAwaiter().GetResult();
+            var item = await this.data
+            .Items
+            .FirstOrDefaultAsync(
+            i => i.ProductName == name && i.Quantity == quantity && i.ProductPrice == currPrice);
 
             return item;
         }
 
-        public List<EditItemsFormModel> GetAllItems(int id)
+        public async Task<List<EditItemsFormModel>> GetAllItems(int id)
         {
             var items = new List<EditItemsFormModel>();
 
-            Task.Run(() =>
+            var order = await FindOrderById(id);
+
+            if (order == null)
             {
-                var order = FindOrderById(id);
+                throw new System.NullReferenceException("Not found");
+            }
 
-                if(order == null)
-                {
-                    throw new System.NullReferenceException("Not found");
-                }
-
-                items = order.Items.Select(x => new EditItemsFormModel
-                {
-                    Id = x.Id,
-                    Name = x.ProductName,
-                    Quantity = x.Quantity,
-                })
-               .ToList();
-
-            }).GetAwaiter().GetResult();
+            items = order.Items.Select(x => new EditItemsFormModel
+            {
+                Id = x.Id,
+                Name = x.ProductName,
+                Quantity = x.Quantity,
+            })
+           .ToList();
 
             return items;
         }
 
-        public DetailsViewModel GetDetails(int id, string userId)
+        public async Task<DetailsViewModel> GetDetails(int id, string userId)
         {
-
             var averageVoteCount = (int)Math.Ceiling(voteService.GetAverage(id));
 
-            DetailsViewModel? product = null;
-
-            Task.Run(() =>
-            {
-
-                product = this.data.
-                Products
-               .Include(i => i.Ingredients)
-               .Where(p => p.Id == id)
-               .Select(p => new DetailsViewModel
+            var product = await this.data.
+            Products
+           .Include(i => i.Ingredients)
+           .Where(p => p.Id == id)
+           .Select(p => new DetailsViewModel
+           {
+               Id = p.Id,
+               Name = p.Name,
+               Price = p.Price.ToString("f2"),
+               Description = p.Description,
+               ImageUrl = p.ImageUrl,
+               Category = p.Category.Name,
+               VoteCount = averageVoteCount,
+               Vote = voteService.GetValue(userId, id),
+               Quantity = 1,
+               Ingridients = p.Ingredients.Select(i => new IngredientAddFormModel
                {
-                   Id = p.Id,
-                   Name = p.Name,
-                   Price = p.Price.ToString("f2"),
-                   Description = p.Description,
-                   ImageUrl = p.ImageUrl,
-                   Category = p.Category.Name,
-                   VoteCount = averageVoteCount,
-                   Vote = voteService.GetValue(userId, id),
-                   Quantity = 1,
-                   Ingridients = p.Ingredients.Select(i => new IngredientAddFormModel
-                   {
-                       Name = i.Name,
-                   })
-                  .OrderBy(i => i.Name)
-                  .ToList()
-
+                   Name = i.Name,
                })
-               .FirstOrDefault();
+              .OrderBy(i => i.Name)
+              .ToList()
 
-            }).GetAwaiter().GetResult();
+           })
+           .FirstOrDefaultAsync();
 
             return product;
         }
 
-        public Order FindOrderById(int id)
+        public async Task<Order> FindOrderById(int id)
         {
-            Order? order = new Order();
-
-            Task.Run(() =>
-            {
-                order = this.data
-               .Orders
-               .Include(x => x.Items)
-               .Where(x => x.Id == id)
-               .FirstOrDefault();
-
-            }).GetAwaiter().GetResult();
+            var order = await this.data
+            .Orders
+            .Include(x => x.Items)
+            .Where(x => x.Id == id)
+            .FirstOrDefaultAsync();
 
             return order;
         }
 
-        public Order FindOrderByUserId(string userId)
+        public async Task<Order> FindOrderByUserId(string userId)
         {
-            Order? order = new Order();
-
-            Task.Run(() =>
-            {
-                order = this.data
-               .Orders
-               .Include(x => x.Items)
-               .Where(x => x.UserId == userId && x.IsFinished == false)
-               .FirstOrDefault();
-
-            }).GetAwaiter().GetResult();
+            var order = await this.data
+           .Orders
+           .Include(x => x.Items)
+           .Where(x => x.UserId == userId && x.IsFinished == false)
+           .FirstOrDefaultAsync();
 
             return order;
         }
 
-        public Item FindItemById(int id)
+        public async Task<Item> FindItemById(int id)
         {
-            var item = new Item();
-
-            Task.Run(() =>
-            {
-                item = this.data
-               .Items
-               .Where(i => i.Id == id)
-               .FirstOrDefault();
-
-            }).GetAwaiter().GetResult();
+            var item = await this.data
+            .Items
+            .Where(i => i.Id == id)
+            .FirstOrDefaultAsync();
 
             return item;
         }
 
-        public void DeleteItem(Item item, Order order)
+        public async Task DeleteItem(Item item, Order order)
         {
-            Task.Run(() =>
-            {
-                order.Items.Remove(item);
+            order.Items.Remove(item);
 
-                data.SaveChanges();
-
-            }).GetAwaiter().GetResult();
+            await this.data.SaveChangesAsync();
         }
 
-        public void DeleteAllItems(Order order)
+        public async Task DeleteAllItems(Order order)
         {
-            Task.Run(() =>
-            {
-                order.Items = null;
+            order.Items = null;
 
-                data.SaveChanges();
-
-            }).GetAwaiter().GetResult();
+            await this.data.SaveChangesAsync();
         }
 
-        public void ChangeItemQuantity(EditItemDataModel model)
+        public async Task ChangeItemQuantity(EditItemDataModel model)
         {
-            Task.Run(() =>
+            Item item = null;
+
+            try
             {
-                Item item = null;
-                
-                try
-                {
-                    item = FindItemById(model.ItemId);
-                }
-                catch (Exception)
-                {
-                    throw new NullReferenceException();
-                }               
+                item = await FindItemById(model.ItemId);
+            }
+            catch (Exception)
+            {
+                throw new NullReferenceException();
+            }
 
-                item.Quantity = model.Quantity;
+            item.Quantity = model.Quantity;
 
-                this.data.SaveChanges();
+            await this.data.SaveChangesAsync();
 
-            }).GetAwaiter().GetResult();
         }
     }
 }

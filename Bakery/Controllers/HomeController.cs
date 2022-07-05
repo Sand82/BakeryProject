@@ -15,9 +15,9 @@ namespace Bakery.Controllers
             this.homeService = homeService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var countPlusProductModel = homeService.GetIndex();
+            var countPlusProductModel = await homeService.GetIndex();
 
             return View(countPlusProductModel);
         }        
