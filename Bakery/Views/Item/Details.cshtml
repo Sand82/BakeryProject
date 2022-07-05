@@ -1,9 +1,9 @@
 ﻿@model DetailsViewModel
 
 @section Styles {
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
-  <link rel="stylesheet" href="~/css/details.css" asp-append-version="true" />
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+<link rel="stylesheet" href="~/css/details.css" asp-append-version="true" />
 }
 
 @{
@@ -25,10 +25,10 @@
 
                     @*<ul class="preview-thumbnail nav nav-tabs">
                         <li class="active"><a data-target="#pic-1" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                        <li><a data-target="#pic-2" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                        <li><a data-target="#pic-3" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                        <li><a data-target="#pic-4" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                        <li><a data-target="#pic-5" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
+                        <li><a data-target="#pic-2" data-toggle="tab"><img src="@Model.ImageUrl" /></a></li>
+                        <li><a data-target="#pic-3" data-toggle="tab"><img src="@Model.ImageUrl" /></a></li>
+                        <li><a data-target="#pic-4" data-toggle="tab"><img src="@Model.ImageUrl" /></a></li>
+                        <li><a data-target="#pic-5" data-toggle="tab"><img src="@Model.ImageUrl" /></a></li>
                         </ul>*@
                 </div>
                 <div class="details col-md-6">

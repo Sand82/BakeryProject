@@ -848,7 +848,7 @@
   {
     "Name": "Bread rolls",
     "Category": "Breds",
-    "Price": 1.30,
+    "Price": 1.40,
     "Description": "Found in almost every kitchen, milk can do so much more than soak into cereal or temper your tea.",
     "IsDelete": false,
     "ImageUrl": "https://img.taste.com.au/Sg6kKpMJ/w720-h480-cfill-q80/taste/2016/11/bread-rolls-80351-1.jpeg",
@@ -868,6 +868,29 @@
       },
       {
         "Name": "milk"
+      }
+    ]
+  },
+  {
+    "Name": "Oaty treats: our favourite bars and baked treats m",
+    "Category": "Specialty",
+    "Price": 3.30,
+    "Description": "Big and little kids will come running for these delicious homemade oat snacks. We’ve got everything from muesli bars to nut balls.",
+    "IsDelete": false,
+    "ImageUrl": "https://img.taste.com.au/-8dDDnOo/w720-h480-cfill-q80/taste/2017/03/salted-oat-peanut-butter-and-chocolate-chip-cookie-squares-124802-1.jpg",
+    "CategoryId": 4,
+    "Ingredients": [
+      {
+        "Name": "eggs"
+      },
+      {
+        "Name": "sugar"
+      },
+      {
+        "Name": "butter"
+      },
+      {
+        "Name": "traditional oats"
       }
     ]
   }

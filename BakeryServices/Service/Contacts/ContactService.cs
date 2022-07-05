@@ -2,6 +2,7 @@
 using Bakery.Data.Models;
 using Bakery.Models.Contacts;
 using Bakery.Service.Customers;
+using Microsoft.Extensions.Configuration;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 

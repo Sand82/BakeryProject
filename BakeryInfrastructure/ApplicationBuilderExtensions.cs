@@ -1,9 +1,13 @@
 ﻿using Bakery.Data;
 using Bakery.Data.Models;
 
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+
 using static Bakery.WebConstants;
 
 namespace Bakery.Infrastructure
