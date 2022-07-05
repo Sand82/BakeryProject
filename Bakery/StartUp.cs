@@ -10,7 +10,6 @@ using Bakery.Service.Items;
 using Bakery.Service.Orders;
 using Bakery.Service.Organizers;
 using Bakery.Service.Votes;
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

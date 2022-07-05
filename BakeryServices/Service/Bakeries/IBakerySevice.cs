@@ -7,7 +7,7 @@ namespace Bakery.Service.Bakeries
 {
     public interface IBakerySevice
     {
-        AllProductQueryModel GetAllProducts(AllProductQueryModel query);
+        AllProductQueryModel GetAllProducts(AllProductQueryModel query, string path);
 
         Product CreateProduct(BakeryFormModel formProduct);
 
@@ -23,6 +23,6 @@ namespace Bakery.Service.Bakeries
 
         void Delete(Product product);
 
-        void AddProduct(Product product);
+        void AddProduct(Product product, string path);
     }
 }

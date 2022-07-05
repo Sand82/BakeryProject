@@ -37,5 +37,9 @@ namespace Bakery.Models.Author
         public string Experience { get; set; }       
 
         public bool IsApproved { get; set; }
+
+        public string FileId { get; set; }
+
+        public string ImageId { get; set; }
     }
 }

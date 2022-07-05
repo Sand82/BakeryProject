@@ -17,12 +17,17 @@ namespace Bakery.Controllers
         private readonly IBakerySevice bakerySevice;    
         private readonly IAuthorService authorService;
         private readonly BakeryDbContext data;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public BakeryController(IBakerySevice bakerySevice,IAuthorService authorService, BakeryDbContext data)
+        public BakeryController(IBakerySevice bakerySevice,
+            IAuthorService authorService,
+            BakeryDbContext data,
+            IWebHostEnvironment webHostEnvironment)
         {
             this.bakerySevice = bakerySevice;          
             this.authorService = authorService;
             this.data = data;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         [Authorize]
@@ -37,7 +42,9 @@ namespace Bakery.Controllers
 
             query.IsAuthor = authorService.IsAuthor(userId);
 
-            query = bakerySevice.GetAllProducts(query);
+            var path = GetJsonFilePath();
+
+            query = bakerySevice.GetAllProducts(query, path);
 
             return View(query);
         }
@@ -82,7 +89,9 @@ namespace Bakery.Controllers
 
            var product = bakerySevice.CreateProduct(formProduct);
 
-            bakerySevice.AddProduct(product);
+            var path = GetJsonFilePath();
+
+            bakerySevice.AddProduct(product, path);
 
             this.TempData[SuccessOrder] = "Product added seccessfully.";
 
@@ -169,6 +178,11 @@ namespace Bakery.Controllers
             }
             
             return isAuthor;
-        }       
+        }
+
+        private string GetJsonFilePath()
+        {
+            return $"{webHostEnvironment.WebRootPath}/products.json";
+        }
     }
 }

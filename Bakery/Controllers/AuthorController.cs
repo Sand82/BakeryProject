@@ -9,10 +9,12 @@ namespace Bakery.Controllers
     public class AuthorController : Controller
     {
         private readonly IAuthorService authorService;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public AuthorController(IAuthorService authorService)
+        public AuthorController(IAuthorService authorService, IWebHostEnvironment webHostEnvironment)
         {
             this.authorService = authorService;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         [Authorize]
@@ -53,13 +55,32 @@ namespace Bakery.Controllers
             if (!ModelState.IsValid)  
             {               
                 return View(apply);
-            }
+            }            
 
-            var employee = authorService.CreateEmployee(apply, cv, image);
+            var employee = authorService.CreateEmployee(apply);
+
+            employee.FileExtension = CreateFile(cv, employee.FileId);
+            employee.ImageExtension = CreateFile(image, employee.ImageId);
 
             authorService.AddEmployee(employee);
 
             return RedirectToAction("About", "Author");
         }
+
+        private string CreateFile(IFormFile file, string id)
+        {
+            Directory.CreateDirectory($"{webHostEnvironment.WebRootPath}/files/");
+
+            var extension = Path.GetExtension(file.FileName).Trim('.');
+
+            var path = $"{webHostEnvironment.WebRootPath}/files/{id}.{extension}";
+
+            using (FileStream fs = new FileStream(path, FileMode.Create))
+            {
+                file.CopyTo(fs);
+            };
+
+            return extension;
+        }        
     }
 }

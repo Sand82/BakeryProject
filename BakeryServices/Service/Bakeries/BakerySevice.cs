@@ -11,15 +11,14 @@ namespace Bakery.Service.Bakeries
     public class BakerySevice : IBakerySevice
     {
         private readonly BakeryDbContext data;
-        private readonly IWebHostEnvironment webHostEnvironment;      
+         
 
-        public BakerySevice(BakeryDbContext data, IWebHostEnvironment webHostEnvironment)
+        public BakerySevice(BakeryDbContext data)
         {
-            this.data = data;
-            this.webHostEnvironment = webHostEnvironment;
+            this.data = data;            
         }        
 
-        public AllProductQueryModel GetAllProducts(AllProductQueryModel query)
+        public AllProductQueryModel GetAllProducts(AllProductQueryModel query, string path)
         {          
 
             Task.Run(() =>
@@ -27,7 +26,7 @@ namespace Bakery.Service.Bakeries
 
                 var productQuery = this.data.Products.AsQueryable();
 
-                CreateSerilizationFile();
+                CreateSerilizationFile(path);
 
                 if (!string.IsNullOrWhiteSpace(query.Category))
                 {
@@ -230,15 +229,13 @@ namespace Bakery.Service.Bakeries
             return product;
         }
 
-        public void AddProduct(Product product)
+        public void AddProduct(Product product, string path)
         {
             Task.Run(() =>
             {
                 this.data.Products.Add(product);
 
-                this.data.SaveChanges();
-
-                var path = GetJsonFilePath();
+                this.data.SaveChanges();               
 
                 SerializeToJason(path);
 
@@ -263,13 +260,12 @@ namespace Bakery.Service.Bakeries
             return category;
         }
 
-        private void CreateSerilizationFile()
-        {
-            string jsonFilePath = GetJsonFilePath();
+        private void CreateSerilizationFile(string path)
+        {           
 
-            if (!File.Exists(jsonFilePath))
+            if (!File.Exists(path))
             {
-                SerializeToJason(jsonFilePath);
+                SerializeToJason(path);
             }
         }
 
@@ -301,10 +297,6 @@ namespace Bakery.Service.Bakeries
             File.WriteAllText(path, result); 
             
         }        
-
-        private string GetJsonFilePath()
-        {
-            return $"{webHostEnvironment.WebRootPath}/products.json";
-        }
+        
     }
 }

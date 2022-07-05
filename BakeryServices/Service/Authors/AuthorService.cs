@@ -8,18 +8,16 @@ namespace Bakery.Service.Authors
 {
     public class AuthorService : IAuthorService
     {
-        private readonly BakeryDbContext data;
-        private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly BakeryDbContext data;        
         private readonly IEmployeeService employeeService;
 
-        public AuthorService(BakeryDbContext data, IWebHostEnvironment webHostEnvironment, IEmployeeService employeeService)
+        public AuthorService(BakeryDbContext data, IEmployeeService employeeService)
         {
-            this.data = data;
-            this.webHostEnvironment = webHostEnvironment;
+            this.data = data;           
             this.employeeService = employeeService;
         }
 
-        public Employee CreateEmployee(ApplyFormModel model, IFormFile cv, IFormFile image)
+        public Employee CreateEmployee(ApplyFormModel model)
         {
             Employee employee = null;
 
@@ -33,12 +31,11 @@ namespace Bakery.Service.Authors
                     Email = model.Email,
                     Description = model.Description,
                     Experience = model.Experience,
+                    FileId = model.FileId,
+                    ImageId = model.ImageId,
                 };
 
-            }).GetAwaiter().GetResult();
-
-            employee.FileExtension = CreateFile(cv, employee.FileId);
-            employee.ImageExtension = CreateFile(image, employee.ImageId);
+            }).GetAwaiter().GetResult();            
 
             return employee;
         }
@@ -139,22 +136,6 @@ namespace Bakery.Service.Authors
                 this.data.SaveChanges();
 
             }).GetAwaiter().GetResult();
-        }
-
-        private string CreateFile(IFormFile file, string id)
-        {
-            Directory.CreateDirectory($"{webHostEnvironment.WebRootPath}/files/");
-
-            var extension = Path.GetExtension(file.FileName).Trim('.');
-
-            var path = $"{webHostEnvironment.WebRootPath}/files/{id}.{extension}";
-
-            using (FileStream fs = new FileStream(path, FileMode.Create))
-            {
-                file.CopyTo(fs);
-            };
-
-            return extension;
-        }        
+        }       
     }
 }

@@ -13,7 +13,7 @@ namespace Bakery.Service.Authors
         bool FileValidator(
             string fileExtension, string imageExtension, long fileLingth, long imigeLength);
 
-        Employee CreateEmployee(ApplyFormModel model, IFormFile cv, IFormFile image);
+        Employee CreateEmployee(ApplyFormModel model);
 
         List<EmployeeDetailsViewModel> GetModels();
 
