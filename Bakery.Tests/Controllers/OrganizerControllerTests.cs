@@ -1,6 +1,6 @@
 ﻿using Bakery.Areas.Task.Controllers;
 using Bakery.Data;
-using Bakery.Service.Organizers;
+using BakeryServices.Service.Organizers;
 using Bakery.Tests.Mock;
 
 using Microsoft.AspNetCore.Http;

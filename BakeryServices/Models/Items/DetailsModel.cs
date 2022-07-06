@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Bakery.Models.Items
+namespace BakeryServices.Models.Items
 {
     public class DetailsModel
     {

@@ -1,6 +1,4 @@
-﻿using Bakery.Models.Author;
-
-namespace Bakery.Models.Bakeries
+﻿namespace BakeryServices.Models.Author
 {
     public class AuthorViewModel
     {

@@ -1,12 +1,11 @@
 ﻿using Bakery.Data;
 using Bakery.Data.Models;
-using Bakery.Models.Bakeries;
-using Bakery.Models.Bakery;
-using Bakery.Models.Items;
+using BakeryServices.Models.Bakeries;
+using BakeryServices.Models.Items;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
-namespace Bakery.Service.Bakeries
+namespace BakeryServices.Service.Bakeries
 {
     public class BakerySevice : IBakerySevice
     {
@@ -22,7 +21,7 @@ namespace Bakery.Service.Bakeries
 
             var productQuery = this.data.Products.AsQueryable();
 
-            CreateSerilizationFile(path);
+            await CreateSerilizationFile(path);
 
             if (!string.IsNullOrWhiteSpace(query.Category))
             {

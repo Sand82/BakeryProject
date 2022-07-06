@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static Bakery.Data.Constants;
 
-namespace Bakery.Models.Author
+namespace BakeryServices.Models.Author
 {
     public class ApplyFormModel
     {

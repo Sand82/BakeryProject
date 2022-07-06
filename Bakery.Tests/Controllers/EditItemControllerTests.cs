@@ -1,12 +1,13 @@
 ﻿using Bakery.Controllers;
 using Bakery.Data;
 using Bakery.Data.Models;
-using Bakery.Models.EditItem;
-using Bakery.Service;
-using Bakery.Service.Items;
+using BakeryServices.Models.EditItem;
+using BakeryServices.Service.Items;
 using Bakery.Tests.Mock;
+
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Bakery.Tests.Controllers
@@ -44,15 +45,15 @@ namespace Bakery.Tests.Controllers
         }
 
         [Fact]
-        public void PostActionShouldTrowExeptionWithIncorectProductId()
+        public async Task PostActionShouldTrowExeptionWithIncorectProductId()
         {
             using var data = DatabaseMock.Instance;
 
             var items = CreateListItems(data);
 
-            data.Items.AddRange(items);
+            await data.Items.AddRangeAsync(items);
 
-            data.SaveChanges();
+            await data.SaveChangesAsync();
 
             var model = new EditItemDataModel
             {
@@ -64,9 +65,9 @@ namespace Bakery.Tests.Controllers
 
             var controler = new EditItemController(itemsService);          
 
-            var ex = Assert.Throws<System.NullReferenceException>(() => controler.Post(model));
+            var ex = Assert.ThrowsAsync<System.NullReferenceException>(() => controler.Post(model));
 
-            Assert.Equal("Not found", ex.Message);            
+            Assert.Equal("Not found", ex.GetAwaiter().GetResult().Message);            
         }
 
         private List<Item> CreateListItems(BakeryDbContext data)

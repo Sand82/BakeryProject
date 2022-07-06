@@ -1,12 +1,12 @@
 ﻿using Bakery.Data;
 using Bakery.Data.Models;
-using Bakery.Models;
-using Bakery.Models.Customer;
-using Bakery.Models.Orders;
+using BakeryServices.Models.Customer;
+using BakeryServices.Models.Items;
+using BakeryServices.Models.Orders;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
-namespace Bakery.Service.Orders
+namespace BakeryServices.Service.Orders
 {
     public class OrderService : IOrderService
     {

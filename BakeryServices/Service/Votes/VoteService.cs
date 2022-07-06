@@ -1,9 +1,8 @@
 ﻿using Bakery.Data;
 using Bakery.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 
-namespace Bakery.Service.Votes
+namespace BakeryServices.Service.Votes
 {
     public class VoteService : IVoteService
     {

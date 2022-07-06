@@ -156,7 +156,7 @@ namespace Bakery.Tests.Controllers
 
             var orderService = new OrderService(data);
 
-            var bakerySevice = new BakerySevice(data, null);
+            var bakerySevice = new BakerySevice(data);
 
             var controller = new ItemController(
                 itemsService, voteService, orderService, bakerySevice);
@@ -420,7 +420,7 @@ namespace Bakery.Tests.Controllers
 
             var orderService = new OrderService(data);
 
-            var bakerySevice = new BakerySevice(data, null);
+            var bakerySevice = new BakerySevice(data);
 
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
            {

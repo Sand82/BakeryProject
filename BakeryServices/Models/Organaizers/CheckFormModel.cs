@@ -1,4 +1,4 @@
-﻿namespace Bakery.Areas.Task.Models
+﻿namespace BakeryServices.Models.Organaizers
 {
     public class CheckFormModel
     {  

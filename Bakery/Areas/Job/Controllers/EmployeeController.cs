@@ -1,5 +1,5 @@
-﻿using Bakery.Areas.Job.Models;
-using Bakery.Service.Employees;
+﻿using BakeryServices.Models.Employees;
+using BakeryServices.Service.Employees;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

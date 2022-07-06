@@ -1,9 +1,9 @@
 ﻿using Bakery.Data;
-using Bakery.Models.Bakeries;
-using Bakery.Models.Home;
+using BakeryServices.Models.Bakeries;
+using BakeryServices.Models.Home;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bakery.Service.Home
+namespace BakeryServices.Service.Home
 {
     public class HomeService : IHomeService
     {

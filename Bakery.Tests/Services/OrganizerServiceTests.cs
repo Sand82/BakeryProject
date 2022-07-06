@@ -1,6 +1,7 @@
-﻿using Bakery.Service.Organizers;
+﻿using BakeryServices.Service.Organizers;
 using Bakery.Tests.Mock;
 using System;
+using System.Threading.Tasks;
 using Xunit;
 
 using static Bakery.Tests.GlobalMethods.TestService;
@@ -10,7 +11,7 @@ namespace Bakery.Tests.Services
     public class OrganizerServiceTests
     {
         [Fact]
-        public void GetCustomProfitShouldReturnCorectResult()
+        public async Task GetCustomProfitShouldReturnCorectResult()
         {
             var dateOne = DateTime.Now;
 
@@ -20,15 +21,15 @@ namespace Bakery.Tests.Services
 
             order[0].IsFinished = true;
 
-            data.Orders.AddRange(order);            
+            await data.Orders.AddRangeAsync(order);            
 
-            data.SaveChanges();            
+            await data.SaveChangesAsync();            
 
             var organizerService = new OrganizerService(data);
 
             var dateTwo = DateTime.Now;
 
-            var result = organizerService.GetCustomProfit(dateOne, dateTwo);
+            var result = await organizerService.GetCustomProfit(dateOne, dateTwo);
 
             var expected = "103.00$";
 
@@ -37,7 +38,7 @@ namespace Bakery.Tests.Services
         }
 
         [Fact]
-        public void GetCustomProfitShouldReturn0IfNoProfitForThePeriod()
+        public async Task GetCustomProfitShouldReturn0IfNoProfitForThePeriod()
         {
             var dateOne = DateTime.Now;
 
@@ -45,15 +46,15 @@ namespace Bakery.Tests.Services
 
             var order = CreateListOrders();           
 
-            data.Orders.AddRange(order);
+            await data.Orders.AddRangeAsync(order);
 
-            data.SaveChanges();
+            await data.SaveChangesAsync();
 
             var organizerService = new OrganizerService(data);
 
             var dateTwo = DateTime.Now;
 
-            var result = organizerService.GetCustomProfit(dateOne, dateTwo);
+            var result = await organizerService.GetCustomProfit(dateOne, dateTwo);
 
             var expected = "0.00$";
 
@@ -63,7 +64,7 @@ namespace Bakery.Tests.Services
         }
 
         [Fact]
-        public void GetItemsShouldReturnCorectResult()
+        public async Task GetItemsShouldReturnCorectResult()
         {
             var dateOne = DateTime.Now;
 
@@ -86,20 +87,20 @@ namespace Bakery.Tests.Services
             order[4].IsFinished = true;
             order[4].DateOfDelivery = dateOne.AddDays(5);
 
-            data.Orders.AddRange(order);
+            await data.Orders.AddRangeAsync(order);
 
-            data.SaveChanges();
+            await data.SaveChangesAsync();
 
             var organizerService = new OrganizerService(data);            
 
-            var result = organizerService.GetItems(dateOne);                      
+            var result = await organizerService.GetItems(dateOne);                      
 
             Assert.NotNull(result);
             Assert.Equal(5, result.Count);
         }
 
         [Fact]
-        public void GetItemsShouldReturnIncorectResult()
+        public async Task GetItemsShouldReturnIncorectResult()
         {
             var dateOne = DateTime.Now;
 
@@ -107,13 +108,13 @@ namespace Bakery.Tests.Services
 
             var order = CreateListOrders();
             
-            data.Orders.AddRange(order);
+            await data.Orders.AddRangeAsync(order);
 
-            data.SaveChanges();
+            await data.SaveChangesAsync();
 
             var organizerService = new OrganizerService(data);
 
-            var result = organizerService.GetItems(dateOne);
+            var result = await organizerService.GetItems(dateOne);
             
             Assert.Equal(5 , result.Count);
         }

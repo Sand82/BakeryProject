@@ -1,5 +1,5 @@
-﻿using Bakery.Models.Author;
-using Bakery.Service.Authors;
+﻿using BakeryServices.Models.Author;
+using BakeryServices.Service.Authors;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

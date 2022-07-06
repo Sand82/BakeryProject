@@ -1,14 +1,15 @@
 ﻿using Bakery.Areas.Task.Controllers;
-using Bakery.Areas.Task.Models;
 using Bakery.Data;
-using Bakery.Service.Orders;
-using Bakery.Service.Organizers;
+using BakeryServices.Service.Orders;
+using BakeryServices.Service.Organizers;
+
 using Bakery.Tests.Mock;
 
 using System;
 using Xunit;
 
 using static Bakery.Tests.GlobalMethods.TestService;
+using BakeryServices.Models.Organaizers;
 
 namespace Bakery.Tests.Controllers
 {    
@@ -20,7 +21,7 @@ namespace Bakery.Tests.Controllers
         [Fact]
         public void CheckShouldReturnCorectResult()
         {
-            using var data = DatabaseMock.Instance;            
+            using var data = DatabaseMock.Instance;
 
             var model = new CheckFormModel
             {
@@ -34,7 +35,7 @@ namespace Bakery.Tests.Controllers
 
             Assert.NotNull(result);
 
-            var viewResult = Assert.IsType<String>(result);        
+            var viewResult = Assert.IsType<String>(result);
         }
 
         [Fact]
@@ -50,7 +51,7 @@ namespace Bakery.Tests.Controllers
 
             var controller = CreateController(data);
 
-            var result = controller.Check(model);            
+            var result = controller.Check(model);
 
             var viewResult = Assert.IsType<String>(result);
 

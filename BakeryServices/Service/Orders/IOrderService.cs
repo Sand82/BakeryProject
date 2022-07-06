@@ -1,8 +1,8 @@
 ﻿using Bakery.Data.Models;
-using Bakery.Models.Customer;
-using Bakery.Models.Orders;
+using BakeryServices.Models.Customer;
+using BakeryServices.Models.Orders;
 
-namespace Bakery.Service.Orders
+namespace BakeryServices.Service.Orders
 {
     public interface IOrderService
     {

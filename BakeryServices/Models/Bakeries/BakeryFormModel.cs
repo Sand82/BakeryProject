@@ -1,10 +1,8 @@
-﻿using Bakery.Data.Models;
-using Bakery.Models.Bakeries;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 using static Bakery.Data.Constants;
 
-namespace Bakery.Models.Bakery
+namespace BakeryServices.Models.Bakeries
 {
     public class BakeryFormModel
     {

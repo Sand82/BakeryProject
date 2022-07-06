@@ -1,13 +1,13 @@
 ﻿using Bakery.Data;
 using Bakery.Data.Models;
-using Bakery.Models.Contacts;
-using Bakery.Service.Customers;
+using BakeryServices.Models.Contacts;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
-namespace Bakery.Service.Contacts
+namespace BakeryServices.Service.Contacts
 {
     public class ContactService : IContactService
     {

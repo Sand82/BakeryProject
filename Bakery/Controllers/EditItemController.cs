@@ -1,5 +1,5 @@
-﻿using Bakery.Models.EditItem;
-using Bakery.Service.Items;
+﻿using BakeryServices.Models.EditItem;
+using BakeryServices.Service.Items;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

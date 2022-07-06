@@ -1,9 +1,9 @@
 ﻿using Bakery.Data;
 using Bakery.Data.Models;
-using Bakery.Models.Bakeries;
-using Bakery.Models.Bakery;
-using Bakery.Models.Items;
-using Bakery.Service.Bakeries;
+using BakeryServices.Models.Bakeries;
+using BakeryServices.Models.Items;
+using BakeryServices.Service.Bakeries;
+
 using Bakery.Tests.Mock;
 
 using System.Collections.Generic;
@@ -18,13 +18,13 @@ namespace Bakery.Tests.Services
     {
 
         [Fact]
-        public void GetAllProductsReturnCorrectResult()
+        public async Task GetAllProductsReturnCorrectResult()
         {
             using var data = DatabaseMock.Instance;
 
             AddProductsInDatabase(data);
 
-            var bakerySevice = new BakerySevice(data, null);
+            var bakerySevice = new BakerySevice(data);
 
             var categoryList = new List<string> { "Bread", "Cookies" };
 
@@ -34,20 +34,22 @@ namespace Bakery.Tests.Services
             model.SearchTerm = string.Empty;
             model.Category = string.Empty;
 
-           var result = bakerySevice.GetAllProducts(model);
+            var path = string.Empty;
+
+            var result = await bakerySevice.GetAllProducts(model, path);
 
             Assert.NotNull(result);
             Assert.StrictEqual(10, result.TotalProduct);           
           }
 
         [Fact]
-        public void GetAllProductsReturnCorrectResultWhenAddCategoryTerms()
+        public async Task GetAllProductsReturnCorrectResultWhenAddCategoryTerms()
         {
             using var data = DatabaseMock.Instance;
 
             AddProductsInDatabase(data);
 
-            var bakerySevice = new BakerySevice(data, null);
+            var bakerySevice = new BakerySevice(data);
 
             var categoryList = new List<string> { "Bread", "Cookies" };
 
@@ -57,20 +59,20 @@ namespace Bakery.Tests.Services
             model.SearchTerm = string.Empty;
             model.Category = "Bread";
 
-            var result = bakerySevice.GetAllProducts(model);
+            var result = await bakerySevice.GetAllProducts(model, null);
 
             Assert.NotNull(result);
             Assert.StrictEqual(10, result.TotalProduct);
         }
 
         [Fact]
-        public void GetAllProductsReturnCorrectResultWhenUseSerchTearms()
+        public async Task GetAllProductsReturnCorrectResultWhenUseSerchTearms()
         {
             using var data = DatabaseMock.Instance;
 
             AddProductsInDatabase(data);
 
-            var bakerySevice = new BakerySevice(data, null);
+            var bakerySevice = new BakerySevice(data);
 
             var categoryList = new List<string> { "Bread", "Cookies" };
 
@@ -81,7 +83,7 @@ namespace Bakery.Tests.Services
             model.Category = string.Empty;
             model.SearchTerm = "Bread2";
 
-            var result = bakerySevice.GetAllProducts(model);
+            var result = await bakerySevice.GetAllProducts(model, null);
 
             Assert.NotNull(result);
             Assert.StrictEqual(1, result.TotalProduct);
@@ -92,7 +94,7 @@ namespace Bakery.Tests.Services
         {
             using var data = DatabaseMock.Instance;            
 
-            var bakerySevice = new BakerySevice(data, null);
+            var bakerySevice = new BakerySevice(data);
 
             var model = new BakeryFormModel();
 
@@ -113,13 +115,13 @@ namespace Bakery.Tests.Services
         }
 
         [Fact]
-        public void EditProductReturnCorrectResult()
+        public async void EditProductReturnCorrectResult()
         {
             using var data = DatabaseMock.Instance;
 
             AddProductsInDatabase(data);
 
-            var bakerySevice = new BakerySevice(data, null);
+            var bakerySevice = new BakerySevice(data);
             
             var category = GetCategory();
 
@@ -143,17 +145,17 @@ namespace Bakery.Tests.Services
         }
 
         [Fact]
-        public void FinByIdShouldReturnCorrectResult()
+        public async Task FinByIdShouldReturnCorrectResult()
         {
             using var data = DatabaseMock.Instance;
 
             AddProductsInDatabase(data);
 
-            var bakerySevice = new BakerySevice(data, null);
+            var bakerySevice = new BakerySevice(data);
 
             var model = new BakeryFormModel();            
 
-            var result = bakerySevice.FindById(1);
+            var result = await bakerySevice.FindById(1);
 
             Assert.NotNull(result);
         }
@@ -163,7 +165,7 @@ namespace Bakery.Tests.Services
         {
             using var data = DatabaseMock.Instance;            
 
-            var bakerySevice = new BakerySevice(data, null);
+            var bakerySevice = new BakerySevice(data);
 
             var model = new BakeryFormModel();
 
@@ -184,7 +186,7 @@ namespace Bakery.Tests.Services
 
             data.SaveChanges();
 
-            var bakerySevice = new BakerySevice(data, null);
+            var bakerySevice = new BakerySevice(data);
 
             var result = bakerySevice.GetBakeryCategories();
 
@@ -196,23 +198,23 @@ namespace Bakery.Tests.Services
         {
             using var data = DatabaseMock.Instance;            
 
-            var bakerySevice = new BakerySevice(data, null);
+            var bakerySevice = new BakerySevice(data);
 
-            var result = bakerySevice.GetBakeryCategories();
+            var result = await bakerySevice.GetBakeryCategories();
 
             Assert.Empty(result);
         }
 
         [Fact]
-        public void EditShouldReturnCorrectResult()
+        public async Task EditShouldReturnCorrectResult()
         {
             using var data = DatabaseMock.Instance;
 
             AddProductsInDatabase(data);          
             
-            var bakerySevice = new BakerySevice(data, null);
+            var bakerySevice = new BakerySevice(data);
 
-            var product = bakerySevice.FindById(10);
+            var product = await bakerySevice.FindById(10);
 
             var model = new ProductDetailsServiceModel()
             {
@@ -223,11 +225,11 @@ namespace Bakery.Tests.Services
                 CategoryId = 1
             };
 
-            bakerySevice.Edit(model, product);
+            await bakerySevice.Edit(model, product);
 
-            data.SaveChanges();
+            await data.SaveChangesAsync();
 
-            var result = bakerySevice.FindById(10);
+            var result = await bakerySevice.FindById(10);
                       
             Assert.NotNull(result);
             Assert.Equal(model.Name, result.Name);
@@ -238,17 +240,17 @@ namespace Bakery.Tests.Services
         }       
 
         [Fact]
-        public void CreateNamePriceModelShouldReturnCorrectResult()
+        public async Task CreateNamePriceModelShouldReturnCorrectResult()
         {
             using var data = DatabaseMock.Instance;
 
             AddProductsInDatabase(data);
 
-            var bakerySevice = new BakerySevice(data, null);
+            var bakerySevice = new BakerySevice(data);
 
             var product = bakerySevice.CreateNamePriceModel(1);
 
-            var model = bakerySevice.FindById(1);
+            var model = await bakerySevice.FindById(1);
 
             var result = new NamePriceDataModel
             {
@@ -265,9 +267,9 @@ namespace Bakery.Tests.Services
         {
             var product = ProductsCollection();
 
-            data.Products.AddRange(product);
+             data.Products.AddRange(product);
 
-            data.SaveChanges();
+             data.SaveChanges();
         }               
 
         private List<Category> GetListOfCategories()

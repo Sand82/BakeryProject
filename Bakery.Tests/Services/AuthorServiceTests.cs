@@ -1,7 +1,7 @@
 ﻿using Bakery.Data.Models;
-using Bakery.Service.Authors;
 using Bakery.Tests.Mock;
-
+using BakeryServices.Service.Authors;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Bakery.Tests.Services
@@ -9,37 +9,37 @@ namespace Bakery.Tests.Services
     public class AuthorServiceTests
     {
         [Fact]
-        public void GetAuthorInfoReturnCorrectValue()
+        public async Task GetAuthorInfoReturnCorrectValue()
         {
             using var data = DatabaseMock.Instance;
 
             var author = AutorFactory();    
             
-            data.Authors.Add(author);
+            await data.Authors.AddAsync(author);
 
-            data.SaveChanges();
+            await data.SaveChangesAsync();
 
-            var authorService = new AuthorService(data, null, null);
+            var authorService = new AuthorService(data, null);
 
-            var result = authorService.GetAuthorInfo();                            
+            var result = await authorService.GetAuthorInfo();                            
 
             Assert.NotNull(result);             
         }
 
         [Fact]
-        public void GetAuthorInfoReturnNullIfDatabaseIsEmpty()
+        public async Task GetAuthorInfoReturnNullIfDatabaseIsEmpty()
         {
             using var data = DatabaseMock.Instance;            
 
-            var authorService = new AuthorService(data, null, null);
+            var authorService = new AuthorService(data, null);
 
-            var result = authorService.GetAuthorInfo();
+            var result = await authorService.GetAuthorInfo();
 
             Assert.Null(result);
         }
 
         [Fact]
-        public void IsAuthorReturnCorrectResult()
+        public async Task IsAuthorReturnCorrectResult()
         {
             using var data = DatabaseMock.Instance;
 
@@ -49,19 +49,19 @@ namespace Bakery.Tests.Services
 
             author.AuthorId = authorId;
 
-            data.Authors.Add(author);
+            await data.Authors.AddAsync(author);
 
-            data.SaveChanges();
+            await data.SaveChangesAsync();
 
-            var authorService = new AuthorService(data, null, null);
+            var authorService = new AuthorService(data, null);
 
-            var result = authorService.IsAuthor(authorId);            
+            var result = await authorService.IsAuthor(authorId);            
 
             Assert.True(result);
         }
 
         [Fact]
-        public void IsAuthorReturnNullWhenIdIsIncorrect()
+        public async Task IsAuthorReturnNullWhenIdIsIncorrect()
         {
             using var data = DatabaseMock.Instance;
 
@@ -71,13 +71,13 @@ namespace Bakery.Tests.Services
 
             author.AuthorId = "2";
 
-            data.Authors.Add(author);
+            await data.Authors.AddAsync(author);
 
-            data.SaveChanges();
+            await data.SaveChangesAsync();
 
-            var authorService = new AuthorService(data, null, null);
+            var authorService = new AuthorService(data, null);
 
-            var result = authorService.IsAuthor(authorId);
+            var result = await authorService.IsAuthor(authorId);
 
             Assert.False(result);
         }
@@ -87,7 +87,7 @@ namespace Bakery.Tests.Services
         {
             using var data = DatabaseMock.Instance;          
           
-            var authorService = new AuthorService(data, null, null);
+            var authorService = new AuthorService(data, null);
 
             var result = authorService.FileValidator("fail.doc", "snimka.png", 123456, 123456);
 
@@ -105,7 +105,7 @@ namespace Bakery.Tests.Services
         {
             using var data = DatabaseMock.Instance;
 
-            var authorService = new AuthorService(data, null, null);
+            var authorService = new AuthorService(data, null);
 
             var result = authorService.FileValidator(fileExtension, imageExtention, fileLength, imageLength);
 

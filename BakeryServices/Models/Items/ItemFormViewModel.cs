@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Bakery.Models
+﻿namespace BakeryServices.Models.Items
 {
     public class ItemFormViewModel
     {

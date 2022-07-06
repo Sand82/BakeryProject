@@ -1,8 +1,8 @@
 ﻿using Bakery.Controllers;
 using Bakery.Data;
-using Bakery.Models.Customer;
-using Bakery.Service.Customers;
-using Bakery.Service.Orders;
+using BakeryServices.Models.Customer;
+using BakeryServices.Service.Customers;
+using BakeryServices.Service.Orders;
 using Bakery.Tests.Mock;
 
 using Microsoft.AspNetCore.Http;

@@ -1,19 +1,15 @@
 ﻿using Bakery.Controllers;
 using Bakery.Data;
 using Bakery.Data.Models;
-using Bakery.Models.Bakeries;
-using Bakery.Models.Bakery;
-using Bakery.Service;
-using Bakery.Service.Authors;
-using Bakery.Service.Bakeries;
+using BakeryServices.Models.Bakeries;
+using BakeryServices.Service.Authors;
+using BakeryServices.Service.Bakeries;
 using Bakery.Tests.Mock;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Security.Claims;
 using Xunit;
 
@@ -329,9 +325,9 @@ namespace Bakery.Tests.Controllers
 
         private BakeryController CreateClaimsPrincipal(BakeryDbContext data)
         {
-            var bakeryService = new BakerySevice(data, null);
+            var bakeryService = new BakerySevice(data);
 
-            var authorService = new AuthorService(data, null, null);
+            var authorService = new AuthorService(data, null);
 
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
            {
@@ -340,7 +336,7 @@ namespace Bakery.Tests.Controllers
 
            }, "TestAuthentication"));
 
-            var controller = new BakeryController(bakeryService, authorService, data);
+            var controller = new BakeryController(bakeryService, authorService, null);
 
             controller.ControllerContext = new ControllerContext();
 

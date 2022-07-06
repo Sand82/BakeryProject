@@ -1,8 +1,7 @@
 ﻿using Bakery.Data.Models;
-using Bakery.Models.Author;
-using Bakery.Models.Bakeries;
+using BakeryServices.Models.Author;
 
-namespace Bakery.Service.Authors
+namespace BakeryServices.Service.Authors
 {
     public interface IAuthorService
     {

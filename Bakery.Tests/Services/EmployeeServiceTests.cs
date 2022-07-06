@@ -1,11 +1,11 @@
-﻿using Bakery.Areas.Job.Models;
-using Bakery.Data;
+﻿using Bakery.Data;
 using Bakery.Data.Models;
-using Bakery.Service.Employees;
 using Bakery.Tests.Mock;
-
+using BakeryServices.Models.Employees;
+using BakeryServices.Service.Employees;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 
 using static Bakery.Tests.GlobalMethods.TestService;
@@ -111,9 +111,9 @@ namespace Bakery.Tests.Services
 
             var employeeService = new EmployeeService(data);
 
-            var ex = Assert.Throws<System.NullReferenceException>(() => employeeService.GetModelById(10));
+            var ex = Assert.ThrowsAsync<System.NullReferenceException>(() => employeeService.GetModelById(10));
 
-            Assert.Equal("Not Found", ex.Message);
+            Assert.Equal("Not Found", ex.GetAwaiter().GetResult().Message);
         }
 
         [Theory]
@@ -197,7 +197,7 @@ namespace Bakery.Tests.Services
 
 
         [Fact]
-        public void GetAllAppliesShouldReturnCorectResult()
+        public async Task GetAllAppliesShouldReturnCorectResult()
         {
             using var data = DatabaseMock.Instance;
 
@@ -206,26 +206,26 @@ namespace Bakery.Tests.Services
             employess[0].IsApproved = true;
             employess[1].IsApproved = false;
 
-            data.Employees.AddRange(employess);
+            data.Employees.AddRangeAsync(employess);
 
-            data.SaveChanges();
+            await data.SaveChangesAsync();
 
             var employeeService = new EmployeeService(data);
 
-            var result = employeeService.GetAllApplies();           
+            var result = await employeeService.GetAllApplies();           
 
             Assert.NotNull(result);
             Assert.StrictEqual(3, result.Count);            
         }
 
         [Fact]
-        public void GetAllAppliesShouldReturnNullWhenDatabaseIsEmplty()
+        public async Task GetAllAppliesShouldReturnNullWhenDatabaseIsEmplty()
         {
             using var data = DatabaseMock.Instance;            
 
             var employeeService = new EmployeeService(data);
 
-            var result = employeeService.GetAllApplies();
+            var result = await employeeService.GetAllApplies();
             
             Assert.StrictEqual(0, result.Count);
         }

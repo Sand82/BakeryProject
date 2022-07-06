@@ -1,8 +1,9 @@
 ﻿using Bakery.Data.Models;
-using Bakery.Service.Votes;
+using BakeryServices.Service.Votes;
 using Bakery.Tests.Mock;
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Bakery.Tests.Services
@@ -88,19 +89,19 @@ namespace Bakery.Tests.Services
         }
 
         [Fact]
-        public void SetVoteShouldReturnCorectResult()
+        public async Task SetVoteShouldReturnCorectResult()
         {
             using var data = DatabaseMock.Instance;
 
             var votes = CreateListVotes();            
 
-            data.Votes.Add(votes[1]);
+            await data.Votes.AddAsync(votes[1]);
 
-            data.SaveChanges();
+            await data.SaveChangesAsync();
 
             var voteService = new VoteService(data);
 
-            voteService.SetVote("Another user", 1, 4);
+            await voteService.SetVote("Another user", 1, 4);
 
             var result = voteService.GetAverage(1);
 
@@ -108,19 +109,19 @@ namespace Bakery.Tests.Services
         }
 
         [Fact]
-        public void SetVoteShouldReturnCorectResultIfUserTryToVoteAgain()
+        public async Task SetVoteShouldReturnCorectResultIfUserTryToVoteAgain()
         {
             using var data = DatabaseMock.Instance;
 
             var votes = CreateListVotes();           
 
-            data.Votes.Add(votes[0]);
+            await data.Votes.AddAsync(votes[0]);
 
-            data.SaveChanges();
+            await data.SaveChangesAsync();
 
             var voteService = new VoteService(data);
 
-            voteService.SetVote("My id1", 1, 4);
+            await voteService.SetVote("My id1", 1, 4);
 
             var result = voteService.GetAverage(1);
 

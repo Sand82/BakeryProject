@@ -1,6 +1,6 @@
-﻿using Bakery.Models.Home;
+﻿using BakeryServices.Models.Home;
 
-namespace Bakery.Service.Home
+namespace BakeryServices.Service.Home
 {
     public interface IHomeService
     {

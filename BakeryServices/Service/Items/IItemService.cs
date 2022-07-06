@@ -1,8 +1,8 @@
 ﻿using Bakery.Data.Models;
-using Bakery.Models.EditItem;
-using Bakery.Models.Items;
+using BakeryServices.Models.EditItem;
+using BakeryServices.Models.Items;
 
-namespace Bakery.Service.Items
+namespace BakeryServices.Service.Items
 {
     public interface IItemService
     {

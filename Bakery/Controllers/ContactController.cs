@@ -1,6 +1,6 @@
 ﻿using Bakery.Infrastructure;
-using Bakery.Models.Contacts;
-using Bakery.Service.Contacts;
+using BakeryServices.Models.Contacts;
+using BakeryServices.Service.Contacts;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

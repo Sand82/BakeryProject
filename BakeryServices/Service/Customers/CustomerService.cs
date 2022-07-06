@@ -1,9 +1,10 @@
 ﻿using Bakery.Data;
 using Bakery.Data.Models;
-using Bakery.Models.Customer;
+using BakeryServices.Models.Customer;
+
 using Microsoft.EntityFrameworkCore;
 
-namespace Bakery.Service.Customers
+namespace BakeryServices.Service.Customers
 {
     public class CustomerService : ICustomerService
     {

@@ -1,6 +1,4 @@
-﻿using Bakery.Data.Models;
-
-namespace Bakery.Areas.Job.Models
+﻿namespace BakeryServices.Models.Employees
 {
     public class EmployeeViewModel
     {

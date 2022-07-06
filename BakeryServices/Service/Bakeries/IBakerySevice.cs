@@ -1,9 +1,8 @@
 ﻿using Bakery.Data.Models;
-using Bakery.Models.Bakeries;
-using Bakery.Models.Bakery;
-using Bakery.Models.Items;
+using BakeryServices.Models.Bakeries;
+using BakeryServices.Models.Items;
 
-namespace Bakery.Service.Bakeries
+namespace BakeryServices.Service.Bakeries
 {
     public interface IBakerySevice
     {

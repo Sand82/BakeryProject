@@ -2,7 +2,7 @@
 
 using static Bakery.Data.Constants;
 
-namespace Bakery.Models.Contacts
+namespace BakeryServices.Models.Contacts
 {
     public class ContactFormModel
     {

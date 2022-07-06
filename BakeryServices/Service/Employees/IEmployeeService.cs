@@ -1,7 +1,7 @@
-﻿using Bakery.Areas.Job.Models;
-using Bakery.Data.Models;
+﻿using Bakery.Data.Models;
+using BakeryServices.Models.Employees;
 
-namespace Bakery.Service.Employees
+namespace BakeryServices.Service.Employees
 {
     public interface IEmployeeService
     {

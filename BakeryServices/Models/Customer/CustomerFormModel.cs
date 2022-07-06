@@ -1,9 +1,9 @@
-﻿using Bakery.Models.Orders;
+﻿using BakeryServices.Models.Orders;
 using System.ComponentModel.DataAnnotations;
 
 using static Bakery.Data.Constants;
 
-namespace Bakery.Models.Customer
+namespace BakeryServices.Models.Customer
 {
     public class CustomerFormModel
     {

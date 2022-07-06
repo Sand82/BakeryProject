@@ -1,9 +1,9 @@
-﻿using Bakery.Areas.Job.Models;
-using Bakery.Data;
+﻿using Bakery.Data;
 using Bakery.Data.Models;
+using BakeryServices.Models.Employees;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bakery.Service.Employees
+namespace BakeryServices.Service.Employees
 {
     public class EmployeeService : IEmployeeService
     {

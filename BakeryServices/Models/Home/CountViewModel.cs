@@ -1,6 +1,6 @@
-﻿using Bakery.Models.Bakeries;
+﻿using BakeryServices.Models.Bakeries;
 
-namespace Bakery.Models.Home
+namespace BakeryServices.Models.Home
 {
     public class CountViewModel
     {

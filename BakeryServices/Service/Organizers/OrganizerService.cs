@@ -1,8 +1,8 @@
-﻿using Bakery.Areas.Task.Models;
-using Bakery.Data;
+﻿using Bakery.Data;
+using BakeryServices.Models.Organaizers;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bakery.Service.Organizers
+namespace BakeryServices.Service.Organizers
 {
     public class OrganizerService : IOrganizerService
     {

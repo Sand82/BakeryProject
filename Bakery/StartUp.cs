@@ -1,15 +1,15 @@
 using Bakery.Data;
 using Bakery.Infrastructure;
-using Bakery.Service.Authors;
-using Bakery.Service.Bakeries;
-using Bakery.Service.Contacts;
-using Bakery.Service.Customers;
-using Bakery.Service.Employees;
-using Bakery.Service.Home;
-using Bakery.Service.Items;
-using Bakery.Service.Orders;
-using Bakery.Service.Organizers;
-using Bakery.Service.Votes;
+using BakeryServices.Service.Authors;
+using BakeryServices.Service.Bakeries;
+using BakeryServices.Service.Contacts;
+using BakeryServices.Service.Customers;
+using BakeryServices.Service.Employees;
+using BakeryServices.Service.Home;
+using BakeryServices.Service.Items;
+using BakeryServices.Service.Orders;
+using BakeryServices.Service.Organizers;
+using BakeryServices.Service.Votes;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

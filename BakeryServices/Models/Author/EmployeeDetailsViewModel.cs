@@ -1,4 +1,4 @@
-﻿namespace Bakery.Models.Author
+﻿namespace BakeryServices.Models.Author
 {
     public class EmployeeDetailsViewModel
     {      

@@ -1,4 +1,4 @@
-﻿using Bakery.Models.Items;
+﻿using BakeryServices.Models.Items;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,10 +1,11 @@
 ﻿using Bakery.Data.Models;
-using Bakery.Service.Items;
-using Bakery.Service.Votes;
+using BakeryServices.Service.Items;
+using BakeryServices.Service.Votes;
 using Bakery.Tests.Mock;
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 
 using static Bakery.Tests.GlobalMethods.TestService;
@@ -94,26 +95,26 @@ namespace Bakery.Tests.Services
         }
 
         [Fact]
-        public void GetAllItemsReturnCorectResult()
+        public async Task GetAllItemsReturnCorectResult()
         {
             using var data = DatabaseMock.Instance;
 
             var order = CreateOrder();            
 
-            data.Orders.AddRange(order);
+            await data.Orders.AddRangeAsync(order);
 
-            data.SaveChanges();
+            await data.SaveChangesAsync();
 
             var itemsService = new ItemService(data, null);
 
-            var result = itemsService.GetAllItems(1);
+            var result = await itemsService.GetAllItems(1);
 
             Assert.NotNull(result);
             Assert.Equal(5, result.Count);
         }
 
         [Fact]
-        public void GetAllItemsReturnZeroWithEmptyOrder()
+        public async Task GetAllItemsReturnZeroWithEmptyOrder()
         {
             using var data = DatabaseMock.Instance;
 
@@ -121,33 +122,33 @@ namespace Bakery.Tests.Services
 
             order.Items = new List<Item>();
 
-            data.Orders.AddRange(order);
+            await data.Orders.AddRangeAsync(order);
 
-            data.SaveChanges();
+            await data.SaveChangesAsync();
 
             var itemsService = new ItemService(data, null);
 
-            var result = itemsService.GetAllItems(1);
+            var result = await itemsService.GetAllItems(1);
 
             Assert.Empty(result);           
         }
 
         [Fact]
-        public void GetAllItemsReturnExeprionWithIncoredMethodparameter()
+        public async Task GetAllItemsReturnExeprionWithIncoredMethodparameter()
         {
             using var data = DatabaseMock.Instance;
 
             var order = CreateOrder();            
 
-            data.Orders.AddRange(order);
+            await data.Orders.AddRangeAsync(order);
 
-            data.SaveChanges();
+            await data.SaveChangesAsync();
 
             var itemsService = new ItemService(data, null);            
 
-            var ex = Assert.Throws<System.NullReferenceException>(() => itemsService.GetAllItems(2));
+            var ex = Assert.ThrowsAsync<System.NullReferenceException>(() => itemsService.GetAllItems(2));
 
-            Assert.Equal("Not found", ex.Message);
+            Assert.Equal("Not found", ex.GetAwaiter().GetResult().Message);
 
         }
 

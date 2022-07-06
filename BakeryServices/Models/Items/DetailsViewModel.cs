@@ -1,8 +1,8 @@
-﻿using Bakery.Models.Bakeries;
+﻿using BakeryServices.Models.Bakeries;
 using System.ComponentModel.DataAnnotations;
 
-namespace Bakery.Models.Items
-{
+namespace BakeryServices.Models.Items
+{ 
     public class DetailsViewModel
     {
         public int Id { get; set; }

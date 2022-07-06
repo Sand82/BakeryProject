@@ -1,4 +1,4 @@
-namespace Bakery.Models
+namespace BakeryServices.Models
 {
     public class ErrorViewModel
     {

@@ -1,9 +1,9 @@
 ﻿using Bakery.Controllers;
 using Bakery.Data;
 using Bakery.Data.Models;
-using Bakery.Models.Author;
-using Bakery.Models.Bakeries;
-using Bakery.Service.Authors;
+using BakeryServices.Models.Author;
+
+using BakeryServices.Service.Authors;
 using Bakery.Tests.Mock;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
@@ -81,9 +81,9 @@ namespace Bakery.Tests.Controllers
         
         private AuthorController CreateController(BakeryDbContext data)
         {
-            var authorService = new AuthorService(data, null, null);
+            var authorService = new AuthorService(data, null);
 
-            var controller = new AuthorController(authorService);
+            var controller = new AuthorController(authorService, null);
 
             return controller;
         }

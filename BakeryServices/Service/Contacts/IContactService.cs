@@ -1,7 +1,7 @@
 ﻿using Bakery.Data.Models;
-using Bakery.Models.Contacts;
+using BakeryServices.Models.Contacts;
 
-namespace Bakery.Service.Contacts
+namespace BakeryServices.Service.Contacts
 {
     public interface IContactService 
     {

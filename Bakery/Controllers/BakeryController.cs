@@ -1,8 +1,6 @@
-﻿using Bakery.Data;
-using Bakery.Models.Bakeries;
-using Bakery.Models.Bakery;
-using Bakery.Service.Bakeries;
-using Bakery.Service.Authors;
+﻿using BakeryServices.Models.Bakeries;
+using BakeryServices.Service.Bakeries;
+using BakeryServices.Service.Authors;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,18 +13,15 @@ namespace Bakery.Controllers
     public class BakeryController : Controller
     {
         private readonly IBakerySevice bakerySevice;    
-        private readonly IAuthorService authorService;
-        private readonly BakeryDbContext data;
+        private readonly IAuthorService authorService;        
         private readonly IWebHostEnvironment webHostEnvironment;
 
         public BakeryController(IBakerySevice bakerySevice,
-            IAuthorService authorService,
-            BakeryDbContext data,
+            IAuthorService authorService,           
             IWebHostEnvironment webHostEnvironment)
         {
             this.bakerySevice = bakerySevice;          
-            this.authorService = authorService;
-            this.data = data;
+            this.authorService = authorService;            
             this.webHostEnvironment = webHostEnvironment;
         }
 

@@ -1,12 +1,11 @@
 ﻿using Bakery.Data;
 using Bakery.Data.Models;
-using Bakery.Models.Author;
-using Bakery.Models.Bakeries;
 
-using Bakery.Service.Employees;
+using BakeryServices.Models.Author;
+using BakeryServices.Service.Employees;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bakery.Service.Authors
+namespace BakeryServices.Service.Authors
 {
     public class AuthorService : IAuthorService
     {

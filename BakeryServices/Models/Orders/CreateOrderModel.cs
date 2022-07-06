@@ -1,8 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BakeryServices.Models.Items;
+using System.ComponentModel.DataAnnotations;
 
-using static Bakery.Data.Constants;
-
-namespace Bakery.Models.Orders
+namespace BakeryServices.Models.Orders
 {
     public class CreateOrderModel
     {

@@ -1,6 +1,7 @@
-﻿using Bakery.Areas.Task.Models;
-using Bakery.Service.Orders;
-using Bakery.Service.Organizers;
+﻿using BakeryServices.Models.Organaizers;
+using BakeryServices.Service.Orders;
+using BakeryServices.Service.Organizers;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

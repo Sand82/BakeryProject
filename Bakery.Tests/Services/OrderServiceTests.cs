@@ -1,10 +1,11 @@
 ﻿using Bakery.Data.Models;
-using Bakery.Service.Orders;
+using BakeryServices.Service.Orders;
 using Bakery.Tests.Mock;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Bakery.Tests.Services
@@ -40,7 +41,7 @@ namespace Bakery.Tests.Services
         }
 
         [Fact]
-        public void FindOrderByUserIdShouldReturnCorrectResult()
+        public async Task FindOrderByUserIdShouldReturnCorrectResult()
         {
             using var data = DatabaseMock.Instance;
 
@@ -54,7 +55,7 @@ namespace Bakery.Tests.Services
 
             var userId = "User2";
 
-            var result = orderService.FindOrderByUserId(userId);
+            var result = await orderService.FindOrderByUserId(userId);
 
             Assert.NotNull(result);
             Assert.Equal(userId, result.UserId);
@@ -123,19 +124,19 @@ namespace Bakery.Tests.Services
         }
 
         [Fact]
-        public void FinishOrderShouldReturnCorectresult()
+        public async void FinishOrderShouldReturnCorectresult()
         {
             using var data = DatabaseMock.Instance;
 
             var orders = CreateListOrders();
 
-            data.Orders.AddRange(orders);
+            await data.Orders.AddRangeAsync(orders);
 
-            data.SaveChanges();
+            await data.SaveChangesAsync();
 
             var orderService = new OrderService(data);
 
-            orderService.FinishOrder(orders[0], DateTime.UtcNow);
+            await orderService.FinishOrder(orders[0], DateTime.UtcNow);
 
             var result = data.Orders.FirstOrDefault(x => x.UserId == "User1");
 
@@ -143,19 +144,19 @@ namespace Bakery.Tests.Services
         }
 
         [Fact]
-        public void GetCustomerShouldReturnCorectresult()
+        public async Task GetCustomerShouldReturnCorectresult()
         {
             using var data = DatabaseMock.Instance;
 
             var customers = CreateListCustomers();
 
-            data.Customers.AddRange(customers);
+            await data.Customers.AddRangeAsync(customers);
 
-            data.SaveChanges();
+            await data.SaveChangesAsync();
 
             var orderService = new OrderService(data);
 
-            var result = orderService.GetCustomer("Sand82");
+            var result = await orderService.GetCustomer("Sand82");
 
             Assert.Equal("Sand5", result.FirstName);         
             Assert.Equal("Stef5", result.LastName);         

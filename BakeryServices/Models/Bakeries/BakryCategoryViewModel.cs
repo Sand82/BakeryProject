@@ -1,4 +1,4 @@
-﻿namespace Bakery.Models.Bakeries
+﻿namespace BakeryServices.Models.Bakeries
 {
     public class BakryCategoryViewModel
     {

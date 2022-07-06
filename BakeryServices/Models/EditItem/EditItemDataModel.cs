@@ -2,7 +2,7 @@
 
 using static Bakery.Data.Constants;
 
-namespace Bakery.Models.EditItem
+namespace BakeryServices.Models.EditItem
 {
     public class EditItemDataModel
     {

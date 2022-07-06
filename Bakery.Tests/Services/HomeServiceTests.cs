@@ -1,8 +1,9 @@
 ﻿using Bakery.Data.Models;
-using Bakery.Service.Home;
+using BakeryServices.Service.Home;
 using Bakery.Tests.Mock;
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Bakery.Tests.Services
@@ -10,26 +11,26 @@ namespace Bakery.Tests.Services
     public class HomeServiceTests
     {
         [Fact]
-        public void HomeServiceShouldReturnCorrectProductCount()
+        public async Task HomeServiceShouldReturnCorrectProductCount()
         {
             using var data = DatabaseMock.Instance;
 
             var product = ProductsCollection();
 
-            data.Products.AddRange(product);
+            await data.Products.AddRangeAsync(product);
 
-            data.SaveChanges();
+            await data.SaveChangesAsync();
 
             var homeService = new HomeService(data);
 
-            var resultProduct = homeService.GetIndex().ProductCount;           
+            var resultProduct = homeService.GetIndex().GetAwaiter().GetResult().ProductCount;           
             
             Assert.StrictEqual(5, resultProduct);    
             
         }
 
         [Fact]
-        public void HomeServiceShouldReturnCorrectIngredientsCount()
+        public async Task HomeServiceShouldReturnCorrectIngredientsCount()
         {
             using var data = DatabaseMock.Instance;
 
@@ -41,21 +42,21 @@ namespace Bakery.Tests.Services
 
             var homeService = new HomeService(data);
 
-            var ingrediantResult = homeService.GetIndex().IngredientCount;
+            var ingrediantResult = homeService.GetIndex().GetAwaiter().GetResult().IngredientCount;
 
             Assert.StrictEqual(3, ingrediantResult);          
 
         }
 
         [Fact]
-        public void HomeServiceShouldReturnCountOfZeroWhenEmptyDatabase()
+        public async Task HomeServiceShouldReturnCountOfZeroWhenEmptyDatabase()
         {
             using var data = DatabaseMock.Instance;            
 
             var homeService = new HomeService(data);
 
-            var ingrediantResult = homeService.GetIndex().IngredientCount;
-            var resultProduct = homeService.GetIndex().ProductCount;
+            var ingrediantResult = homeService.GetIndex().GetAwaiter().GetResult().IngredientCount;
+            var resultProduct = homeService.GetIndex().GetAwaiter().GetResult().ProductCount;
 
             Assert.StrictEqual(0, ingrediantResult);
             Assert.StrictEqual(0, resultProduct);
