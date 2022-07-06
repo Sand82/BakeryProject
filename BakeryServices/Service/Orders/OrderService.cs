@@ -1,8 +1,9 @@
-﻿using Bakery.Data;
-using Bakery.Data.Models;
+﻿using BakeryData;
+using BakeryData.Models;
 using BakeryServices.Models.Customer;
 using BakeryServices.Models.Items;
 using BakeryServices.Models.Orders;
+
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 

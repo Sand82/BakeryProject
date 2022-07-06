@@ -1,5 +1,6 @@
-﻿using Bakery.Data;
+﻿using BakeryData;
 using BakeryServices.Models.Organaizers;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace BakeryServices.Service.Organizers

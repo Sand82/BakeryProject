@@ -1,5 +1,5 @@
-﻿using Bakery.Data;
-using Bakery.Data.Models;
+﻿using BakeryData;
+using BakeryData.Models;
 using Bakery.Tests.Mock;
 using BakeryServices.Models.Employees;
 using BakeryServices.Service.Employees;

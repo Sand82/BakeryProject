@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Bakery.Data.Models
+namespace BakeryData.Models
 {
     public class Order
     {

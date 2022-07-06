@@ -1,5 +1,5 @@
 ﻿using Bakery.Controllers;
-using Bakery.Data;
+using BakeryData;
 using BakeryServices.Models.Customer;
 using BakeryServices.Service.Customers;
 using BakeryServices.Service.Orders;

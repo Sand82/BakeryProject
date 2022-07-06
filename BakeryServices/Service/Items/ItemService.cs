@@ -1,9 +1,10 @@
-﻿using Bakery.Data;
-using Bakery.Data.Models;
+﻿using BakeryData;
+using BakeryData.Models;
 using BakeryServices.Models.Bakeries;
 using BakeryServices.Models.EditItem;
 using BakeryServices.Models.Items;
 using BakeryServices.Service.Votes;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace BakeryServices.Service.Items

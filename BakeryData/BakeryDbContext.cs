@@ -1,9 +1,9 @@
-﻿using Bakery.Data.Models;
+﻿using BakeryData.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bakery.Data
+namespace BakeryData
 {
     public class BakeryDbContext : IdentityDbContext
     {

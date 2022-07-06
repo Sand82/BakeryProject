@@ -1,5 +1,6 @@
-﻿using Bakery.Data;
-using Bakery.Data.Models;
+﻿using BakeryData;
+using BakeryData.Models;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace BakeryServices.Service.Votes

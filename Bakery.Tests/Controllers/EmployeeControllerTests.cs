@@ -1,7 +1,7 @@
 ﻿using Bakery.Areas.Job.Controllers;
 
-using Bakery.Data;
-using Bakery.Data.Models;
+using BakeryData;
+using BakeryData.Models;
 
 using Bakery.Tests.Mock;
 

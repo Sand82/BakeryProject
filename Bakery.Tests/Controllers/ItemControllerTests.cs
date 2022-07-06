@@ -1,11 +1,11 @@
 ﻿using Bakery.Controllers;
-using Bakery.Data;
-using Bakery.Data.Models;
-using Bakery.Models.Items;
-using Bakery.Service.Bakeries;
-using Bakery.Service.Items;
-using Bakery.Service.Orders;
-using Bakery.Service.Votes;
+using BakeryData;
+using BakeryData.Models;
+using BakeryServices.Models.Items;
+using BakeryServices.Service.Bakeries;
+using BakeryServices.Service.Items;
+using BakeryServices.Service.Orders;
+using BakeryServices.Service.Votes;
 using Bakery.Tests.Mock;
 
 using Microsoft.AspNetCore.Http;

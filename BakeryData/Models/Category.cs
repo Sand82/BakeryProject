@@ -1,4 +1,4 @@
-﻿namespace Bakery.Data.Models
+﻿namespace BakeryData.Models
 {
     public class Category
     {

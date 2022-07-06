@@ -1,5 +1,5 @@
-﻿using Bakery.Data;
-using Bakery.Data.Models;
+﻿using BakeryData;
+using BakeryData.Models;
 
 using BakeryServices.Models.Author;
 using BakeryServices.Service.Employees;

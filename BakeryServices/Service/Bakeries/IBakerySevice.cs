@@ -1,4 +1,4 @@
-﻿using Bakery.Data.Models;
+﻿using BakeryData.Models;
 using BakeryServices.Models.Bakeries;
 using BakeryServices.Models.Items;
 

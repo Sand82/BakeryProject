@@ -1,4 +1,4 @@
-﻿using Bakery.Data.Models;
+﻿using BakeryData.Models;
 using BakeryServices.Service.Items;
 using BakeryServices.Service.Votes;
 using Bakery.Tests.Mock;

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using static Bakery.Data.Constants;
+using static BakeryData.Constants;
 
-namespace Bakery.Data.Models
+namespace BakeryData.Models
 {
     public class Employee
     {

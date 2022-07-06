@@ -1,4 +1,4 @@
-using Bakery.Data;
+using BakeryData;
 using Bakery.Infrastructure;
 using BakeryServices.Service.Authors;
 using BakeryServices.Service.Bakeries;

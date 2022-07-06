@@ -1,7 +1,7 @@
 ﻿using BakeryServices.Models.Orders;
 using System.ComponentModel.DataAnnotations;
 
-using static Bakery.Data.Constants;
+using static BakeryData.Constants;
 
 namespace BakeryServices.Models.Customer
 {

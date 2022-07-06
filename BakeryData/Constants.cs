@@ -1,4 +1,4 @@
-﻿namespace Bakery.Data
+﻿namespace BakeryData
 {
     public static class Constants
     {

@@ -1,4 +1,4 @@
-﻿using Bakery.Data;
+﻿using BakeryData;
 using BakeryServices.Models.Bakeries;
 using BakeryServices.Models.Home;
 using Microsoft.EntityFrameworkCore;

@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Bakery.Data.Migrations
+namespace BakeryData.Migrations
 {
     public partial class AddPropPhoneOnMailInfoEntity : Migration
     {

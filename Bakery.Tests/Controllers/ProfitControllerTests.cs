@@ -1,5 +1,5 @@
 ﻿using Bakery.Areas.Task.Controllers;
-using Bakery.Data;
+using BakeryData;
 using BakeryServices.Service.Orders;
 using BakeryServices.Service.Organizers;
 
