@@ -206,7 +206,7 @@ namespace Bakery.Tests.Services
             employess[0].IsApproved = true;
             employess[1].IsApproved = false;
 
-            data.Employees.AddRangeAsync(employess);
+            await data.Employees.AddRangeAsync(employess);
 
             await data.SaveChangesAsync();
 

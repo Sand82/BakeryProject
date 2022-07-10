@@ -18,7 +18,7 @@ namespace Bakery.Areas.Task.Controllers
 
         [Authorize(Roles = WebConstants.AdministratorRoleName)]
         [Area(AreaNameTask)]        
-        public async Task<IActionResult> Request() 
+        public async Task<IActionResult> Requests() 
         {
             var date = DateTime.UtcNow;            
 

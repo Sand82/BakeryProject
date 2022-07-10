@@ -115,7 +115,7 @@ namespace Bakery.Tests.Services
         }
 
         [Fact]
-        public async void EditProductReturnCorrectResult()
+        public async Task EditProductReturnCorrectResult()
         {
             using var data = DatabaseMock.Instance;
 
@@ -123,7 +123,7 @@ namespace Bakery.Tests.Services
 
             var bakerySevice = new BakerySevice(data);
             
-            var category = GetCategory();
+            var category =  GetCategory();
 
             var ingredients = GetIngredientAddFormModel();
             
@@ -136,7 +136,7 @@ namespace Bakery.Tests.Services
             currModel.Price = 3.20m;
             currModel.Ingredients = ingredients;
 
-            var result = bakerySevice.EditProduct(1);
+            var result = await bakerySevice.EditProduct(1);
 
             var obj1Str = ConvertToJason(result);
             var obj2Str = ConvertToJason(currModel);

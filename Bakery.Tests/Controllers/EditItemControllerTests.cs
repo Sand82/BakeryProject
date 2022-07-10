@@ -35,7 +35,7 @@ namespace Bakery.Tests.Controllers
 
             var controler = new EditItemController(itemsService);
 
-            controler.Post(model);
+            controler.Post(model).GetAwaiter().GetResult();
 
             var result = data.Items.Where(i => i.Id == model.ItemId).FirstOrDefault();
 

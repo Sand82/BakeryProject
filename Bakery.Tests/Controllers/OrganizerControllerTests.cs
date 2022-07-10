@@ -22,7 +22,7 @@ namespace Bakery.Tests.Controllers
 
             var controller = CreateClaimsPrincipal(data);
 
-            var result = controller.Request();
+            var result = controller.Request;
 
             var viewResult = Assert.IsType<ViewResult>(result);
 

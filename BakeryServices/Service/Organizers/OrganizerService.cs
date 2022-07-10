@@ -47,7 +47,6 @@ namespace BakeryServices.Service.Organizers
 
             for (int i = 1; i <= 5; i++)
             {
-
                 date = date.AddDays(1);
 
                 var items = await this.data

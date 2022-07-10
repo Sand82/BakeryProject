@@ -36,9 +36,9 @@ namespace Bakery.Tests.Services
 
             var product = ProductsCollection();
 
-            data.Products.AddRange(product);
+            await data.Products.AddRangeAsync(product);
 
-            data.SaveChanges();
+            await data.SaveChangesAsync();
 
             var homeService = new HomeService(data);
 

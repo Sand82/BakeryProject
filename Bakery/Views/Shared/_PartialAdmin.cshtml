@@ -9,7 +9,7 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    @if (authorService.IsAuthor(userId) || User.IsAdmin())
+    @if (await authorService.IsAuthor(userId) || User.IsAdmin())
     {
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Bakery" asp-action="Add">Add</a>
@@ -18,7 +18,7 @@
             <a class="nav-link text-dark" asp-area="Job" asp-controller="Employee" asp-action="Approve">Job Apply</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Task" asp-controller="Organizer" asp-action="Request">Administration</a>
+            <a class="nav-link text-dark" asp-area="Task" asp-controller="Organizer" asp-action="Requests">Administration</a>
         </li>
     }
 }
