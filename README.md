@@ -11,8 +11,7 @@ for job too. From the admin area you can manipulate products, hire personals, ca
   <li>Entity Framework (EF) Core 6.0</li>
   <li>Microsoft SQL Server</li>
   <li>MVC Areas with Multiple Layouts</li>
-  <li>Razor Pages, Sections, Partial Views</li>
-  <li>Repository Pattern</li>
+  <li>Razor Pages, Sections, Partial Views</li>  
   <li>Dependency Injection</li>
   <li>Data Validation, both Client-side and Server-side</li>
   <li>Data Validation in the Models and Input View Models</li>
