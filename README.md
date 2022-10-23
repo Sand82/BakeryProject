@@ -25,35 +25,33 @@ for job too. From the admin area you can manipulate products, hire personals, ca
 <h2>Data base diagram and screen shots of some views</h2>
 
 Database Diagram.
-User part:
 ![Data](https://user-images.githubusercontent.com/75274983/165591576-8d7d4365-23d7-4d73-beda-8488b7fca5fd.png)
 View from Home page upper part.
 ![Home](https://user-images.githubusercontent.com/75274983/162289001-141c15ed-b09a-47d3-9109-898b948d92ce.jpg)
 View from All products page.
-![image](https://user-images.githubusercontent.com/75274983/197405248-7c1d822c-0696-4892-aeac-3586844aeaa3.png)
+![ProductClient](https://user-images.githubusercontent.com/75274983/197409358-22a0ce49-d882-4317-9f38-a7e838b62b40.png)
 View from Details page.
 ![Details](https://user-images.githubusercontent.com/75274983/162293107-a4d04f21-e4d1-4cb5-9ab2-efc680371f31.jpg)
 View from About page upper part.
-![image](https://user-images.githubusercontent.com/75274983/197404561-24c37ec2-830c-410e-ba97-28ebe29284e3.png)
+![AboutUpperPart](https://user-images.githubusercontent.com/75274983/197409456-faaf527c-c24a-4bfb-8fb5-8f19f793264a.png)
 View from About page dawn part.
-![image](https://user-images.githubusercontent.com/75274983/197404615-91ee1b37-e9d9-4009-8c19-53e2ee94c8de.png)
-view from Aplly jobs form.
-![image](https://user-images.githubusercontent.com/75274983/197404679-a50aa997-eef3-4dcc-9001-4b58868664d5.png)
+![AboutDownPart](https://user-images.githubusercontent.com/75274983/197409530-35c482e5-1251-4ebe-b3b6-ef3f0b2320a4.png)
+View from Aplly jobs form.
+![ApplyForJobForm](https://user-images.githubusercontent.com/75274983/197409633-2aa05cb7-7644-4a86-8347-cf3fc76e3f86.png)
 View from contact page.
-![image](https://user-images.githubusercontent.com/75274983/197404767-6f8bd962-61b6-45de-8c04-424cbbf32c36.png)
+![ContactPage](https://user-images.githubusercontent.com/75274983/197409698-a173302f-c979-4af2-b431-c14d7de0e4d8.png)
 View from cart form.
-![image](https://user-images.githubusercontent.com/75274983/197404912-dc9aeead-828a-496e-abe4-4bee1bd13467.png)
-Admin part:
-View from some of administration options.
+![CartForm](https://user-images.githubusercontent.com/75274983/197409744-342272b8-e335-4887-84b8-13de025b91e6.png)
+View from organaizer.
 ![Administration](https://user-images.githubusercontent.com/75274983/162289824-b55f3580-e9aa-4bab-8c59-1b4aed4771e1.jpg)
 View from job aplly admin part.
-![image](https://user-images.githubusercontent.com/75274983/197405048-92bb8866-f1f3-4f24-985e-33d8aaf9e2e4.png)
+![JobApply](https://user-images.githubusercontent.com/75274983/197409942-36b004d3-9f50-4877-abfb-c0c1121c9116.png)
 View from job apply info part.
-![image](https://user-images.githubusercontent.com/75274983/197405079-fb2361a3-ac3f-467c-aca2-ea3f8f8c2b96.png)
+![JobApplyInfo](https://user-images.githubusercontent.com/75274983/197410010-eed16095-a4bd-484c-9898-0460699c7f88.png)
 View from admin product panel.
-![image](https://user-images.githubusercontent.com/75274983/197405152-f96d840d-7d9a-4b03-8891-bd722b867d42.png)
-view from add product part.
-![image](https://user-images.githubusercontent.com/75274983/197405182-920fad65-d515-4025-b8d4-bfd46aaec688.png)
+![ProductAdmin](https://user-images.githubusercontent.com/75274983/197410082-8956fcad-66f8-4e73-9939-b936c078403f.png)
+View from add product form.
+![ProductAddForm](https://user-images.githubusercontent.com/75274983/197410123-15d8af60-593b-4b7a-a6e8-d40b4a078dda.png)
 
 
 
