@@ -32,6 +32,11 @@ View from All products page.
 ![All](https://user-images.githubusercontent.com/75274983/162289506-ff65cce6-444e-44a6-8f2d-7645bc743a89.jpg)
 View from Details page.
 ![Details](https://user-images.githubusercontent.com/75274983/162293107-a4d04f21-e4d1-4cb5-9ab2-efc680371f31.jpg)
+View from About page upper part.
+![image](https://user-images.githubusercontent.com/75274983/197404561-24c37ec2-830c-410e-ba97-28ebe29284e3.png)
+View from About page dawn part.
+![image](https://user-images.githubusercontent.com/75274983/197404615-91ee1b37-e9d9-4009-8c19-53e2ee94c8de.png)
+
 View from some of administration options.
 ![Administration](https://user-images.githubusercontent.com/75274983/162289824-b55f3580-e9aa-4bab-8c59-1b4aed4771e1.jpg)
 
