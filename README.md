@@ -30,7 +30,7 @@ User part:
 View from Home page upper part.
 ![Home](https://user-images.githubusercontent.com/75274983/162289001-141c15ed-b09a-47d3-9109-898b948d92ce.jpg)
 View from All products page.
-![All](https://user-images.githubusercontent.com/75274983/162289506-ff65cce6-444e-44a6-8f2d-7645bc743a89.jpg)
+![image](https://user-images.githubusercontent.com/75274983/197405248-7c1d822c-0696-4892-aeac-3586844aeaa3.png)
 View from Details page.
 ![Details](https://user-images.githubusercontent.com/75274983/162293107-a4d04f21-e4d1-4cb5-9ab2-efc680371f31.jpg)
 View from About page upper part.
