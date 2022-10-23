@@ -36,7 +36,11 @@ View from About page upper part.
 ![image](https://user-images.githubusercontent.com/75274983/197404561-24c37ec2-830c-410e-ba97-28ebe29284e3.png)
 View from About page dawn part.
 ![image](https://user-images.githubusercontent.com/75274983/197404615-91ee1b37-e9d9-4009-8c19-53e2ee94c8de.png)
-
 View from some of administration options.
 ![Administration](https://user-images.githubusercontent.com/75274983/162289824-b55f3580-e9aa-4bab-8c59-1b4aed4771e1.jpg)
+view from Aplly jobs form.
+![image](https://user-images.githubusercontent.com/75274983/197404679-a50aa997-eef3-4dcc-9001-4b58868664d5.png)
+View from contact page.
+![image](https://user-images.githubusercontent.com/75274983/197404767-6f8bd962-61b6-45de-8c04-424cbbf32c36.png)
+
 
