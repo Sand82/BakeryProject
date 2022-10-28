@@ -44,7 +44,7 @@ View from cart form.
 ![CartForm](https://user-images.githubusercontent.com/75274983/197409744-342272b8-e335-4887-84b8-13de025b91e6.png)
 View from organaizer.
 ![Administration](https://user-images.githubusercontent.com/75274983/162289824-b55f3580-e9aa-4bab-8c59-1b4aed4771e1.jpg)
-View from job aplly admin part.
+View from job apply admin part.
 ![JobApply](https://user-images.githubusercontent.com/75274983/197409942-36b004d3-9f50-4877-abfb-c0c1121c9116.png)
 View from job apply info part.
 ![JobApplyInfo](https://user-images.githubusercontent.com/75274983/197410010-eed16095-a4bd-484c-9898-0460699c7f88.png)
